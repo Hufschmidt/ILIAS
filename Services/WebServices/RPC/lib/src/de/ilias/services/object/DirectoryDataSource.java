@@ -27,6 +27,9 @@ import java.io.FileFilter;
 import java.sql.ResultSet;
 import java.util.Vector;
 
+import de.ilias.services.settings.ConfigurationException;
+import de.ilias.services.settings.ServerSettings;
+
 import de.ilias.services.lucene.index.CommandQueueElement;
 import de.ilias.services.lucene.index.DocumentHandlerException;
 import de.ilias.services.lucene.index.file.ExtensionFileHandler;
@@ -55,7 +58,17 @@ public class DirectoryDataSource extends FileDataSource {
 	 */
 	public void writeDocument(CommandQueueElement el, ResultSet res) 
 		throws DocumentHandlerException {
-		
+
+		try {
+			if (ServerSettings.getInstance().getMaxFileSize() == 0) {
+				for(Object field : getFields()) {
+					((FieldDefinition) field).writeDocument("");
+				}
+				return ;
+			}
+		}
+		catch(ConfigurationException e) { }
+
 		File start;
 		ExtensionFileHandler handler = new ExtensionFileHandler();
 		StringBuilder content = new StringBuilder();
