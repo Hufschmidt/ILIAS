@@ -166,6 +166,12 @@ class ilCourseFile
 
     public function validate(): bool
     {
+        if ($this->getFileSize() > ilFileUtils::getUploadSizeLimitBytes()) {
+            global $lng;
+            $lng->loadLanguageModule("form");
+            $this->ilErr->appendMessage($lng->txt('form_msg_file_size_exceeds'));
+        }
+
         switch ($this->getErrorCode()) {
             case UPLOAD_ERR_INI_SIZE:
                 $this->error->appendMessage($this->lng->txt('file_upload_ini_size'));

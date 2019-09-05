@@ -670,6 +670,12 @@ class ilFileSystemGUI
             $this->ctrl->redirect($this, "listFiles");
         }
 
+        if ($_FILES["new_file"]["size"] > ilFileUtils::getUploadSizeLimitBytes()) {
+            $lng->loadLanguageModule("form");
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt("form_msg_file_size_exceeds"), true);
+            $this->ctrl->redirect($this, "listFiles");
+        }
+
         $uploaded_file = $this->wrapper->post()->has(self::POST_PARAM_UPLOADED_FILE)
             ? $this->wrapper->post()->retrieve(self::POST_PARAM_UPLOADED_FILE, $this->refinery->to()->string())
             : '';

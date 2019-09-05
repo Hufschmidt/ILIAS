@@ -1039,8 +1039,10 @@ class ilFileUtils
     /**
      * @deprecated should use DataSize instead
      */
-    public static function getUploadSizeLimitBytes(): string
+    public static function getUploadSizeLimitBytes($user_check = true): string
     {
+        global $ilIliasIniFile, $ilUser;
+        
         $convertPhpIniSizeValueToBytes = function ($phpIniSizeValue) {
             if (is_numeric($phpIniSizeValue)) {
                 return $phpIniSizeValue;
@@ -1070,13 +1072,39 @@ class ilFileUtils
             return $value;
         };
 
+        // Fetch upload-limit from php.ini
+         $post       = $convertPhpIniSizeValueToBytes(ini_get('post_max_size'));
+         $upload     = $convertPhpIniSizeValueToBytes(ini_get('upload_max_filesize'));
+         $php_limit  = min($post, $upload);
+         if (!$php_limit)
+             $php_limit = max($post, $upload, 0);
 
-        $uploadSizeLimitBytes = min(
-            $convertPhpIniSizeValueToBytes(ini_get('post_max_size')),
-            $convertPhpIniSizeValueToBytes(ini_get('upload_max_filesize'))
-        );
+         // Fetch default upload-limit from ilias config
+         $ilias_limit = 0;
+         if (is_object($ilIliasIniFile) && $ilIliasIniFile->variableExists('hrz', 'max_upload')) {
+             $ilias_limit = $convertPhpIniSizeValueToBytes($ilIliasIniFile->readVariable('hrz', 'max_upload'));
+         }
 
-        return $uploadSizeLimitBytes;
+         // Fetch upload-limit from user-settings
+         $udd_limit = 0;
+         if ($user_check && is_object($ilUser) && !$ilUser->isAnonymous()) {
+             include_once('Services/User/classes/class.ilUserDefinedFields.php');
+             $udf      = ilUserDefinedFields::_getInstance();
+             $field_id = $udf->fetchFieldIdFromName('MaxUpload');
+             if ($field_id > 0) {
+                 $field_id  = "f_${field_id}";
+                 $udd       = $ilUser->getUserDefinedData();
+                 $udd_limit = (array_key_exists($field_id, $udd)) ? $convertPhpIniSizeValueToBytes($udd[$field_id]) : 0;
+             }
+     	}
+
+         // Return user-define limit or fall-back to ilias config value or fall-back to php.ini setting
+         if ($udd_limit > 0)
+             return $udd_limit;
+         elseif ($ilias_limit > 0)
+             return $ilias_limit;
+         else
+             return $php_limit;
     }
 
     public static function _sanitizeFilemame(string $a_filename): string

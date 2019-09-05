@@ -271,6 +271,12 @@ final class FileUploadImpl implements FileUpload
         $collectFilesFromNestedFields = $this->flattenUploadedFiles($uploadedFiles);
         foreach ($collectFilesFromNestedFields as $file) {
             $metadata = new Metadata($file->getClientFilename(), $file->getSize(), $file->getClientMediaType());
+
+            if ($file->getSize() > ilFileUtils::getUploadSizeLimitBytes()) {
+                $this->rejectFailedUpload($file, $metadata);
+                continue;
+            }
+
             try {
                 $stream = Streams::ofPsr7Stream($file->getStream());
             } catch (\RuntimeException $e) {

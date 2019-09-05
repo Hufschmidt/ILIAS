@@ -101,6 +101,10 @@ class ilFileWizardInputGUI extends ilFileInputGUI
 
                 $_FILES[$this->getPostVar()]["name"][$index] = Util::sanitizeFileName($_FILES[$this->getPostVar()]["name"][$index]);
 
+                if ($pictures["size"][$index] > ilFileUtils::getUploadSizeLimitBytes()) {
+                    $this->setAlert($lng->txt("form_msg_file_size_exceeds"));
+                    $uploadcheck = false;
+                }
 
                 // error handling
                 if ($error > 0) {
