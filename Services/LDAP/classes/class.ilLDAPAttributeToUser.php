@@ -231,6 +231,10 @@ class ilLDAPAttributeToUser
                 );
                 $this->writer->xmlElement('ExternalAccount', array(), $external_account);
             }
+            
+            // Since no information is obtained from LDAP for no gender, the standard gender must be set to neutral here.
+            $this->writer->xmlElement('Gender', array(), 'n');
+            
             foreach ($rules as $field => $data) {
                 // Do Mapping: it is possible to assign multiple ldap attribute to one user data field
                 if (!($value = $this->doMapping($user, $data))) {
