@@ -178,7 +178,7 @@ class ilTrSummaryTableGUI extends ilLPTableBaseGUI
             }
         }
 
-        $all[] = "language";
+        //$all[] = "language"; //Privacy fixing
 
         $default[] = "percentage_avg";
         $default[] = "status";
@@ -189,10 +189,10 @@ class ilTrSummaryTableGUI extends ilLPTableBaseGUI
         )) {
             $all[] = "first_access_min";
             $all[] = "last_access_max";
+            $all[] = "create_date_min"; //Privacy fixing
+            $all[] = "create_date_max";
         }
 
-        $all[] = "create_date_min";
-        $all[] = "create_date_max";
 
         $columns = array();
         foreach ($all as $column) {
