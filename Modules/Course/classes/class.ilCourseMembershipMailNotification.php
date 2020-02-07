@@ -321,6 +321,16 @@ class ilCourseMembershipMailNotification extends ilMailNotification
                         )
                     );
                     $this->appendBody("\n\n");
+                    // Change MG
+                    $message = $this->readSubscriberSubject($this->getObjId(), $info['usr_id']);
+                    if (strlen(trim($message)))
+                    {
+                        $this->appendBody($this->getLanguageText('crs_reg_subject').":");
+                        $this->appendBody("\n");
+                        $this->appendBody('"'.$message.'"');
+                        $this->appendBody("\n\n");
+                    }
+                    //Change MG End
                     $this->appendBody($this->getLanguageText('crs_new_subscription_request_body2'));
                     $this->appendBody("\n");
                     $this->appendBody($this->createPermanentLink(array(), '_mem'));
@@ -497,4 +507,22 @@ class ilCourseMembershipMailNotification extends ilMailNotification
             $this->setting->get('mail_crs_member_notification', '1') ||
             in_array($a_type, $this->permanent_enabled_notifications);
     }
+
+    /* Change MG */
+    protected function readSubscriberSubject($a_obj_id, $a_usr_id)
+    {
+        global $ilDB;
+
+        $query = "SELECT * FROM il_subscribers ".
+            "WHERE obj_id = ".$ilDB->quote($a_obj_id ,'integer')." ".
+            "AND usr_id = ".$ilDB->quote($a_usr_id ,'integer')."";
+
+            $set = $ilDB->query($query);
+        if ($rec = $ilDB->fetchAssoc($set))
+        {
+            return $rec["subject"];
+        }
+        return null;
+    }
+    /* Change MG End */
 }
