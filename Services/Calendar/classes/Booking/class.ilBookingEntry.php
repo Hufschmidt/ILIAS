@@ -651,16 +651,16 @@ class ilBookingEntry
     /**
      * book calendar entry for user
      */
-    public function book(int $a_entry_id, ?int $a_user_id = null): bool
+    public function book(int $a_entry_id, ?int $a_user_id = null, $a_booking_message = ''): bool
     {
         if (!$a_user_id) {
             $a_user_id = $this->user->getId();
         }
 
         if (!$this->hasBooked($a_entry_id, $a_user_id)) {
-            $this->db->manipulate('INSERT INTO booking_user (entry_id, user_id, tstamp)' .
+            $this->db->manipulate('INSERT INTO booking_user (entry_id, user_id, tstamp, booking_message)' .
                 ' VALUES (' . $this->db->quote($a_entry_id, 'integer') . ',' .
-                $this->db->quote($a_user_id, 'integer') . ',' . $this->db->quote(time(), 'integer') . ')');
+                $this->db->quote($a_user_id, 'integer') . ',' . $this->db->quote(time(), 'integer') . ','  . $this->db->quote($a_booking_message, 'text').')');
 
             $mail = new ilCalendarMailNotification();
             $mail->setAppointmentId($a_entry_id);

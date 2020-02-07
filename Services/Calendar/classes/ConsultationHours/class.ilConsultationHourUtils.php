@@ -126,7 +126,7 @@ class ilConsultationHourUtils
      * @param int $a_app_id
      * @return bool
      */
-    public static function bookAppointment(int $a_usr_id, int $a_app_id): bool
+    public static function bookAppointment(int $a_usr_id, int $a_app_id, $a_booking_message = ''): bool
     {
         global $DIC;
 
@@ -154,7 +154,7 @@ class ilConsultationHourUtils
 
         // book appointment
         $booking = new ilBookingEntry($app->getContextId());
-        $booking->book($app->getEntryId(), $a_usr_id);
+        $booking->book($app->getEntryId(), $a_usr_id, $a_booking_message);
         return true;
     }
 

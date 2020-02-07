@@ -287,6 +287,16 @@ class ilCalendarMailNotification extends ilMailNotification
                 $this->appendBody("\n\n");
                 $this->appendAppointmentDetails();
 
+                $this->appendBody("\n");
+                // Change MG
+                $message = ilBookingEntry::lookupBookingMessage($this->getAppointmentId(), $user_id);
+                if (strlen(trim($message)))
+                {
+                    $this->appendBody($this->getLanguageText('cal_ch_booking_message_tbl').":");
+                    $this->appendBody("\n");
+                    $this->appendBody('"'.$message.'"');
+                }
+                // Change MG End
                 /*
                 $this->appendBody("\n\n");
                 $this->appendBody($this->getLanguageText('cal_booking_confirmation_link'));
