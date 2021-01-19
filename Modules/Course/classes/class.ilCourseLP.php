@@ -44,7 +44,7 @@ class ilCourseLP extends ilObjectLP
         if ($this->checkObjectives()) {
             return ilLPObjSettings::LP_MODE_OBJECTIVES;
         }
-        return ilLPObjSettings::LP_MODE_MANUAL_BY_TUTOR;
+        return ilLPObjSettings::LP_MODE_DEACTIVATED;
     }
 
     public function getValidModes(): array
