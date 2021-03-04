@@ -1551,7 +1551,16 @@ class ilObjCourse extends ilContainer implements ilMembershipRegistrationCodes
                 if (
                     $this->getViewMode() == ilCourseConstants::IL_CRS_VIEW_TIMING
                 ) {
-                    $active = ilObjectActivation::getTimingsItems($this->getRefId());
+                    $active = [];
+                    if ($this->getRefId() != NULL) {
+                        $active = ilObjectActivation::getTimingsItems($this->getRefId());
+                    } else {
+                        $references = ilObject::_getAllReferences($this->getId());
+                        if (count($references) == 1) {
+                            $ref_id = array_shift($references);
+                            $active = ilObjectActivation::getTimingsItems($ref_id);
+                        }
+                    }
                     foreach ($active as $null => $item) {
                         if ($item['timing_type'] == ilObjectActivation::TIMINGS_PRESETTING) {
                             // create calendar entry for fixed types
