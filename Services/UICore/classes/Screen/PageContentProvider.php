@@ -187,7 +187,8 @@ class PageContentProvider extends AbstractModificationProvider
             $links = [];
             // ILIAS Version and Text
             $ilias_version = ILIAS_VERSION;
-            $text = "powered by ILIAS (v{$ilias_version})";
+            $ilias_version_short = substr($ilias_version, 0, -11);
+            $text = "ILIAS v{$ilias_version_short}";
 
             // Imprint
             $base_class = ($this->dic->http()->wrapper()->query()->has(\ilCtrlInterface::PARAM_BASE_CLASS)) ?
