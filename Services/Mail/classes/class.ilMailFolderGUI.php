@@ -79,7 +79,7 @@ class ilMailFolderGUI
         }
 
         if (0 === $folderId || !$this->mbox->isOwnedFolder($folderId)) {
-            $folderId = $this->mbox->getInboxFolder();
+            $folderId = $this->mbox->getSentFolder();
         }
 
         $this->currentFolderId = $folderId;

@@ -4548,6 +4548,7 @@ common#:#mail_z_local#:#User Folders
 common#:#mails#:#Mails
 common#:#mails_at_the_ilias_installation#:#You received %1$s new mails at the ILIAS-Installation %2$s
 common#:#mails_pl#:#Mail(s)
+common#:#mail_forward_umr#:#ILIAS mails are forwarded to the <a href="https://www.uni-marburg.de/de/hrz/dienste/e-mail/" target="_blank">university e-mail address</a>. Please check your e-mail box at regular intervals.
 common#:#main_menu#:#Main Menu
 common#:#mainbar_aria_label#:#Mainbar
 common#:#mainbar_more_label#:#More

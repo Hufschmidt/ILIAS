@@ -86,7 +86,7 @@ class ilMailFormGUI
         );
 
         if (0 === $requestMailObjId) {
-            $requestMailObjId = $this->mbox->getInboxFolder();
+            $requestMailObjId = $this->mbox->getSentFolder();
         }
 
         $this->ctrl->setParameter($this, 'mobj_id', $requestMailObjId);

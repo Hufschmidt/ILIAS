@@ -44,6 +44,9 @@ class MailNotificationProvider extends AbstractNotificationProvider
             return $this->if->identifier($id);
         };
 
+        return []; // UMR - We dont want to get Informations for new Mails
+
+        /*
         if (0 === $this->dic->user()->getId() || $this->dic->user()->isAnonymous()) {
             return [];
         }
@@ -129,5 +132,6 @@ class MailNotificationProvider extends AbstractNotificationProvider
         return [
             $group,
         ];
+        */
     }
 }

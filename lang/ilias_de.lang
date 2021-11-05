@@ -4548,6 +4548,7 @@ common#:#mail_z_local#:#Eigene Ordner
 common#:#mails#:#Mails
 common#:#mails_at_the_ilias_installation#:#Auf der ILIAS-Installation %2$s haben Sie %1$s neue Mail(s) erhalten
 common#:#mails_pl#:#Mail(s)
+common#:#mail_forward_umr#:#ILIAS-Mails werden an die <a href="https://www.uni-marburg.de/de/hrz/dienste/e-mail/" target="_blank">universitäre E-Mail-Adresse</a> weitergeleitet. Bitte überprüfen Sie in regelmäßigen Abständen Ihr E-Mail-Postfach.
 common#:#main_menu#:#Hauptmenü
 common#:#mainbar_aria_label#:#Hauptleiste
 common#:#mainbar_more_label#:#Mehr

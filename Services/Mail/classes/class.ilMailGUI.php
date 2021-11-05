@@ -92,7 +92,7 @@ class ilMailGUI implements ilCtrlBaseClassInterface
             ])->transform(ilSession::get('mobj_id'));
         }
         if (0 === $folderId || !$this->mbox->isOwnedFolder($folderId)) {
-            $folderId = $this->mbox->getInboxFolder();
+            $folderId = $this->mbox->getSentFolder();
         }
         $this->currentFolderId = $folderId;
     }

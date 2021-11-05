@@ -90,13 +90,7 @@ class ilPDMailBlockGUI extends ilBlockGUI
 
     public function getHTML(): string
     {
-        $umail = new ilMail($this->user->getId());
-        if (!$this->rbacsystem->checkAccess('internal_mail', $umail->getMailObjectReferenceId())) {
-            return '';
-        }
-
-        $this->getMails();
-        $this->setData($this->mails);
+        // UMR -> We don't want to check something here, to get getNoItemFoundContent()
 
         return parent::getHTML();
     }
@@ -301,4 +295,15 @@ class ilPDMailBlockGUI extends ilBlockGUI
 
         return $item;
     }
+    
+    /**
+     * No item entry
+     *
+     * @return string
+     */
+    public function getNoItemFoundContent() : string
+    {
+        return $this->lng->txt("mail_forward_umr");
+    }
+    
 }

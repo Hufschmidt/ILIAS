@@ -41,10 +41,9 @@ class ilMailbox
     ];
     /** @var array{b_inbox: string, c_trash: string, d_drafts: string, e_sent: string, z_local : string} */
     protected array $defaultFolders = [
-        'b_inbox' => 'inbox',
+        'e_sent' => 'sent',
         'c_trash' => 'trash',
         'd_drafts' => 'drafts',
-        'e_sent' => 'sent',
         'z_local' => 'local',
     ];
     protected string $table_mail_obj_data;
