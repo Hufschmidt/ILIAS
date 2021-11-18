@@ -215,6 +215,13 @@ class PageContentProvider extends AbstractModificationProvider
                 $links[] = $f->link()->standard($system_support_title, $system_support_url);
             }
 
+            // Contact ILIAS-Support right to Mail @ UMR
+            $support_mailto = "ilias@uni-marburg.de"; // Address to support, hardcoded :(
+            $support_http = isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off' ? 'https' : 'http'; // HTTP or HTTPS?
+            $support_url = $support_http . '://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI']; // Get current address
+            $support = 'mailto:' . $support_mailto . "?body=%0D%0A%0D%0AGemeldeter%20Link:%0D%0A" . rawurlencode($support_url);
+            $links[] = $f->link()->standard($this->dic->language()->txt("contact_sysadmin"), $support);
+
             // output translation link
             if (\ilObjLanguageAccess::_checkTranslate() && !\ilObjLanguageAccess::_isPageTranslation()) {
                 $translation_url = \ilObjLanguageAccess::_getTranslationLink();
@@ -234,10 +241,19 @@ class PageContentProvider extends AbstractModificationProvider
                 $links[] = $f->link()->standard($accessibility_report_title, $accessibility_report_url);
             }
 
+            // Report Barrier to UMR central Form
+            $report_barrier_umrform = "https://forms.uni-marburg.de/de/uv/barrieren-melden"; // Address to report to, hardcoded :(
+            $report_barrier_http = isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off' ? 'https' : 'http'; // HTTP or HTTPS?
+            $report_barrier_url = $report_barrier_http . '://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI']; // Get current address
+            $report_barrier = $report_barrier_umrform.'?from='.rawurlencode($report_barrier_url);
+            $links[] = $f->link()->standard($this->dic->language()->txt("report_accessibility_issue"), $report_barrier)->withOpenInNewViewport(true);
+
+
             $footer = $f->mainControls()->footer($links, $text);
 
-            $tosWithdrawalGui = new \ilTermsOfServiceWithdrawalGUIHelper($this->dic->user());
-            $footer = $tosWithdrawalGui->modifyFooter($footer);
+            // Show TermsOfService
+            //$tosWithdrawalGui = new \ilTermsOfServiceWithdrawalGUIHelper($this->dic->user());
+            //$footer = $tosWithdrawalGui->modifyFooter($footer);
 
             if (self::$perma_link !== "") {
                 $footer = $footer->withPermanentURL(new URI(self::$perma_link));
