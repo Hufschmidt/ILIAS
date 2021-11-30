@@ -381,7 +381,7 @@ class ilInitialisation
         } else {
             $protocol = 'http://';
         }
-        $host = $_SERVER['HTTP_HOST'];
+        $host = $_SERVER['HTTP_HOST'] ?: $_SERVER['SERVER_NAME'];
 
         $rq_uri = strip_tags($_SERVER['REQUEST_URI']);
 
