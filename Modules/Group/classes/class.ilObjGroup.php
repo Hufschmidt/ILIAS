@@ -803,7 +803,11 @@ class ilObjGroup extends ilContainer implements ilMembershipRegistrationCodes
             return 2;
         } elseif (!$this->isAdmin($this->user->getId())) {
             $this->leave($this->user->getId());
-            $this->recommended_content_manager->removeObjectRecommendation($this->user->getId(), $this->getRefId());
+            //$this->recommended_content_manager->removeObjectRecommendation($this->user->getId(), $this->getRefId());
+            // UMR to Fav
+            $favourites = new ilFavouritesManager();
+            $favourites->remove($this->user->getId(), $this->getRefId());
+
             return 0;
         } elseif (count($this->getGroupAdminIds()) == 1) {
             return 1;

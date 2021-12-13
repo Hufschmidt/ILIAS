@@ -589,6 +589,9 @@ class ilAccountRegistrationGUI
                             // deactivated for now, see discussion at
                             // https://docu.ilias.de/goto_docu_wiki_wpage_5620_1357.html
                             // $this->recommended_content_manager->addObjectRecommendation($this->userObj->getId(), $role_ref);
+                            // UMR to Fav
+                            $favourites = new ilFavouritesManager();
+                            $favourites->add($this->userObj->getId(),$role_ref);  
                             break;
                     }
                 }

@@ -711,7 +711,11 @@ abstract class ilParticipants
      */
     public function delete(int $a_usr_id): void
     {
-        $this->recommended_content_manager->removeObjectRecommendation($a_usr_id, $this->ref_id);
+        //$this->recommended_content_manager->removeObjectRecommendation($a_usr_id, $this->ref_id);
+        // UMR to Fav
+        $favourites = new ilFavouritesManager();
+        $favourites->remove($a_usr_id, $this->ref_id);
+
         foreach ($this->roles as $role_id) {
             $this->rbacAdmin->deassignUser($role_id, $a_usr_id);
         }

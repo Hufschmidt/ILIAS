@@ -91,7 +91,10 @@ class ilGroupParticipants extends ilParticipants
     public function add(int $a_usr_id, int $a_role): bool
     {
         if (parent::add($a_usr_id, $a_role)) {
-            $this->addRecommendation($a_usr_id);
+            //$this->addRecommendation($a_usr_id);
+            // UMR to Fav
+            $favourites = new ilFavouritesManager();
+            $favourites->add($a_usr_id,$this->ref_id);
             return true;
         }
         return false;

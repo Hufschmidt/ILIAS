@@ -358,7 +358,10 @@ abstract class ilParticipant
         }
 
         $this->rbacAdmin->assignUser($this->role_data[$a_role], $a_usr_id);
-        $this->addRecommendation($a_usr_id);
+        //$this->addRecommendation($a_usr_id);
+        // UMR to Fav
+        $favourites = new ilFavouritesManager();
+        $favourites->add($a_usr_id,$this->ref_id);
 
         // Delete subscription request
         $this->deleteSubscriber($a_usr_id);
@@ -379,7 +382,11 @@ abstract class ilParticipant
 
     public function delete(int $a_usr_id): void
     {
-        $this->recommended_content_manager->removeObjectRecommendation($a_usr_id, $this->ref_id);
+        //$this->recommended_content_manager->removeObjectRecommendation($a_usr_id, $this->ref_id);
+        // UMR to Fav
+        $favourites = new ilFavouritesManager();
+        $favourites->remove($a_usr_id, $this->ref_id);
+
         foreach ($this->roles as $role_id) {
             $this->rbacAdmin->deassignUser($role_id, $a_usr_id);
         }
