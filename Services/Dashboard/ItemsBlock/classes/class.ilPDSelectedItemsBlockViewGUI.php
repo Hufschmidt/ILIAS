@@ -261,6 +261,14 @@ abstract class ilPDSelectedItemsBlockViewGUI
 
         $items = $this->provider->getItems();
 
+        usort($items, function($item1, $item2) {
+          $title1 = ($this->isRootNode($item1['parent_ref'])) ? $this->getRepositoryTitle() : $this->object_cache->lookupTitle($this->object_cache->lookupObjId($item1['parent_ref']));
+          $title2 = ($this->isRootNode($item2['parent_ref'])) ? $this->getRepositoryTitle() : $this->object_cache->lookupTitle($this->object_cache->lookupObjId($item2['parent_ref']));
+          return strnatcmp($title1, $title2);
+        });
+
+        $path_cache = array();
+
         $parent_ref_ids = array_values(array_unique(array_map(function ($item) {
             return $item['parent_ref'];
         }, $items)));
@@ -274,7 +282,13 @@ abstract class ilPDSelectedItemsBlockViewGUI
                 if ($this->isRootNode($item['parent_ref'])) {
                     $group->setLabel($this->getRepositoryTitle());
                 } else {
-                    $group->setLabel($this->object_cache->lookupTitle($this->object_cache->lookupObjId((int) $item['parent_ref'])));
+                    if (isset($item['parent_ref']) && !isset($path_cache[$item['parent_ref']])) {
+                        $path = $this->tree->getPathFull($item['parent_ref']);
+                        array_shift($path);
+                        $titles = array_map(function($item) { return $item['title']; }, $path);
+                        $path_cache[$item['parent_ref']] = join(" \u{203A} ", $titles);
+                    }
+                    $group->setLabel($path_cache[$item['parent_ref']]);
                 }
                 $grouped_items['grp_' . $item['parent_ref']] = $group;
             }
