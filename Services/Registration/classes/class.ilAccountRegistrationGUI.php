@@ -459,6 +459,9 @@ class ilAccountRegistrationGUI
             $code = $this->form->getInput('usr_registration_code');
             if ($code) {
 
+                //UMR Change to ILIAS Auth instead of default
+                $this->userObj->setAuthMode('local');
+
                 // set code to used
                 ilRegistrationCode::useCode($code);
                 $this->code_was_used = true;
