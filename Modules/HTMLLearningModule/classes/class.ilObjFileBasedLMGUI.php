@@ -507,6 +507,11 @@ class ilObjFileBasedLMGUI extends ilObjectGUI
             $button->setUrl("ilias.php?baseClass=ilHTLMPresentationGUI&ref_id=" . $this->object->getRefId());
             $button->setTarget("ilContObj" . $this->object->getId());
             $ilToolbar->addButtonInstance($button);
+            
+            // UMR AUTOPLAY: add 'autoplay' to title will autoplay ;)
+            if(strpos($this->object->getTitle(), 'autoplay') !== false) {
+                ilUtil::redirect("ilias.php?baseClass=ilHTLMPresentationGUI&ref_id=" . $this->object->getRefID());
+            }
         }
 
         // show standard meta data section
