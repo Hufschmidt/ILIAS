@@ -508,8 +508,8 @@ class ilObjFileBasedLMGUI extends ilObjectGUI
             $button->setTarget("ilContObj" . $this->object->getId());
             $ilToolbar->addButtonInstance($button);
             
-            // UMR AUTOPLAY: add 'autoplay' to title will autoplay ;)
-            if(strpos($this->object->getTitle(), 'autoplay') !== false) {
+            // UMR AUTOPLAY: add 'autoplay' to Description will autoplay ;)
+            if(strpos($this->object->getLongDescription(), 'autoplay') !== false) {
                 ilUtil::redirect("ilias.php?baseClass=ilHTLMPresentationGUI&ref_id=" . $this->object->getRefID());
             }
         }
