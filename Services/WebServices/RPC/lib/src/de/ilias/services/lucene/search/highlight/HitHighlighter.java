@@ -26,17 +26,20 @@ import java.io.IOException;
 import java.io.StringReader;
 import java.sql.SQLException;
 
+import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.LogManager;
 import org.apache.lucene.analysis.TokenStream;
 import org.apache.lucene.analysis.standard.StandardAnalyzer;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.document.Field;
 import org.apache.lucene.index.CorruptIndexException;
+import org.apache.lucene.index.IndexableField;
 import org.apache.lucene.search.IndexSearcher;
 import org.apache.lucene.search.Query;
 import org.apache.lucene.search.ScoreDoc;
 import org.apache.lucene.search.highlight.Fragmenter;
 import org.apache.lucene.search.highlight.Highlighter;
+import org.apache.lucene.search.highlight.InvalidTokenOffsetsException;
 import org.apache.lucene.search.highlight.QueryScorer;
 import org.apache.lucene.search.highlight.SimpleFragmenter;
 import org.apache.lucene.search.highlight.SimpleHTMLFormatter;
@@ -46,9 +49,6 @@ import de.ilias.services.lucene.search.SearchHolder;
 import de.ilias.services.lucene.settings.LuceneSettings;
 import de.ilias.services.settings.ConfigurationException;
 import de.ilias.services.settings.LocalSettings;
-import org.apache.logging.log4j.Logger;
-import org.apache.lucene.index.IndexableField;
-import org.apache.lucene.search.highlight.InvalidTokenOffsetsException;
 
 /**
  * 
