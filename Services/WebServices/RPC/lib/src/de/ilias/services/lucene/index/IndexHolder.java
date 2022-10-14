@@ -46,7 +46,7 @@ import org.apache.lucene.index.IndexWriterConfig;
  * @author Stefan Meyer <smeyer.ilias@gmx.de>
  * @version $Id$
  */
-public class IndexHolder {
+public class IndexHolder implements AutoCloseable {
 	
 	protected static Logger logger = LogManager.getLogger(IndexHolder.class);
 	
@@ -215,17 +215,4 @@ public class IndexHolder {
 		}
 	}
 
-	/* (non-Javadoc)
-	 * @see java.lang.Object#finalize()
-	 */
-	@Override
-	protected void finalize() throws Throwable {
-		
-		try {
-			close();
-		}
-		finally {
-			super.finalize();
-		}
-	}
 }
