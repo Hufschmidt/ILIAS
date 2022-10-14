@@ -25,7 +25,7 @@ package de.ilias;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.Vector;
+import java.util.Collections;
 
 import org.apache.xmlrpc.XmlRpcException;
 import org.apache.xmlrpc.client.XmlRpcClient;
@@ -173,7 +173,6 @@ public class ilServer {
 	/**
 	 * @return
 	 */
-	@SuppressWarnings("unchecked")
 	private boolean createIndexer() {
 
 		XmlRpcClient client;
@@ -188,9 +187,9 @@ public class ilServer {
 			}
 
 			client = initRpcClient();
-			Vector params = new Vector();
-			params.add(arguments[2]);
-			params.add(false);
+			Object[] params = new Object[2];
+			params[0] = arguments[2];
+			params[1] = false;
 			client.execute("RPCIndexHandler.index",params);
 			return true;
 		} 
@@ -205,7 +204,6 @@ public class ilServer {
 	/**
 	 * @return
 	 */
-	@SuppressWarnings("unchecked")
 	private boolean updateIndexer() {
 
 		XmlRpcClient client;
@@ -221,9 +219,9 @@ public class ilServer {
 			}
 
 			client = initRpcClient();
-			Vector params = new Vector();
-			params.add(arguments[2]);
-			params.add(true);
+			Object[] params = new Object[2];
+			params[0] = arguments[2];
+			params[1] = true;
 			client.execute("RPCIndexHandler.index",params);
 			return true;
 		} 
@@ -238,7 +236,6 @@ public class ilServer {
 	/**
 	 * @return
 	 */
-	@SuppressWarnings("unchecked")
 	private boolean startSearch() {
 
 		XmlRpcClient client;
@@ -254,10 +251,10 @@ public class ilServer {
 			}
 			
 			client = initRpcClient();
-			Vector params = new Vector();
-			params.add(arguments[2]);
-			params.add(arguments[3]);
-			params.add(1);
+			Object[] params = new Object[3];
+			params[0] = arguments[2];
+			params[1] = arguments[3];
+			params[2] = 1;
 			String response  = (String) client.execute("RPCSearchHandler.search",params);
 			System.out.println(response);
 			return true;
@@ -280,7 +277,6 @@ public class ilServer {
 		RPCServer rpc;
 		XmlRpcClient client;
 		IniFileParser parser;
-		String status;
 		
 		try {
 
@@ -291,7 +287,7 @@ public class ilServer {
 			
 			// Check if server is already running
 			try {
-				status = (String) client.execute("RPCAdministration.status",new Vector());
+				client.execute("RPCAdministration.status",Collections.EMPTY_LIST);
 				System.err.println("Server already started. Aborting");
 				System.exit(1);
 			}
@@ -306,8 +302,8 @@ public class ilServer {
 			rpc.start();
 			
 			client = initRpcClient();
-			client.execute("RPCAdministration.start",new Vector());
 
+			client.execute("RPCAdministration.start",Collections.EMPTY_LIST);
 			// Check if webserver is alive
 			// otherwise stop execution
 			while(true) {
@@ -335,12 +331,6 @@ public class ilServer {
 		catch (IOException e) {
 			logger.error("IOException " + e.getMessage());
 		}
-		catch (Exception e) {
-			logger.error("IOException " + e.getMessage());			
-		}
-		catch(Throwable e) {
-			logger.error("IOException " + e.getMessage());			
-		}
 		return false;
 	}
 
@@ -349,7 +339,6 @@ public class ilServer {
 	 * and after that stop the execution of the main thread
 	 * 
 	 */
-	@SuppressWarnings("unchecked")
 	private boolean stopServer() {
 		
 		XmlRpcClient client;
@@ -360,8 +349,7 @@ public class ilServer {
 			parser.parseServerSettings(arguments[0],false);
 			
 			client = initRpcClient();
-			logger.debug("Client execute");
-			client.execute("RPCAdministration.stop",new Vector());
+			client.execute("RPCAdministration.stop",Collections.EMPTY_LIST);
 			return true;
 		} 
 		catch (ConfigurationException e) {
@@ -376,12 +364,10 @@ public class ilServer {
 		return false;
 	}
 	
-	@SuppressWarnings("unchecked")
 	private boolean getStatus() {
 		
 		XmlRpcClient client;
 		IniFileParser parser;
-		ServerSettings settings;
 		
 		String status;
 
@@ -389,9 +375,8 @@ public class ilServer {
 			parser = new IniFileParser();
 			parser.parseServerSettings(arguments[0],false);
 			
-			settings = ServerSettings.getInstance();
 			client = initRpcClient();
-			status = (String) client.execute("RPCAdministration.status",new Vector());
+			status = (String) client.execute("RPCAdministration.status",Collections.EMPTY_LIST);
 			System.out.println(status);
 			return true;
 		} 
