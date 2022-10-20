@@ -465,6 +465,10 @@ class ilECSCourseCreationHandler
         $course_obj->setTitle($title);
         $course_obj->setSubscriptionMaxMembers((int) $group->maxParticipants);
         $course_obj->setOfflineStatus(true);
+        // UMR-Settings
+        $course_obj->setUseNews(true);
+        $course_obj->setNewsBlockActivated(true);
+        //
         $course_obj->create();
 
         $this->createCourseReference($course_obj, ilObject::_lookupObjId($parent_ref));
@@ -528,6 +532,10 @@ class ilECSCourseCreationHandler
         $title = $group->title !== '' ? $group->title : $course->title;
         $group_obj->setTitle($title);
         $group_obj->setMaxMembers((int) $group->maxParticipants);
+        // UMR-Settings
+        $group_obj->setUseNews(true);
+        $group_obj->setNewsBlockActivated(true);
+        //
         $group_obj->create();
         $group_obj->createReference();
         $group_obj->putInTree($parent_ref);
@@ -614,6 +622,10 @@ class ilECSCourseCreationHandler
         $this->logger->debug('Creating new course instance from ecs : ' . $title);
         $course_obj->setTitle($title);
         $course_obj->setOfflineStatus(true);
+        // UMR-Settings
+        $course_obj->setUseNews(true);
+        $course_obj->setNewsBlockActivated(true);
+        //
         $course_obj->create();
         return $course_obj;
     }

@@ -589,6 +589,10 @@ class ilObjCourse extends ilContainer implements ilMembershipRegistrationCodes
             $this->createMetaData();
         }
         $this->__createDefaultSettings();
+        // UMR-Settings
+        $this->setUseNews(true);
+        $this->setNewsBlockActivated(true);
+
         $this->app_event_handler->raise(
             'Modules/Course',
             'create',

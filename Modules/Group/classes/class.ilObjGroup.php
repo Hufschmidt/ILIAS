@@ -520,6 +520,9 @@ class ilObjGroup extends ilContainer implements ilMembershipRegistrationCodes
             $this->db->quote($this->getNumberOfNextSessions(), ilDBConstants::T_INTEGER) .
             ')';
         $res = $this->db->manipulate($query);
+        // UMR-Settings
+        $this->setUseNews(true);
+        $this->setNewsBlockActivated(true);
 
         $this->app_event_handler->raise(
             'Modules/Group',
