@@ -311,6 +311,12 @@ class ilCalendarMailNotification extends ilMailNotification
                 $this->appendBody($this->getLanguageText('cal_booking_confirmation_user') . "\n");
                 $this->appendBody(ilObjUser::_lookupFullname($user_id));
 
+                // UMR: ConsultationHour Manager Mail Copy
+                include_once './Services/Calendar/classes/ConsultationHours/class.ilConsultationHourAppointments.php';
+                if ($manager_id = ilConsultationHourAppointments::getManagerID($booking->getObjId())) {
+                    $this->sendMail(array($manager_id), true);
+                }
+                // ConsultationHour Owner gets Copy
                 $this->sendMail(array($booking->getObjId()), true);
                 break;
 
@@ -349,6 +355,12 @@ class ilCalendarMailNotification extends ilMailNotification
                 $this->appendBody($this->getLanguageText('cal_booking_cancellation_user') . "\n");
                 $this->appendBody(ilObjUser::_lookupFullname($user_id));
 
+                // UMR: ConsultationHour Manager Mail Copy
+                include_once './Services/Calendar/classes/ConsultationHours/class.ilConsultationHourAppointments.php';
+                if ($manager_id = ilConsultationHourAppointments::getManagerID($booking->getObjId())) {
+                    $this->sendMail(array($manager_id), true);
+                }
+                // ConsultationHour Owner gets Copy
                 $this->sendMail(array($booking->getObjId()), true);
                 break;
 

@@ -150,6 +150,23 @@ class ilConsultationHourAppointments
     }
 
     /**
+     * UMR: Get consultation hour managers id for specific user.
+     * @param	int $a_user_id
+     * @return	int | string
+     */
+    public static function getManagerID($a_user_id)
+    {
+        global $DIC;
+        $ilDB = $DIC['ilDB'];
+
+        $set = $ilDB->query('SELECT admin_id FROM cal_ch_settings' .
+            ' WHERE user_id = ' . $ilDB->quote($a_user_id, 'integer'));
+        $row = $ilDB->fetchAssoc($set);
+
+        return (int) $row['admin_id'];
+    }
+
+    /**
      * Set consultation hour manager for current user
      * @param string $a_user_name
      * @return bool
