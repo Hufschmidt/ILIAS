@@ -396,9 +396,11 @@ class ilMembershipCronNotifications extends ilCronJob
                     }
 
                     // # Type "<Object Title>": "<News Title>" - News Text
-                    $parsed_item = $this->parseNewsItem($parent_ref_id, $filter_map, $news_item, false, $a_user_id);
-                    if ($parsed_item) {
-                        $parsed[md5($parsed_item)] = $parsed_item;
+                    if (is_array($news_item)) {
+                        $parsed_item = $this->parseNewsItem($parent_ref_id, $filter_map, $news_item, false, $a_user_id);
+                        if ($parsed_item) {
+                            $parsed[md5($parsed_item)] = $parsed_item;
+                        }
                     }
                 }
             }
