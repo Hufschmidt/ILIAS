@@ -264,7 +264,48 @@ abstract class ilPDSelectedItemsBlockViewGUI
         usort($items, function($item1, $item2) {
           $title1 = ($this->isRootNode($item1['parent_ref'])) ? $this->getRepositoryTitle() : $this->object_cache->lookupTitle($this->object_cache->lookupObjId($item1['parent_ref']));
           $title2 = ($this->isRootNode($item2['parent_ref'])) ? $this->getRepositoryTitle() : $this->object_cache->lookupTitle($this->object_cache->lookupObjId($item2['parent_ref']));
-          return strnatcmp($title1, $title2);
+
+          if ($title1 === $title2) {
+              $parentTitle1 = $this->getParentTitle($item1['parent_ref']);
+              $parentTitle2 = $this->getParentTitle($item2['parent_ref']);
+              
+              if (preg_match('/(Wintersemester|Sommersemester) (\d+)/', $parentTitle1, $matches1) && preg_match('/(Wintersemester|Sommersemester) (\d+)/', $parentTitle2, $matches2)) {
+                  $semester1 = $matches1[1];
+                  $year1 = $matches1[2];
+                  $semester2 = $matches2[1];
+                  $year2 = $matches2[2];
+                  
+                  // First compare the year in reverse order
+                  $yearComparison = strnatcasecmp($year2, $year1);
+                  // If the year is the same, compare the semester in reverse order (winter before summer).
+                  if ($yearComparison === 0) {
+                      return strnatcasecmp($semester2, $semester1);
+                  }
+                  return $yearComparison;
+              }
+              
+              if ($parentTitle1 === $parentTitle2) {
+                  $parentParentTitle1 = $this->getParentParentTitle($item1['parent_ref']);
+                  $parentParentTitle2 = $this->getParentParentTitle($item2['parent_ref']);
+                  
+                  if (preg_match('/(Wintersemester|Sommersemester) (\d+)/', $parentParentTitle1, $matches1) && preg_match('/(Wintersemester|Sommersemester) (\d+)/', $parentParentTitle2, $matches2)) {
+                      $semester1 = $matches1[1];
+                      $year1 = $matches1[2];
+                      $semester2 = $matches2[1];
+                      $year2 = $matches2[2];
+                      
+                      // First compare the year in reverse order
+                      $yearComparison = strnatcasecmp($year2, $year1);
+                      // If the year is the same, compare the semester in reverse order (winter before summer).
+                      if ($yearComparison === 0) {
+                          return strnatcasecmp($semester2, $semester1);
+                      }
+                      return $yearComparison;
+                  }
+              }
+          }
+          
+          return strnatcasecmp($title1, $title2);
         });
 
         $path_cache = array();
@@ -314,5 +355,25 @@ abstract class ilPDSelectedItemsBlockViewGUI
         array_map([$group, 'pushItem'], $items);
 
         return [$group];
+    }
+
+    protected function getParentTitle($parentRef)
+    {
+        $path = $this->tree->getPathFull($parentRef);
+        if (count($path) >= 2) {
+            $parentParent = $path[count($path) - 2]; // Get parent element from the path
+            return $parentParent['title'];
+        }
+        return '';
+    }
+    
+    protected function getParentParentTitle($parentRef)
+    {
+        $path = $this->tree->getPathFull($parentRef);
+        if (count($path) >= 3) {
+            $parentParent = $path[count($path) - 3]; // Get parent's parent element from the path
+            return $parentParent['title'];
+        }
+        return '';
     }
 }
