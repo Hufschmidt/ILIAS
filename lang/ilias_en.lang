@@ -4492,6 +4492,7 @@ common#:#login#:#Login
 common#:#login_as#:#Logged in as
 common#:#login_data#:#Login data
 common#:#login_exists#:#There is already a user with this login name! Please choose another one.
+common#:#login_umr_guest#:#Please choose a username in the following format: firstname.lastname
 common#:#login_information#:#Login Information
 common#:#login_information_desc#:#Please enter a login information for the respective language.
 common#:#login_information_settings_saved#:#The login information were saved successfully

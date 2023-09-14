@@ -167,6 +167,12 @@ class ilAccountRegistrationGUI
         $up->addStandardFieldsToForm($this->form, null, $custom_fields);
         unset($custom_fields);
 
+        // UMR: Vorgabe für Username
+        $username_mr = $this->form->getItemByPostVar("username");
+        if ($username_mr) {
+            $username_mr->setInfo($this->lng->txt("login_umr_guest"));
+        }
+
         // set language selection to current display language
         $flang = $this->form->getItemByPostVar("usr_language");
         if ($flang) {
@@ -350,6 +356,10 @@ class ilAccountRegistrationGUI
         if ($form_valid) {
             if (ilObjUser::_loginExists($login)) {
                 $login_obj->setAlert($this->lng->txt("login_exists"));
+                $form_valid = false;
+            // UMR: Überprüfen, ob der Benutzername das Format "Vorname.Nachname" hat um Dopplung mit UMR-Accounts zu vermeiden
+            } elseif (!preg_match('/^[a-zA-Z]+\.[a-zA-Z]+$/', $login)) {
+                $login_obj->setAlert($this->lng->txt("login_umr_guest"));
                 $form_valid = false;
             } elseif ((int) $this->settings->get('allow_change_loginname') &&
                 (int) $this->settings->get('reuse_of_loginnames') === 0 &&
