@@ -336,6 +336,10 @@ abstract class ilPDSelectedItemsBlockViewGUI
 
             $grouped_items['grp_' . $item['parent_ref']]->pushItem($item);
         }
+        // UMR: sort within the group
+        foreach ($grouped_items as $group) {
+            $group->sortItemsByTitle();
+        }
 
         return $grouped_items;
     }

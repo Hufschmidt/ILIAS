@@ -76,4 +76,11 @@ class ilPDSelectedItemsBlockGroup
     {
         return $this->items;
     }
+    
+    // UMR: sort within the group
+    public function sortItemsByTitle() {
+        usort($this->items, function ($a, $b) {
+            return strnatcasecmp($a['title'], $b['title']);
+        });
+    }
 }
