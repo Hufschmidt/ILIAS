@@ -36,7 +36,6 @@
 
 # Directories
 /data
-/Customizing/global
 /Customizing/clients
 virtual-data
 /libs/composer/vendor

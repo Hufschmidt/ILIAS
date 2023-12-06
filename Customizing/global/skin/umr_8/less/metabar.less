@@ -1,0 +1,31 @@
+//LOGO
+.il-logo {
+    img {
+        width: auto;
+        height: 55px;
+    }
+}
+@media only screen and (max-width: 767px) {
+    .il-logo {
+        img {
+            width: auto;
+            height: 42px;
+        }
+    }
+}
+// mobile logo needs distance to left border
+@media only screen and (max-width: @grid-float-breakpoint-max) {
+    .il-logo {
+        padding-left: 2px;
+    }
+}
+
+// logo-container for longer title
+.il-logo {
+	width: 100%;
+}
+@media only screen and (max-width: @grid-float-breakpoint-max) {
+    .il-logo {
+        width: 42px;
+    }
+}
