@@ -1,0 +1,45 @@
+td.result div.result, td.result a.result
+{
+    -moz-border-radius: 20px;
+    -webkit-border-radius: 20px;
+    -khtml-border-radius: 20px;
+    border-radius: 20px;
+	padding: 4px 6px !important;
+	display: block !important;
+}
+
+
+.no-perm-result, .no-result, .orange-result, .green-result, .red-result, .red-result:hover
+{
+	
+}
+
+.no-perm-result
+{
+	background: #ddd;
+	color: #aaa;
+}
+
+.no-result
+{
+	background: #999;
+	color: #000;
+}
+
+.orange-result
+{
+	background: #ffc100;
+	color: #000;
+}
+
+.green-result
+{
+	background: #0c0;
+	color: #fff;
+}
+
+.red-result, .red-result:hover
+{
+	background: #f00;
+	color: #fff;
+}
