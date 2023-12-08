@@ -1,0 +1,60 @@
+#etherpad-liteFrame
+{
+    width:1px;
+    min-width: 100%;
+    *width: 100%;
+    clear: both;
+    border:thin;
+    border-style:solid;
+    border-color:#a5a5a5;
+    min-height: 200px;
+    margin-bottom:10px;
+}
+
+#etherpad-lite
+{
+    top:0;
+    left:0;
+    min-height: 200px;
+}
+
+.etherpad-liteFullscreen
+{
+    position:fixed;
+    background-color:#f7f7f7;
+    top:0;
+    left:0;
+    height:100%;
+    width:100%;
+    z-index:2000 !important;
+}
+.etherpad-liteRegular
+{
+    background-color:transparent;
+}
+
+.labeFullscreenPad
+{
+    float: right;
+}
+
+.hiddenOverflow
+{
+    overflow:hidden;
+}
+
+img.etherpad-FullScreen-Enter {
+	padding:5px 0px 5px 5px;
+	width:16px;
+	height:16px;
+	box-sizing: content-box;
+}
+
+img.etherpad-FullScreen-Leave {
+	padding:5px;
+	box-sizing: content-box;
+}
+
+.icon.outlined.xpdl {
+    background-image: url(../images/outlined/icon_xpdl.svg);
+}
