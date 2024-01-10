@@ -1,0 +1,196 @@
+@import "../../../../../../../../../libs/bower/bower_components/bootstrap/less/variables";
+@import "../../../../../../../../../templates/default/less/variables";
+
+.btn-default:active, .btn-default.active {
+  background-color: darken(@brand-primary, 8%) !important;
+}
+
+
+@xlvo_pin_height: 250px;
+@xlvo_btn_qr_modal_width: 100px;
+@xlvo_btn_qr_modal_height: 50px;
+@xlvo_btn_qr_modal_border-size: 5px;
+
+img.xlvo_loader {
+  width: 74px;
+  height: 74px;
+  margin: 0 auto;
+  display: block;
+}
+
+div.xlvo_pin {
+  font-size: 80px;
+  text-align: center;
+  height: @xlvo_pin_height;
+  line-height: @xlvo_pin_height;
+  padding: 0;
+}
+
+div.xlvo_shortlink {
+  height: @xlvo_pin_height/2-10;
+  line-height: @xlvo_pin_height/2-10;
+  text-align: center;
+
+  vertical-align: middle;
+
+  /* Fix no wrap if the URL is too long */
+  white-space: pre-wrap;
+  word-wrap: break-word;
+}
+
+div.xlvo_pin * {
+  margin: 0;
+}
+
+button.xlvo_btn-qr-modal {
+  width: @xlvo_btn_qr_modal_width;
+  height: @xlvo_btn_qr_modal_height;
+  position: absolute;
+  top: calc(~'(@{xlvo_pin_height}/2) - (@{xlvo_btn_qr_modal_height}/2) + (@{xlvo_btn_qr_modal_border-size}*2)');
+  z-index: 100;
+  border: @xlvo_btn_qr_modal_border-size solid black;
+  left: calc(~'50% - (@{xlvo_btn_qr_modal_width}/2)');
+}
+
+/** DELOS FIX */
+.navbar-text {
+  margin-top: 8px !important;
+  margin-bottom: 8px !important;
+}
+
+li.ilToolbarTextonly {
+  padding: 4px 15px 5px 0 !important;
+}
+
+li.ilToolbarTextonly button {
+  line-height: 1.42857143 !important;
+}
+
+.xlvolist-group-fix {
+  height: 42px;
+  margin-bottom: 5px;
+}
+
+.xlvo-question {
+  font-size: 1.4em;
+}
+
+.xlvo-option_col {
+  line-height: 0px !important;
+}
+
+.xlvo-option {
+  border-bottom: 1px solid #EEEEEE;
+  padding-bottom: 3px;
+  padding-top: 3px;
+}
+
+.xlvo-option_letter {
+  display: inline-block !important;
+  font-size: 18px !important;
+  height: 25px;
+  line-height: 25px !important;
+  padding: 0px !important;
+  width: 25px;
+}
+
+.xlvo-option_text {
+  display: inline-block;
+  font-size: 22px;
+  line-height: 21px;
+}
+
+// delos 5.1 fix
+.ilToolbar li.ilToolbarGroup .navbar-text {
+  margin-right: 20px !important;
+}
+
+// Preview
+iframe.xlvo-preview {
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  height: 500px;
+  border: none;
+}
+
+div.xlvo-preview-inner {
+  @phone-border-top: 50px black solid;
+  @phone-border-side: 10px black solid;
+  border: @phone-border-side;
+  border-top: @phone-border-top;
+  border-bottom: @phone-border-top;
+  border-radius: 20px;
+  margin: 0;
+  padding: 0;
+}
+
+div.xlvo-preview-outer {
+  border: 2px white solid;
+  border-radius: 22px;
+  margin: 0;
+  padding: 0;
+}
+
+// Modal
+.modal-body p {
+  word-wrap: break-word;
+}
+
+.modal-body #xlvo-modal-qr {
+  width: auto;
+  max-width: 100%;
+  height: 100%;
+  margin: auto;
+  display: block;
+}
+
+.ui-sortable-handle {
+  cursor: move;
+}
+
+span.xlvo-label-url {
+  font-size: 3vw;
+}
+
+#ilAdvSelListTable_xlvo_select {
+  width: 220px !important;
+
+  li > a {
+	white-space: nowrap;
+	overflow: hidden !important;
+	text-overflow: ellipsis;
+  }
+}
+
+.zoom {
+  font-size: 30px;
+  line-height: 32px;
+  //zoom:        4;
+}
+
+.single_vote_question {
+  font-size: 24px;
+}
+
+/* Serif font */
+.serif_font {
+  font-family: "Times New Roman", Times, serif;
+}
+
+.hidden-xs {
+  display: none !important;
+}
+
+.il-logo .hidden-xs{
+  display:block !important;
+}
+
+
+.alert-danger {
+  margin-top: 50px !important;
+}
+
+html, body {
+ overflow: initial; // Same behavior in ILIAS 6 like ILIAS 5.4
+}

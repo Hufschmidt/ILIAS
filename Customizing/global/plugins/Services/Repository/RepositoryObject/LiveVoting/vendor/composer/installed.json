@@ -1,0 +1,473 @@
+[
+    {
+        "name": "endroid/qrcode",
+        "version": "1.9.3",
+        "version_normalized": "1.9.3.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/endroid/qr-code.git",
+            "reference": "c9644bec2a9cc9318e98d1437de3c628dcd1ef93"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/endroid/qr-code/zipball/c9644bec2a9cc9318e98d1437de3c628dcd1ef93",
+            "reference": "c9644bec2a9cc9318e98d1437de3c628dcd1ef93",
+            "shasum": ""
+        },
+        "require": {
+            "ext-gd": "*",
+            "php": ">=5.4",
+            "symfony/options-resolver": "^2.3|^3.0"
+        },
+        "require-dev": {
+            "phpunit/phpunit": "^4.0|^5.0",
+            "sensio/framework-extra-bundle": "^3.0",
+            "symfony/browser-kit": "^2.3|^3.0",
+            "symfony/framework-bundle": "^2.3|^3.0",
+            "symfony/http-kernel": "^2.3|^3.0"
+        },
+        "time": "2017-04-08T09:13:59+00:00",
+        "type": "library",
+        "extra": {
+            "branch-alias": {
+                "dev-master": "1.x-dev"
+            }
+        },
+        "installation-source": "dist",
+        "autoload": {
+            "psr-4": {
+                "Endroid\\QrCode\\": "src/"
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "Jeroen van den Enden",
+                "email": "info@endroid.nl",
+                "homepage": "http://endroid.nl/"
+            }
+        ],
+        "description": "Endroid QR Code",
+        "homepage": "https://github.com/endroid/QrCode",
+        "keywords": [
+            "bundle",
+            "code",
+            "endroid",
+            "qr",
+            "qrcode",
+            "symfony"
+        ],
+        "abandoned": "endroid/qr-code"
+    },
+    {
+        "name": "srag/activerecordconfig",
+        "version": "0.21.1",
+        "version_normalized": "0.21.1.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/fluxapps/ActiveRecordConfig.git",
+            "reference": "a717d2f31140a78e71517a6b8d3972e107f1eacb"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/fluxapps/ActiveRecordConfig/zipball/a717d2f31140a78e71517a6b8d3972e107f1eacb",
+            "reference": "a717d2f31140a78e71517a6b8d3972e107f1eacb",
+            "shasum": ""
+        },
+        "require": {
+            "php": ">=7.2",
+            "srag/custominputguis": ">=0.1.0",
+            "srag/dic": ">=0.1.0"
+        },
+        "require-dev": {
+            "srag/generateplugininfoshelper": ">=0.1.0"
+        },
+        "time": "2021-07-20T08:06:09+00:00",
+        "type": "library",
+        "extra": {
+            "ilias_plugin": {
+                "ilias_min_version": "6.0",
+                "ilias_max_version": "7.999"
+            },
+            "generate_plugin_readme_template": "ILIAS_LIBRARY",
+            "long_description_template": "src/LONG_DESCRIPTION.md"
+        },
+        "installation-source": "dist",
+        "autoload": {
+            "psr-4": {
+                "srag\\ActiveRecordConfig\\LiveVoting\\": "src/"
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "GPL-3.0-only"
+        ],
+        "authors": [
+            {
+                "name": "fluxlabs",
+                "email": "support@fluxlabs.ch",
+                "homepage": "https://fluxlabs.ch",
+                "role": "Developer"
+            }
+        ],
+        "description": "Simple ActiveRecord config for ILIAS plugins",
+        "homepage": "https://github.com/fluxapps/ActiveRecordConfig",
+        "keywords": [
+            "ILIAS",
+            "activerecord",
+            "config"
+        ]
+    },
+    {
+        "name": "srag/custominputguis",
+        "version": "0.43.1",
+        "version_normalized": "0.43.1.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/fluxapps/CustomInputGUIs.git",
+            "reference": "5e211fb161d3ae77b79c8ce0a5c6be5fe5147c23"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/fluxapps/CustomInputGUIs/zipball/5e211fb161d3ae77b79c8ce0a5c6be5fe5147c23",
+            "reference": "5e211fb161d3ae77b79c8ce0a5c6be5fe5147c23",
+            "shasum": ""
+        },
+        "require": {
+            "php": ">=7.2",
+            "srag/dic": ">=0.1.0"
+        },
+        "require-dev": {
+            "srag/generateplugininfoshelper": ">=0.1.0"
+        },
+        "time": "2021-07-20T08:07:18+00:00",
+        "type": "library",
+        "extra": {
+            "ilias_plugin": {
+                "ilias_min_version": "6.0",
+                "ilias_max_version": "7.999"
+            },
+            "generate_plugin_readme_template": "ILIAS_LIBRARY",
+            "long_description_template": "src/LONG_DESCRIPTION.md"
+        },
+        "installation-source": "dist",
+        "autoload": {
+            "psr-4": {
+                "srag\\CustomInputGUIs\\LiveVoting\\": "src/"
+            },
+            "classmap": [
+                "src/MultiSelectSearchNewInputGUI/class.ObjectChildrenAjaxAutoCompleteCtrl.php",
+                "src/MultiSelectSearchNewInputGUI/class.ObjectsAjaxAutoCompleteCtrl.php",
+                "src/MultiSelectSearchNewInputGUI/class.OrgUnitAjaxAutoCompleteCtrl.php",
+                "src/MultiSelectSearchNewInputGUI/class.UsersAjaxAutoCompleteCtrl.php"
+            ]
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "GPL-3.0-only"
+        ],
+        "authors": [
+            {
+                "name": "fluxlabs",
+                "email": "support@fluxlabs.ch",
+                "homepage": "https://fluxlabs.ch",
+                "role": "Developer"
+            }
+        ],
+        "description": "Custom Input-GUI's",
+        "homepage": "https://github.com/fluxapps/CustomInputGUIs",
+        "keywords": [
+            "ILIAS",
+            "PropertyForm",
+            "gui",
+            "input",
+            "table"
+        ]
+    },
+    {
+        "name": "srag/dic",
+        "version": "0.33.2",
+        "version_normalized": "0.33.2.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/fluxapps/DIC.git",
+            "reference": "a3b217ecba4964b7dc71ed332c503d35edfc78fe"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/fluxapps/DIC/zipball/a3b217ecba4964b7dc71ed332c503d35edfc78fe",
+            "reference": "a3b217ecba4964b7dc71ed332c503d35edfc78fe",
+            "shasum": ""
+        },
+        "require": {
+            "php": ">=7.2"
+        },
+        "require-dev": {
+            "srag/generateplugininfoshelper": ">=0.1.0"
+        },
+        "time": "2021-07-20T11:49:07+00:00",
+        "type": "library",
+        "extra": {
+            "ilias_plugin": {
+                "ilias_min_version": "6.0",
+                "ilias_max_version": "7.999"
+            }
+        },
+        "installation-source": "dist",
+        "autoload": {
+            "psr-4": {
+                "srag\\DIC\\LiveVoting\\": "src/"
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "GPL-3.0-only"
+        ],
+        "authors": [
+            {
+                "name": "fluxlabs",
+                "email": "support@fluxlabs.ch",
+                "homepage": "https://fluxlabs.ch",
+                "role": "Developer"
+            }
+        ],
+        "description": "Use all ILIAS globals in your class",
+        "homepage": "https://github.com/fluxapps/DIC",
+        "keywords": [
+            "ILIAS",
+            "dic",
+            "globals",
+            "trait"
+        ]
+    },
+    {
+        "name": "srag/librariesnamespacechanger",
+        "version": "0.16.1",
+        "version_normalized": "0.16.1.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/fluxapps/LibrariesNamespaceChanger.git",
+            "reference": "186c543c88544ecf3907767e1645d4faf37dede0"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/fluxapps/LibrariesNamespaceChanger/zipball/186c543c88544ecf3907767e1645d4faf37dede0",
+            "reference": "186c543c88544ecf3907767e1645d4faf37dede0",
+            "shasum": ""
+        },
+        "require": {
+            "php": ">=7.2"
+        },
+        "require-dev": {
+            "srag/generateplugininfoshelper": ">=0.1.0"
+        },
+        "time": "2021-07-20T08:10:30+00:00",
+        "type": "library",
+        "extra": {
+            "generate_plugin_readme_template": "LIBRARY",
+            "long_description_template": "src/LONG_DESCRIPTION.md"
+        },
+        "installation-source": "dist",
+        "autoload": {
+            "psr-4": {
+                "srag\\LibrariesNamespaceChanger\\": "src/"
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "GPL-3.0-only"
+        ],
+        "authors": [
+            {
+                "name": "fluxlabs",
+                "email": "support@fluxlabs.ch",
+                "homepage": "https://fluxlabs.ch",
+                "role": "Developer"
+            }
+        ],
+        "description": "Change namespace of libraries to plugin namespace",
+        "homepage": "https://github.com/fluxapps/LibrariesNamespaceChanger",
+        "keywords": [
+            "changer",
+            "libraries",
+            "namespace"
+        ]
+    },
+    {
+        "name": "srag/librarylanguageinstaller",
+        "version": "1.2.1",
+        "version_normalized": "1.2.1.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/fluxapps/LibraryLanguageInstaller.git",
+            "reference": "7c0e146d92f66368e9c756bc89e257fc60ea3e59"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/fluxapps/LibraryLanguageInstaller/zipball/7c0e146d92f66368e9c756bc89e257fc60ea3e59",
+            "reference": "7c0e146d92f66368e9c756bc89e257fc60ea3e59",
+            "shasum": ""
+        },
+        "require": {
+            "php": ">=7.2",
+            "srag/dic": ">=0.1.0"
+        },
+        "require-dev": {
+            "srag/generateplugininfoshelper": ">=0.1.0"
+        },
+        "time": "2021-07-20T08:11:01+00:00",
+        "type": "library",
+        "extra": {
+            "ilias_plugin": {
+                "ilias_min_version": "6.0",
+                "ilias_max_version": "7.999"
+            },
+            "generate_plugin_readme_template": "ILIAS_LIBRARY",
+            "long_description_template": "src/LONG_DESCRIPTION.md"
+        },
+        "installation-source": "dist",
+        "autoload": {
+            "psr-4": {
+                "srag\\LibraryLanguageInstaller\\LiveVoting\\": "src/"
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "GPL-3.0-only"
+        ],
+        "authors": [
+            {
+                "name": "fluxlabs",
+                "email": "support@fluxlabs.ch",
+                "homepage": "https://fluxlabs.ch",
+                "role": "Developer"
+            }
+        ],
+        "description": "Install additional and external lang files for a plugin",
+        "homepage": "https://github.com/fluxapps/LibraryLanguageInstaller",
+        "keywords": [
+            "ILIAS",
+            "installer",
+            "language",
+            "library"
+        ]
+    },
+    {
+        "name": "srag/removeplugindataconfirm",
+        "version": "0.8.1",
+        "version_normalized": "0.8.1.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/fluxapps/RemovePluginDataConfirm.git",
+            "reference": "c2bdd6425e04edc3d49da36b0822ba2b33e21600"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/fluxapps/RemovePluginDataConfirm/zipball/c2bdd6425e04edc3d49da36b0822ba2b33e21600",
+            "reference": "c2bdd6425e04edc3d49da36b0822ba2b33e21600",
+            "shasum": ""
+        },
+        "require": {
+            "php": ">=7.2",
+            "srag/dic": ">=0.1.0",
+            "srag/librarylanguageinstaller": ">=0.1.0"
+        },
+        "require-dev": {
+            "srag/generateplugininfoshelper": ">=0.1.0"
+        },
+        "time": "2021-07-20T08:11:53+00:00",
+        "type": "library",
+        "extra": {
+            "ilias_plugin": {
+                "ilias_min_version": "6.0",
+                "ilias_max_version": "7.999"
+            },
+            "generate_plugin_readme_template": "ILIAS_LIBRARY",
+            "long_description_template": "src/LONG_DESCRIPTION.md"
+        },
+        "installation-source": "dist",
+        "autoload": {
+            "psr-4": {
+                "srag\\RemovePluginDataConfirm\\LiveVoting\\": "src/"
+            },
+            "classmap": [
+                "src/class.RemovePluginDataConfirmCtrl.php"
+            ]
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "GPL-3.0-only"
+        ],
+        "authors": [
+            {
+                "name": "fluxlabs",
+                "email": "support@fluxlabs.ch",
+                "homepage": "https://fluxlabs.ch",
+                "role": "Developer"
+            }
+        ],
+        "description": "Demand if plugin data should be removed on uninstall",
+        "homepage": "https://github.com/fluxapps/RemovePluginDataConfirm",
+        "keywords": [
+            "ILIAS",
+            "confirm",
+            "data",
+            "plugin",
+            "uninstall"
+        ]
+    },
+    {
+        "name": "symfony/options-resolver",
+        "version": "v3.4.47",
+        "version_normalized": "3.4.47.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/symfony/options-resolver.git",
+            "reference": "c7efc97a47b2ebaabc19d5b6c6b50f5c37c92744"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/symfony/options-resolver/zipball/c7efc97a47b2ebaabc19d5b6c6b50f5c37c92744",
+            "reference": "c7efc97a47b2ebaabc19d5b6c6b50f5c37c92744",
+            "shasum": ""
+        },
+        "require": {
+            "php": "^5.5.9|>=7.0.8"
+        },
+        "time": "2020-10-24T10:57:07+00:00",
+        "type": "library",
+        "installation-source": "dist",
+        "autoload": {
+            "psr-4": {
+                "Symfony\\Component\\OptionsResolver\\": ""
+            },
+            "exclude-from-classmap": [
+                "/Tests/"
+            ]
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "Fabien Potencier",
+                "email": "fabien@symfony.com"
+            },
+            {
+                "name": "Symfony Community",
+                "homepage": "https://symfony.com/contributors"
+            }
+        ],
+        "description": "Symfony OptionsResolver Component",
+        "homepage": "https://symfony.com",
+        "keywords": [
+            "config",
+            "configuration",
+            "options"
+        ]
+    }
+]
