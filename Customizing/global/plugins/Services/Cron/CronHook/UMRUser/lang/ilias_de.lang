@@ -1,0 +1,6 @@
+<!-- language file start -->
+job_title#:#Accountnamen der UMR überprüfen
+job_description#:#Überprüft und setzt die korrekten Accountnamen der an der UMR
+set_role_id_students#:#Student Rollen-ID
+set_role_id_staff#:#Staff Rollen-ID
+set_role_id_info#:#ID der Rolle, auf die der Cronjob angewendet werden soll.

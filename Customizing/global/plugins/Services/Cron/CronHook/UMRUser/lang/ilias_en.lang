@@ -1,0 +1,6 @@
+<!-- language file start -->
+job_title#:#Check the UMR account name
+job_description#:#Checks and sets the correct account names of the persons working at UMR
+set_role_id_students#:#Student Role ID
+set_role_id_staff#:#Staff Role ID
+set_role_id_info#:#ID of the role to which the cronjob should be applied.
