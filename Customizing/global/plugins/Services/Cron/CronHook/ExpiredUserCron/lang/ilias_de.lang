@@ -1,0 +1,7 @@
+<!-- language file start -->
+job_title#:#Abgelaufene Benutzerzugänge löschen
+job_description#:#Accounts werden nach einer bestimmten Zeit gelöscht, wenn diese abgelaufen sind.
+days_ago#:#Vergangene Tage seit Inaktivierung
+days_ago_info#:#Benutzerzugang wird gelöscht, wenn seit dessen Ablauf diese Anzahl an Tagen verstrichen ist.
+role_id#:#Rollen-ID
+role_id_info#:#Benutzer, die diese globale Rollen inne haben, werden überprüft und gegebenenfalls gelöscht.

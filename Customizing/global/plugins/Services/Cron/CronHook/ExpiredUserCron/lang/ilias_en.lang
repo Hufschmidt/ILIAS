@@ -1,0 +1,7 @@
+<!-- language file start -->
+job_title#:#Delete expired user accounts
+job_description#:#Accounts are deleted after a certain time when they have expired.
+days_ago#:#Days passed since inactivation
+days_ago_info#:#User access will be deleted if this number of days has passed since it expired.
+role_id#:#Role ID
+role_id_info#:#Users with these global roles are scanned and deleted if necessary.
