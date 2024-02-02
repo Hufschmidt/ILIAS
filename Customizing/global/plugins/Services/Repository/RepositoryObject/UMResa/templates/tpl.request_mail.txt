@@ -1,0 +1,10 @@
+{SALUTATION} {NAME},
+
+vielen Dank für die Anmeldung Ihres Kurses "{TITLE}" auf der Lernplattform ILIAS der Universität Marburg. Sobald wir Ihren Kurs für Sie eingerichtet haben erhalten Sie eine weitere Benachrichtigung mit einem Direktlink.
+
+Weitere Informationen zur Arbeit mit ILIAS erhalten Sie in unserem Support-Portal: https://ilias.uni-marburg.de/goto.php?target=cat_1681586
+
+Bei Rückfragen wenden Sie sich bitte an ilias@uni-marburg.de
+
+Mit freundlichen Grüßen,
+Ihr ILIAS-Support Team 

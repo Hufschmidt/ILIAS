@@ -1,0 +1,15 @@
+{SALUTATION} {NAME},
+
+für Sie wurde ein ILIAS-Kurs mit dem Titel "{TITLE}" in der Kategorie '{PATH}' <!-- BEGIN CreatedBy -->durch einen Antrag von {CREATOR} <!-- END CreatedBy -->angelegt. 
+
+Sie können den Kurs über folgenden Link direkt erreichen:
+{PERMALINK}
+<!-- BEGIN WantsESA -->
+Sie haben für Ihren Kurs einen elektronischen Semesterapparat beantragt ( https://www.uni-marburg.de/de/ub/lernen/semesterapparate/elektronische-semsterapparate ). Ein/e Mitarbeiter/in der UB wird in Kürze Kontakt zu Ihnen aufnehmen, um die näheren Einzelheiten zu besprechen. Bitte beachten Sie, dass Mitarbeiter/innen der UB innerhalb Ihres Kurses Schreibrechte besitzen, um Dokumente in Ihren Semesterapparat einzustellen. Eventuelle Rückfragen senden Sie bitte an ilias@ub.uni-marburg.de
+<!-- END WantsESA -->
+Wichtige Grundeinstellungen für Ihren neuen ILIAS-Kurs: Der Kurs ist zunächst „Offline“ und somit für andere Nutzer nicht sichtbar. Damit andere Personen auf Ihren Kurs zugreifen können, müssen Sie einen Verfügbarkeitszeitraum festlegen und ein Beitrittsverfahren wählen:
+Im Reiter Einstellungen können Sie den Kurs Online stellen. Wir empfehlen Ihnen eine automatisch zeitlich begrenzte Verfügbarkeit (bis 31.03. bzw. 30.09.).
+Unter Beitrittsverfahren empfehlen wir Ihnen die Teilnahme durch ein Kurspasswort zu begrenzen (Sofern Ihr Kurs urheberrechtlich geschütztes Material enthält, muss der Zugang geschützt werden).
+
+Mit freundlichen Grüßen,
+Ihr ILIAS-Support Team

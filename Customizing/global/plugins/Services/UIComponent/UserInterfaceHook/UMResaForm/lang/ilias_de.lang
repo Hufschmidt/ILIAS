@@ -1,0 +1,111 @@
+<!--
+University of Marburg 'Elektronische Kurs/Semesterapparat' (ESA-Forms) Plugin for ILIAS
+
+@author Thomas Hufschmidt <hufschmidt@hrz.uni-marburg.de>
+-->
+TITLE#:#ILIAS-Kurs beantragen
+SUBTITLE#:#Beantragung von ILIAS-eigenen Kursen (altes Verfahren)
+CREATED::PENDING#:#Der Kursantrag wurde erfolgreich erstellt. Ihr Anfrage wird durch unseren ILIAS Support weiter bearbeitet.
+CREATED::DONE#:#Der Kurs wurde erfolgreich unter folgendem Pfad erstellt:<br>%s
+CREATED::DONE::PERM#:#Sie befinden sich nun in ihrem neu erstellten ILIAS-Kurs.
+CREATED::DONE::NOPERM#:#Sie erhalten weitere Informationen per E-Mail.
+SELECT#:#Bitte auswählen
+<!-- -->
+CAT::SEC#:#Einordnung im Magazin
+<!-- -->
+CAT::PICK#:#Einordnung
+CAT::PICK::INFO#:#Ihr Kurs wird unterhalb des gewählten Magazin-Objekts angelegt. Bitte die entsprechende Semesterkategorie auswählen.
+CAT::PICK::SELECT#:#Neue Auswahl
+CAT::PICK::HEADER#:#Einordnung des neuen Kurses im Magazin. Das Kursobjekt wird unterhalb des ausgewählten Objektes angelegt.
+<!-- -->
+CAT::RBAC#:#Berechtigung
+CAT::RBAC::TITLE#:#Kursobjekt erstellen
+CAT::RBAC::INFO#:#Wenn Sie über die entsprechende Berechtigung verfügen, wird der Kurs direkt angelegt, anderenfalls wird die Anfrage vom ILIAS-Support bearbeitet.
+<!-- -->
+CREATOR::SEC#:#Verantwortliche Person
+CREATOR#:#Besitzhabende Person
+<!-- -->
+CREATOR::SELF#:#Ich bin die Lehrkraft
+CREATOR::SELF::NAME#:#Vor- und Nachname
+CREATOR::SELF::LOGIN#:#Benutzername
+<!-- -->
+CREATOR::ERRAND#:#Ich fülle den Antrag im Auftrag der Lehrkraft aus
+CREATOR::ERRAND::LOGIN#:#Benutzername der Lehrkraft
+CREATOR::ERRAND::LOGIN::INFO#:#Geben Sie hier bitte den Benutzernamen der Lehrkraft ein.
+CREATOR::ERRAND::ADMIN#:#Berechtigung
+CREATOR::ERRAND::ADMIN::TITLE#:#Administrationsrechte
+CREATOR::ERRAND::ADMIN::INFO#:#Durch Auswahl dieser Option werden neben der Lehrkraft dem Antragsteller Administrationsrechte im Kurs zugeteilt.
+CREATOR::ERRAND::PHONE#:#Telefonnummer der Lehrkraft
+CREATOR::ERRAND::PHONE::INFO#:#Bitte geben sie die Telefonnummer der Lehrkraft für eventuelle Rückfragen an.
+<!-- -->
+OBJ::SEC#:#Lehrveranstaltung
+OBJ::TITLE#:#Titel
+OBJ::TYPE#:#Art
+OBJ::SEMESTER#:#Semester
+OBJ::ESA#:#Elektronischer Semesterapparat
+OBJ::ESA::NR#:#Lehrveranstaltungnummer
+OBJ::ESA::FORMAT#:#Form der Vorlagen
+OBJ::ESA::TITLE#:#Beantragen
+OBJ::ESA::INFO#:#Durch Auswahl dieser Option wird der Kursantrag an die Universitätsbibliothek weitergeleitet, siehe <a href='%s' target='_blank'>UB Internetseite</a>.
+OBJ::COMMENT#:#Anmerkungen
+<!-- -->
+OBJ::CRS_TYPE::SE#:#Seminar
+OBJ::CRS_TYPE::US#:#Unterseminar
+OBJ::CRS_TYPE::PS#:#Proseminar
+OBJ::CRS_TYPE::MS#:#Mittelseminar
+OBJ::CRS_TYPE::HS#:#Hauptseminar
+OBJ::CRS_TYPE::FS#:#Forschungsseminar
+OBJ::CRS_TYPE::UE#:#Übung
+OBJ::CRS_TYPE::KO#:#Kolloquium
+OBJ::CRS_TYPE::VL#:#Vorlesung
+OBJ::CRS_TYPE::KU#:#Kurs
+OBJ::CRS_TYPE::AK#:#Aufbaukurs
+OBJ::CRS_TYPE::SO#:#Sonstiges
+<!-- -->
+OBJ::ESA_TYPE::PDF#:#PDF Datei(en)
+OBJ::ESA_TYPE::A4#:#DIN A4 Kopien
+OBJ::ESA_TYPE::UB#:#UB Bestand
+OBJ::ESA_TYPE::MISC#:#Sonstiges
+<!-- -->
+CONFIG::MAIL::HRZ#:#HRZ E-Mail Adresse
+CONFIG::MAIL::HRZ::INFO#:#E-Mail Adresse des Ticketsystems bzw. Mailverteilers des Hochschulrechenzentrums, zb. 'ilias@hrz.uni-marburg.de'.
+CONFIG::MAIL::UB#:#UB E-Mail Adresse
+CONFIG::MAIL::UB::INFO#:#E-Mail Adresse des Ticketsystems bzw. Mailverteilers der Universitätsbibliothek, zb. 'ilias@ub.uni-marburg.de'.
+<!-- -->
+CONFIG::LOGIN::HRZ#:#HRZ Administratoren
+CONFIG::LOGIN::HRZ::INFO#:#Kommagetrennte Liste von Benutzeraccounts denen die erzeugten Kursobjekte auf den Schreibtisch gelegt werden.
+<!-- -->
+CONFIG::ROLE::UB#:#UB Administratorrolle
+CONFIG::ROLE::UB::INFO#:#Die ILIAS-Rolle der für Kursanträge verantwortlicher Mitarbeiter der Universitätsbibliothek.
+<!-- -->
+CONFIG::TEMPLATE#:#Kurs-Rollenvorlage
+CONFIG::TEMPLATE::INFO#:#Rollen- und Rechtevorlage die den Mitarbeiter der Universitätsbibliothek in erzeugten Kursobjekten zugewiesen wird.
+<!-- -->
+CONFIG::CONTAINER#:#Kontainer Referenz-ID
+CONFIG::CONTAINER::INFO#:#Sammelobjekt für neu angelegte Kursobjekte, die zwecks mangelnder Berechtigungen eine abschließende Prüfung durchlaufen müssen.
+<!-- -->
+ERROR::LOGIN::NOT-EXISTS#:#Einer der angegebenen Benutzer existiert nicht im System.
+ERROR::ROLE::NOT-EXISTS#:#Die angegebene Rolle existiert nicht im System.
+ERROR::ROLE::NOT-ROLE#:#Bei dem angegebenen Namen handelt es sich nicht eine Rolle vom benötigten Typ. (Rolle)
+ERROR::ROLE::NOT-TEMPLATE#:#Bei dem angegebenen Namen handelt es sich nicht eine Rolle vom benötigten Typ. (Rollenvorlage)
+ERROR::OBJ::NOT-EXISTS#:#Das angegebene Objekt existiert nicht im System.
+ERROR::OBJ::WRONG-TYPE#:#Bei der Referenz-ID handelt es sich nicht ein Objekt vom benötigten Typ. (%s)
+<!-- -->
+LANG::SEC#:#Beschreibung
+LANG::SEL#:#Zu bearbeitende Sprache
+MAIL::SEC#:#E-Mail Einstellungen
+ADMIN::SEC#:#Administration
+COURSE::SEC#:#Kurseinstellungen
+TXT::SEC#:#Übersetzung der Beschreibung
+TXT::EDIT#:#ESA-Formular Beschreibung
+<!-- -->
+MISC::SEC#:#Sonstiges
+MISC::UBURL#:#Informationsseite der UB
+MISC::UBURL::INFO#:#Link zur Informationsseite der UB zu Elektronischen Semesterapparaten. Als Template Variable: <i>&#123;UB_LINK&#125;</i>
+<!-- -->
+SEMESTER::SEC#:#Semestertermine
+SEMESTER::SEL#:#Semester
+SEMESTER::EDIT::SEC#:#Semester-Termin bearbeiten
+SEMESTER::EDIT::NAME#:#Semesterbezeichnung
+SEMESTER::EDIT::START#:#Semesterbeginn
+SEMESTER::EDIT::END#:#Semesterende

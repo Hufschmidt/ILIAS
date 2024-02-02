@@ -1,0 +1,108 @@
+<!--
+University of Marburg 'Elektronische Kurs/Semesterapparat' (ESA-Forms) Plugin for ILIAS
+
+@author Thomas Hufschmidt <hufschmidt@hrz.uni-marburg.de>
+-->
+TITLE#:#ILIAS-Course application form
+SUBTITLE#:#Request for ILIAS own courses (old procedure)
+CREATED::PENDING#:#The course application was created successfully. Your request will be processed by our ILIAS Support..
+CREATED::DONE#:#The course was successfully created under the following path: <br>%s
+CREATED::DONE::PERM#:#You are now inside your newly created ILIAS course object.
+CREATED::DONE::NOPERM#:#Further information will be send to you via email.
+SELECT#:#Please select
+<!-- -->
+CAT::SEC#:#Position in repository
+<!-- -->
+CAT::PICK#:#Parent-Object
+CAT::PICK::INFO#:#Your course will be created below the selected magazine object. Please select the appropriate semester category.
+CAT::PICK::SELECT#:#New selection
+CAT::PICK::HEADER#:#Select position of new course inside the repository. The course object will be created below the selected object.
+<!-- -->
+CAT::RBAC#:#Permission
+CAT::RBAC::TITLE#:#Course-Object creation
+CAT::RBAC::INFO#:#If you have the appropriate permissions, the course will be created automatically, otherwise the request is processed by our ILIAS Support.
+<!-- -->
+CREATOR::SEC#:#Applicant
+CREATOR#:#Owner
+<!-- -->
+CREATOR::SELF#:#I am the teacher
+CREATOR::SELF::NAME#:#First & last name
+CREATOR::SELF::LOGIN#:#Username
+<!-- -->
+CREATOR::ERRAND#:#I filing the application on behalf of the teacher
+CREATOR::ERRAND::LOGIN#:#Teacher username
+CREATOR::ERRAND::LOGIN::INFO#:#Please enter the techers username.
+CREATOR::ERRAND::ADMIN#:#Permissions
+CREATOR::ERRAND::ADMIN::TITLE#:#Administrative rights
+CREATOR::ERRAND::ADMIN::INFO#:#By selecting this option, administrative rights for the course object are assigned to the applicant.
+CREATOR::ERRAND::PHONE#:#Phone number of teacher
+CREATOR::ERRAND::PHONE::INFO#:#Please fill in the teachers phone number for further inquiries.
+<!-- -->
+OBJ::SEC#:#Course
+OBJ::TITLE#:#Title
+OBJ::TYPE#:#Type
+OBJ::SEMESTER#:#Semester
+OBJ::ESA#:#"Elektronischer Semesterapparat"
+OBJ::ESA::NR#:#Course-ID
+OBJ::ESA::FORMAT#:#ESA Type
+OBJ::ESA::TITLE#:#Apply for
+OBJ::ESA::INFO#:#By selecting this option, the course application is forwarded to the university library, see <a href='%s' target='_blank'>"UB" Website</a>.
+OBJ::COMMENT#:#Comments
+<!-- -->
+OBJ::CRS_TYPE::SE#:#Seminar
+OBJ::CRS_TYPE::US#:#Unterseminar
+OBJ::CRS_TYPE::PS#:#Proseminar
+OBJ::CRS_TYPE::MS#:#Mittelseminar
+OBJ::CRS_TYPE::HS#:#Hauptseminar
+OBJ::CRS_TYPE::FS#:#Forschungsseminar
+OBJ::CRS_TYPE::UE#:#Übung
+OBJ::CRS_TYPE::KO#:#Kolloquium
+OBJ::CRS_TYPE::VL#:#Vorlesung
+OBJ::CRS_TYPE::KU#:#Kurs
+OBJ::CRS_TYPE::AK#:#Aufbaukurs
+OBJ::CRS_TYPE::SO#:#Other
+<!-- -->
+OBJ::ESA_TYPE::PDF#:#PDF File(s)
+OBJ::ESA_TYPE::A4#:#DIN A4 Copies
+OBJ::ESA_TYPE::UB#:#University-Library stock
+OBJ::ESA_TYPE::MISC#:#Other
+<!-- -->
+CONFIG::MAIL::HRZ#:#HRZ E-mail address
+CONFIG::MAIL::HRZ::INFO#:#E-mail address of the ticket system or mailing list of the 'Hochschulrechenzentrums', eg. 'ilias@hrz.uni-marburg.de'.
+CONFIG::MAIL::UB#:#UB mail address
+CONFIG::MAIL::UB::INFO#:#E-mail address of the ticket system or mailing list of the 'Universitätsbibliothek', eg. 'ilias@ub.uni-marburg.de'.
+<!-- -->
+CONFIG::LOGIN::HRZ#:#HRZ Administrators
+CONFIG::LOGIN::HRZ::INFO#:#Comma separated list of user accounts for which the created course objects are placed on their personal desktop.
+<!-- -->
+CONFIG::ROLE::UB#:#UB Administrator role
+CONFIG::ROLE::UB::INFO#:#The ILIAS role of the 'Universitätsbibliothek' staff members responsible for course applications.
+<!-- -->
+CONFIG::TEMPLATE#:#Course role template
+CONFIG::TEMPLATE::INFO#:#Role and rights template that is assigned to the employees of the 'Universitätsbibliothek' in generated course objects.
+<!-- -->
+CONFIG::CONTAINER#:#Container reference-id
+CONFIG::CONTAINER::INFO#:#Collective object for the newly created course objects, which have to pass a final examination for lack of permissions.
+<!-- -->
+ERROR::LOGIN::NOT-EXISTS#:#The specified user does not exist in the system.
+ERROR::ROLE::NOT-EXISTS#:#The specified role does not exist in the system.
+ERROR::ROLE::NOT-ROLE#:#The specified name is not a role of the required type. (role)
+ERROR::ROLE::NOT-TEMPLATE#:#The specified name is not a role of the required type. (role template)
+<!-- -->
+LANG::SEC#:#Description
+LANG::SEL#:#Edit language
+MAIL::SEC#:#E-Mail settings
+ADMIN::SEC#:#Administration
+COURSE::SEC#:#Course settings
+TXT::SEC#:#Translation of form description
+TXT::EDIT#:#Form description
+MISC::SEC#:#Others
+MISC::UBURL#:#"UB" information website
+MISC::UBURL::INFO#:#Link to information website about "Elektronische Semesterapparate". Use as template variable: <i>&#123;UB_LINK&#125;</i>
+<!-- -->
+SEMESTER::SEC#:#Semester-Deadlines
+SEMESTER::SEL#:#Semester
+SEMESTER::EDIT::SEC#:#Edit Semester-Deadline
+SEMESTER::EDIT::NAME#:#Semestername
+SEMESTER::EDIT::START#:#Semesterbegin
+SEMESTER::EDIT::END#:#Semesterend

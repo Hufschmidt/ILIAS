@@ -1,0 +1,26 @@
+Lehrkraft:
+ * Name: {TEACHERNAME}
+ * Account: {TEACHERLOGIN}<!-- BEGIN hasPhone -->
+ * Telefon: {TEACHERPHONE}<!-- END hasPhone -->
+ * Mail: {TEACHERMAIL}
+
+Anmeldung durch:
+ * Name: {USERNAME}
+ * Account: {USERLOGIN}
+ * Mail: {USERMAIL}
+ * Datum: {NOW}
+
+Lehrveranstaltung:
+ * Titel: {COURSETITLE}
+ * Art: {COURSETYPE}
+<!-- BEGIN wantsESA -->
+Semesterapparat:
+ * Veranstaltungnummer: {ESANUMBER}
+ * Form der Vorlagen: {ESAFORMAT}
+ * Semester: {SEMESTER} ({ESA_START} - {ESA_END})
+<!-- END wantsESA -->
+<!-- BEGIN canCreateCourse -->Kursobjekt: {COURSELINK}<!-- END canCreateCourse --><!-- BEGIN cantCreateCourse -->Zielort: {CONTAINER}<!-- END cantCreateCourse -->
+<!-- BEGIN hasNotes -->
+Anmerkungen:
+{COMMENT}
+<!-- END hasNotes -->

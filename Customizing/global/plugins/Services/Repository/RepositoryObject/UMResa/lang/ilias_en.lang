@@ -1,0 +1,40 @@
+<!--
+University of Marburg 'Elektronische Kurs/Semesterapparat' (ESA) Plugin for ILIAS
+
+@author Thomas Hufschmidt <hufschmidt@hrz.uni-marburg.de>
+-->
+obj_xesa#:#ESA-Application
+objs_xesa#:#ESA-Applications
+xesa_new#:#Issue new ESA application
+<!-- -->
+TAB::REQUEST#:#Edit applocation
+TAB::PARENT#:#Parent-Object
+NEW::DESC#:#This object can only be created using the ESA form ...
+<!-- -->
+EDIT::SEC::TITLE#:#Settings
+EDIT::TEACHER#:#Teacher
+EDIT::CRSTITLE#:#Title
+EDIT::CRSTYPE#:#Type
+EDIT::ADMINS#:#Admins
+EDIT::SEMESTER#:#Semester
+<!-- -->
+INFO::SETTINGS#:#Settings
+INFO::PARENT#:#Parent
+INFO::TEACHER#:#Teacher
+INFO::TITLE#:#Course Title
+INFO::FULLTITLE#:#Final Course Title
+INFO::TYP#:#Type
+INFO::ADMINS#:#Course admins
+<!-- -->
+INFO::DATA#:#Additiona Information
+INFO::CREATOR#:#Applicant
+INFO::PHONE#:#Teacher phonenumber
+INFO::ESA#:#"Elektronischer Semesterapparat"
+INFO::ESA::NUMBER#:#Kurse-ID
+INFO::ESA::FORMAT#:#Form of "ESA" templates
+INFO::ESA::SEMESTER#:#Semester
+INFO::NOTES#:#Remarks
+<!-- -->
+PUBLISH#:#Convert to course
+PUBLISHED#:#The conversion was completed successfully.
+PUBLISHED::NOT#:#The conversion failed.
