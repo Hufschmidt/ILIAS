@@ -71,8 +71,22 @@ class Record
         $this->startTime      = (float) $xml->startTime->__toString();
         $this->endTime        = (float) $xml->endTime->__toString();
         $this->playbackType   = $xml->playback->format->type->__toString();
-        $this->playbackUrl    = $xml->playback->format->url->__toString();
+        //$this->playbackUrl    = $xml->playback->format->url->__toString();
         $this->playbackLength = (int) $xml->playback->format->length->__toString();
+
+        foreach ($xml->playback->format as $format) {
+            $type = $format->type->__toString();
+            $url = $format->url->__toString();
+            if ($type === 'presentation') {
+                $this->playbackUrl = $url;
+            } elseif ($type === 'video') {
+                $this->videoUrl = $url;
+            }
+        }
+        // fallback
+        if (!isset($this->playbackUrl)) {
+            $this->playbackUrl = $xml->playback->format->url->__toString();
+        }
 
         foreach ($xml->metadata->children() as $meta) {
             $this->metas[$meta->getName()] = $meta->__toString();
@@ -153,6 +167,15 @@ class Record
     public function getPlaybackUrl()
     {
         return $this->playbackUrl;
+    }
+
+    
+    /**
+     * @return string
+     */
+    public function getVideoUrl()
+    {
+        return $this->videoUrl;
     }
 
     /**

@@ -686,7 +686,7 @@ class ilApiBBB implements ilApiInterface
             $recList[$bbbRecId]['START_TIME'] = substr($rec->getStartTime(), 0, 10);
             $recList[$bbbRecId]['END_TIME'] = substr($rec->getEndTime(), 0, 10); // $rec->getEndTime();
             $recList[$bbbRecId]['playback'] = $rec->getPlaybackUrl();
-            $recList[$bbbRecId]['download'] = $this->getMP4DownStreamUrl($recList[$bbbRecId]['playback']);
+            $recList[$bbbRecId]['download'] = $rec->getVideoUrl();
             $recList[$bbbRecId]['meetingId'] = $rec->getMeetingId();
         }
         return $recList;

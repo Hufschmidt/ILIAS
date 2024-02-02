@@ -44,7 +44,7 @@ class ilMultiVcTableGUIRecordingsBBB extends ilTable2GUI
         $this->addColumn($this->dic->language()->txt('rep_robj_xmvc_endtime'), 'END_TIME', '');
         $this->addColumn($this->dic->language()->txt('rep_robj_xmvc_duration'), '', '');
         $this->addColumn('', '', '');
-        //$this->addColumn('', '', '');
+        $this->addColumn('', '', '');
         /*
          * $this->addColumn($this->dic->language()->txt('playback'), '', '');
         $this->addColumn($this->dic->language()->txt('download'), '', '');
@@ -137,10 +137,10 @@ class ilMultiVcTableGUIRecordingsBBB extends ilTable2GUI
         $this->tpl->setVariable('PLAYBACK', $a_set['playback']);
         $this->tpl->setVariable('TXT_PLAYBACK', $this->dic->language()->txt('rep_robj_xmvc_playback'));
         #$this->tpl->setVariable('REC_LENGTH', $duration);
-        if (file_exists($a_set['rec_id'] . '.mp4')) {
+        if (isset($a_set['download'])) {
             $this->tpl->setVariable('DOWNLOAD', $a_set['download']);
             $this->tpl->setVariable('TXT_DOWNLOAD', $this->dic->language()->txt('rep_robj_xmvc_download'));
-            $this->tpl->setVariable('REC_ID', $a_set['rec_id'] . '.mp4');
+            #$this->tpl->setVariable('REC_ID', $a_set['rec_id'] . '.mp4');
         }
 
     }
