@@ -1,0 +1,722 @@
+admin_export#:#Einstellungen exportieren
+admin_import#:#Einstellungen importieren
+admin_import_success#:#Neue Einstellungen wurden erfolgreich importiert
+admin_import_failed#:#Neue Einstellungen können nicht importiert werden.
+admin_import_file_missign#:#Die Einstellungsdatei ist nicht ausgewählt.
+msg_admin_import_freindly_reminder_info#:#Bitte beachten Sie, dass beim Importieren neuer Einstellungen die alten Einstellungen überschrieben und/oder gelöscht werden. Daher wird dringend empfohlen, die neu importierten Einstellungen durchzugehen und sicherzustellen, dass alles vorhanden ist.
+common_save#:#Speichern
+common_create#:#Erstellen
+common_delete#:#Löschen
+common_edit#:#Bearbeiten
+common_cancel#:#Abbrechen
+common_actions#:#Aktionen
+common_confirm#:#Bestätigen
+config_accept_terms#:#Alle User müssen Nutzungsbedingungen akzeptieren.
+config_accept_terms_info#:#Alle User müssen beim ersten Videoupload die Nutzungsbedingungen akzeptieren.
+config_activate_cache#:#Caching
+config_activate_cache_info#:#Verbessert die Ladezeiten der Videolisten durch lokales Speichern. Kann vorübergehend zu falschen (nicht aktuellen) Metadaten führen.
+config_activate_cache_0#:#Cache deaktivieren
+config_activate_cache_0_info#:#
+config_activate_cache_1#:#APCu Cache
+config_activate_cache_1_info#:#Benötigt die PHP-Erweiterung APCu.
+config_activate_cache_2#:#Datenbank-Cache
+config_activate_cache_2_info#:#Daten werden in der ILIAS-Datenbank zwischengespeichert.
+config_annotation_token_security#:#Anmerkungs-Token-Sicherheit aktivieren
+config_annotation_token_security_info#:#Fügt die Kursreferenz und einen Sicherheitshash zum Annotationslink hinzu.
+config_api_base#:#API-Basis-URL
+config_api_version#:#API-Version
+config_api_version_info#:#Format: vX.Y.Z - z.B.: v1.0.0
+config_curl_max_upload_size#:#Maximale Upload-Größe in MB
+config_curl_max_upload_size_info#:#Definiert die maximal mögliche Uploadgröße für Video-Dateien in MB
+config_curl_chunk_size#:#Chunk-Größe in MB
+config_curl_chunk_size_info#:#Definiert die Grösse der einzelnen Upload-Chunks in MB. Grosse Dateien werden in einzelnen Teilen (Chunks) hochgeladen. Kleinere Chunks sind besser bei langsamen Internet-Verbindungen, grössere Chunks sind besser bei schnellen Internetverbindungen.
+config_audio_allowed#:#Audio-Dateien
+config_cancel#:#Abbrechen
+config_create_scheduled_allowed#:#"Aufzeichnungstermin(e) planen" erlauben
+config_create_scheduled_allowed_info#:#Achtung: Das Planen von Aufzeichnungsterminen ist erst ab Opencast API-Version 1.1.0 möglich.
+config_schedule_channel#:#Input-Wert für Scheduling
+config_schedule_channel_info#:#Input Wert, der an die Capture Agents geschickt wird, wenn Aufzeichnungen über das Plugin geplant werden. Hinweis: Scheduling benötigt die API-Version v1.1.0.
+config_common_idp#:#Gemeinsamer IdP
+config_common_idp_info#:#Auswählen, falls ILIAS und Opencast den selben Identity Provider verwenden (z.B. Shibboleth oder LDAP). Dadurch können gewisse Rechteprüfungen genauer durchgeführt werden ("als User" statt nur "mit Rolle des Users").
+config_oc_studio_allowed#:#Opencast Studio aktivieren
+config_oc_studio_allowed_info#:#Ermöglichen Sie Benutzern den Zugriff auf Opencast Studio von ILIAS aus (Erfordert Opencast > 8.3)
+config_oc_studio_url#:#Opencast Studio URL
+config_oc_studio_url_info#:#Eine benutzerdefinierte URL für Opencast Studio. Default: https://[ihre-opencast-url.de]/studio
+config_curl#:#cURL
+config_curl_debug_level#:#Debug-Level
+config_curl_password#:#API-Passwort
+config_curl_username#:#API-Benutzername
+config_editor_link#:#Link zum Opencast-Video-Editor
+config_editor_link_info#:#Link, welcher für die Aktion "Schneiden" verwendet wird. Als Platzhalter kann &#123event_id} verwendet werden. Default: https://[ihre-opencast-url.de]/admin-ng/index.html#!/events/events/&#123event_id}/tools/editor
+config_eula#:#Nutzungsvereinbarung
+config_events#:#Aufzeichnungen
+config_series#:#Serien
+config_licenses#:#Lizenzen
+config_licenses_info#:#Neue Einträge auf neuer Zeile in der Form URL#Name hinzufügen
+config_license_info#:#Lizenz-Informationen
+config_load_table_sync#:#Event-Tabelle synchron laden
+config_load_table_sync_info#:#Wenn aktiv, wird die Event-Tabelle direkt geladen (in einem Request), statt indirekt (asynchron, in zwei Requests) nach dem Anzeigen der Seite (bemerkbar durch Ladesymbol nach dem Anzeigen der Seite). Dadurch wird die Gesamtladezeit verringert, dafür dauert es länger, bis die Seite angezeigt wird.
+config_log_level_0#:#Deaktiviert
+config_log_level_1#:#LOW
+config_log_level_2#:#MEDIUM
+config_log_level_3#:#HIGH
+config_log_level_4#:#ULTRA
+config_msg_success#:#Gespeichert
+config_roles#:#Opencast-Rollen
+config_role_anonymous#:#Anonym
+config_role_external_application_member#:#External Application Member
+config_role_ext_application#:#External Application
+config_role_federation_member#:#Federation-Mitglied
+config_role_owner_prefix#:#Präfix für Besitzer-Rolle (User-Mapping wird ergänzt)
+config_role_organisation_prefix#:#Präfix für Organisations-Rolle (Domain des Mapping wird angehängt)
+config_role_producer#:#Producer
+config_role_user_prefix#:#Präfix für Benutzer-Rolle (User-Mapping wird ergänzt)
+config_update#:#Aktualisieren
+config_upload_token#:#Aktiviere Upload-Token
+config_use_modals#:#Player in Modal öffnen
+config_user_mapping#:#User-Mapping
+config_workflow#:#Processing-Workflow-ID
+config_workflow_unpublish#:#Unpublish-Workflow-ID
+config_advanced#:#Erweitert
+config_security#:#Security
+config_security_info#:#Erhöht die Sicherheit mithilfe von Opencasts "Stream Security". Nur aktivieren, wenn Opencast dafür konfiguriert ist.
+config_sign_annotation_links#:#Annotationslink signieren
+config_sign_annotation_links_time#:#Gültigkeit in Sekunden
+config_sign_annotation_links_time_info#:#Wie lange der Link für Annotation gültig sein soll (0 entspricht Verwaltung durch Opencast).
+config_sign_annotation_links_with_ip#:#Für Client-IP signieren
+config_sign_player_links#:#Playerlink signieren
+config_sign_player_links_overwrite_default#:#Benutze Aufzeichnungsdauer als Dauer für die Gültigkeit der Signatur
+config_sign_player_links_additional_time_percent#:#Zusätzliche Zeit
+config_sign_player_links_additional_time_percent_info#:#Wieviel zusätzliche Zeit soll der Gültigkeit der Signatur in Prozent, abhängig von der Dauer, hinzugefügt werden?
+config_sign_player_links_with_ip#:#Für Client-IP signieren
+config_sign_player_links_mp4#:#Für ".mp4" Dateien signieren
+config_sign_download_links#:#Downloadlink signieren
+config_sign_download_links_info#:#Downloadlinks sind für den Benutzer nicht sichtbar, da der Download via ILIAS-Server getätigt wird.
+config_sign_download_links_time#:#Gültigkeit in Sekunden
+config_sign_download_links_time_info#:#Wie lange der Link für Download gültig sein soll (0 entspricht Verwaltung durch Opencast).
+config_sign_thumbnail_links#:#Thumbnaillink signieren
+config_sign_thumbnail_links_time#:#Gültigkeit in Sekunden
+config_sign_thumbnail_links_time_info#:#Wie lange der Link für Thumbnail gültig sein soll (0 entspricht Verwaltung durch Opencast).
+config_sign_thumbnail_links_with_ip#:#Für Client-IP signieren
+config_groups#:#Opencast-Gruppen
+config_group_producers#:#ILIAS Producers
+config_std_roles#:#Standardrollen
+config_std_roles_info#:#Die hier angegebenen Rollen erhalten Schreib- und Leserechte beim Erstellen eines Events oder einer Serie.
+config_role_user_actions#:#Zusätzliche ACL Aktionen
+config_role_user_actions_info#:#Wenn ein User Zugriffsrechte auf einer Serie in Opencast bekommt, werden diese Werte als zusätzliche ACL Aktionen gesetzt (in Opencast eingetragen im Tab "Zugriffsrechte" in der Spalte "Weitere Aktionen").
+config_api_base_info#:#z.B.: https://stable.opencast.org/api
+config_audio_allowed_info#:#Wenn aktiviert, können neben Video-Dateien auch Audio-Dateien hochgeladen werden.
+config_curl_username_info#:#Benutzeraccount in Opencast, der zur Kommunikation über die API genutzt wird (benötigt genügend Rechte in OC)
+config_curl_password_info#:#Passwort zum oben angegebenen Account.
+config_curl_debug_level_info#:#Detaillierungsgrad der Einträge im Log.
+config_streaming_url_info#:#Wowza-URL für Adaptive Streaming. Bsp: https://wowza.myopencast.com:8090/opencast-engage
+config_use_streaming_info#:#Wenn aktiv, werden die Streaming URLs für Opencast Events vom Plugin eigens generiert, in der Form: [Wowza-URL]/smil:engage-player_[Event-ID]_[presenter|presentation].smil/playlist.m3u8
+config_use_modals_info#:#Wenn aktiviert: Beim Abspielen von Videos wird kein neues Browserfenster geöffnet, sondern der Player wird im aktuellen Fenster angezeigt.
+config_workflow_info#:#ID des Workflows, welcher nach dem Hochladen eines Videos in Opencast angewendet wird.
+config_workflow_unpublish_info#:#ID des Workflows, welcher vor dem Löschen eines Videos in Opencast angewendet wird. Benötigt API-Version 1.1.0. Wird bei neueren Opencast-Versionen nicht mehr benötigt, da im Löschvorgang integriert.
+config_user_mapping_info#:#Benutzerfeld in ILIAS, welches zur Identifikation eines Benutzers in Opencast verwendet werden soll. <br><b>Achtung: Die E-Mail-Adresse kann je nach ILIAS-Konfiguration durch den Benutzer selbst geändert werden. In diesem Fall sollte die E-Mail-Adresse auf keinen Fall als Mapping verwendet werden.</b>
+config_group_producers_info#:#Benutzer mit dem Recht "Videos editieren" werden vom Plugin in der hier angegebenen Opencast-Gruppe eingeschrieben, um dadurch Zugriff auf Opencast zu erhalten.
+config_role_user_prefix_info#:#Benutzereigene Rolle in Opencast. Wird auf Serien gesetzt, um dem Benutzer genügend Rechte in Opencast einzuräumen. Bsp: ROLE_USER_&#123IDENTIFIER}
+config_role_owner_prefix_info#:#Gibt den Besitzer eines Events an. Diese Rolle muss NICHT in Opencast existieren. Bsp: ROLE_OWNER_&#123IDENTIFIER}. NICHT den gleichen Wert wie für Benutzerrolle wählen.
+config_identifier_to_uppercase#:#User-Mapping in Großbuchstaben
+config_internal_player#:#Interner Video-Player
+config_internal_player_info#:#Wenn aktiviert, wird ein im Plugin integrierter Video-Player verwendet, statt an Opencast weiterzuleiten.
+config_use_streaming#:#Selbstgenerierte Streaming-URLs verwenden
+config_streaming#:#Streaming
+config_streaming_url#:#Wowza-URL
+config_general#:#Allgemeines
+config_report_quality#:#"Qualitätsprobleme melden" aktivieren
+config_report_quality_info#:#Aktiviert die Möglichkeit, Qualitätsprobleme von Aufzeichnungen innerhalb von Opencast-Objekten zu melden.
+config_report_quality_email#:#E-Mail
+config_report_quality_email_info#:#Adresse, an welche die Meldung des Problems geschickt wird.
+config_report_quality_text#:#Info-Text
+config_report_quality_text_info#:#Text, welcher als Info im Formular zum Melden von Qualitätsproblemen angezeigt wird.
+config_report_quality_access#:#Zugriff
+config_report_quality_access_1#:#Alle Benutzer
+config_report_quality_access_2#:#Nur Besitzer des Videos und Benutzer mit dem Recht "Videos editieren"
+config_report_date#:#"Terminanpassungen melden" aktivieren
+config_report_date_info#:#Aktiviert die Möglichkeit, Terminanpassungen von geplanten Aufzeichnungen innerhalb von Opencast-Objekten zu melden.
+config_report_date_email#:#E-Mail
+config_report_date_email_info#:#Adresse, an welche die Meldung der Anpassung geschickt wird.
+config_report_date_text#:#Info-Text
+config_report_date_text_info#:#Text, welcher als Info im Formular zum Melden von Terminanpassungen angezeigt wird.
+config_reset_terms#:#Aktualisierte Nutzungsbedingungen
+config_reset_terms_info#:#Fordere alle User (erneut) auf, die Nutzungsbedingungen zu akzeptieren. Diese Option sollte nur dann gewählt werden, wenn die Nutzungsbedingungen inhaltlich verändert wurden.
+config_scheduled_metadata_editable#:#Metadaten von geplanten Events editierbar
+config_scheduled_metadata_editable_0#:#Nein
+config_scheduled_metadata_editable_1#:#Ja, mit wirksamer Änderung der Terminprogrammierung
+config_scheduled_metadata_editable_1_info#:#Achtung: Erst ab Opencast API-Version 1.1.0 möglich
+config_scheduled_metadata_editable_2#:#Alle, außer Datum und Aufnahmestation
+config_segment_tag#:#Segment-Preview-Tag
+config_segment_tag_info#:#Benutze den Tag für das Filtern der Segment-Previews
+config_use_highlowres_segment_preview#:#High- und Low-Resolution Previews nutzen.
+config_use_highlowres_segment_preview_info#:#Standardmäßig in Opencast deaktiviert, muss konfiguriert werden.
+config_video_portal_title#:#Bezeichung des externen Videoportals
+config_video_portal_link#:#Link zu externem Videoportal
+config_video_portal_link_info#:#Wird in den Einstellungen und im Infotab einer Serie angezeigt. Als Platzhalter kann &#123series_id} verwendet werden. Bsp: https://myopencast-tube.com/cast/channels/&#123series_id}
+config_permission_templates#:#Berechtigungsvorlagen
+config_presenter_mandatory#:#"Referent/in" als Pflichtfeld
+config_presenter_mandatory_info#:#Macht das Ausfüllen des Feldes "Referent/in" für einen Event-Upload Pflicht.
+config_upload_chunk_size#:#Upload-Chunk-Größe (MB)
+config_upload_chunk_size_info#:#Der Video-Upload erfolgt stückweise, wobei ein Stück die hier angegebene Größe hat. Das Erhöhen dieser Größe kann die Upload-Geschwindigkeit verbessern, wobei allerdings auf das Upload-Limit geachtet werden sollte. Standard: 20MB
+config_btn_load_parameters#:#Parameter via API Laden
+config_btn_edit_parameters#:#Parameter Hinzufügen/Bearbeiten
+config_btn_add_parameter#:#Neuen Parameter Hinzufügen
+config_workflow_parameter_value_0#:#Keine (Standard verwenden)
+config_workflow_parameter_value_1#:#Immer aktiv
+config_workflow_parameter_value_2#:#Immer inaktiv
+config_workflow_parameter_value_3#:#Im Formular anbieten
+config_workflow_parameter_value_4#:#Im Formular anbieten (Checkbox ausgewählt)
+config_allow_workflow_params_in_series#:#Erlaube Konfiguration in Serien
+config_overwrite_series_params#:#Überschreibe Serienkonfigurationen
+config_overwrite_series_params_info#:#Wenn aktiv, werden beim Speichern alle Parameter-Konfigurationen in Serien mit den in der Pluginkonfiguration ausgewählten Einstellungen überschrieben.
+config_enable_live_streams#:#Live-Streams
+config_enable_live_streams_info#:#Abspielen von Live-Streams ermöglichen. Live-Streams werden automatisch im internen Video-Player abgespielt.
+config_start_x_minutes_before_live#:#Beitritt bevor Start
+config_start_x_minutes_before_live_info#:#Gibt an, wieviele Minuten vor Start des Events der Player geöffnet werden kann.
+config_presentation_node#:#URL Presentation Node
+config_presentation_node_info#:#Wird zum Holen des Live-Streams benötigt. Z.B.: https://presentation.opencast.meine-uni.de/
+config_presign_links#:#Presign (experimental)
+config_presign_links_info#:#Wenn aktiv, werden die Links bereits signiert von Opencast ausgeliefert. Dies kann die Performanz beeinflussen. Beachten Sie, dass obige Konfiguration trotzdem benötigt wird, da in gewissen Situationen Links vom Plugin signiert werden müssen.
+config_enable_chat#:#Chat aktivieren
+config_enable_chat_info#:#Aktiviert einen On-screen Chat neben dem Live-Event. Diese Option muss zusätzlich in den Einstellungen eines Objektes aktiviert werden, um wirksam zu werden.
+config_ingest_upload#:#Upload via Ingest-Nodes
+config_ingest_upload_info#:#Wenn aktiv, wird der Upload über Ingest-Nodes statt über die External-API ausgeführt. Dadurch kann die Last auf dem Opencast-Server bei mehreren gleichzeitigen Uploads besser verteilt werden. Achtung: Dazu muss der REST-Endpunkt /ingest für den ILIAS-Server erreichbar und für den API-Benutzer zugänglich sein.
+event_add_new#:#Aufzeichnung hochladen
+eula#:#Nutzungsbedingungen
+event_accept_eula#:#Nutzungsbedingungen
+event_annotate#:#Annotieren
+event_auto_publish#:#Automatisch publizieren
+event_cancel#:#Abbrechen
+event_clear_cache#:#Aufzeichnungen neu laden
+event_clips#:#Aufzeichnungen
+event_create#:#Aufzeichnung hochladen
+event_createScheduled#:#Aufzeichnungstermin(e) erstellen
+event_created#:#Erstellt
+event_creator#:#Ersteller
+event_cut#:#Schneiden
+event_date#:#Datum
+event_delete#:#Löschen
+event_unpublish#:#Publikationen entfernen
+event_delete_confirm#:#Das Löschen bewirkt, dass die Aufzeichnung definitiv gelöscht wird (auch auf Opencast). Wollen Sie diese Aufzeichnung wirklich löschen?
+event_unpublish_confirm#:#Damit diese Aufzeichnung gelöscht werden kann, müssen erst alle Publikationen in Opencast entfernt werden. Wollen Sie die Publikationen wirklich entfernen?
+event_description#:#Untertitel
+event_download#:#Download
+event_duration#:#Dauer
+event_edit#:#Metadaten bearbeiten
+event_edit_date#:#Metadaten und Termin bearbeiten
+event_edit_owner#:#Besitzer bearbeiten
+event_end#:#Ende
+event_error_alert_accpet_terms_of_use#:#Akzeptieren Sie die Nutzungsbedingungen.
+event_file_presenter#:#Video-Datei
+event_file_presenter_w_audio#:#Video/Audio-Datei
+event_identifier#:#ID
+event_invite_others#:#Zugriffsrechte erteilen
+event_location#:#Aufnahmestation
+event_msg_created#:#Upload abgeschlossen
+event_msg_deleted#:#Aufzeichnung gelöscht
+event_msg_unpublish_started#:#Die Publikationen werden nun entfernt.
+event_msg_currently_unpublishing#:#Der Prozess zum Entfernen der Publikationen läuft bereits.
+event_msg_no_access#:#kein Zugriff
+event_msg_no_download_publication#:#Die Download-Publikation konnte nicht gefunden werden.
+event_msg_success#:#Änderungen gespeichert
+event_msg_scheduled#:#Aufzeichnungstermin(e) erstellt.
+event_msg_scheduling_conflict#:#Termin(e) konnte(n) nicht erstellt werden, da es Überschneidungen mit existierenden Terminen gibt:
+event_msg_scheduled_in_past#:#Planungskonflikt: Aufzeichnungen können nicht in der Vergangenheit geplant werden.
+event_msg_end_before_start#:#Planungskonflikt: Der Endzeitpunkt der Aufzeichnung muss nach dem Anfangszeitpunkt liegen.
+event_multiple#:#Termin Wiederholen
+event_scheduling#:#Terminplanung
+event_multiple_start#:#Startdatum
+event_multiple_start_time#:#Startzeit
+event_multiple_end#:#Enddatum
+event_multiple_end_time#:#Endzeit
+event_multiple_weekdays#:#Wiederholungen
+event_opencast_studio#:#Opencast Studio
+event_owner#:#Besitzer
+event_owner_select#:#--nicht zugewiesen--
+event_owner_username#:#Besitzer
+event_player#:#Abspielen
+event_player_live#:#Beitreten
+event_presenter#:#Referent/in
+event_presenters#:#Referent/in
+event_preview#:#Vorschau
+event_processing_state#:#Status
+event_recording_station#:#Aufnahmestation
+event_startworkflow#:#Workflow starten
+event_schedule_new#:#Aufzeichnungstermin(e) planen
+event_start_time#:#Start
+event_start#:#Datum
+event_state_failed#:#Fehlgeschlagen. Melden Sie sich bei Ihrer Supportstelle.
+event_state_instantiated#:#Verarbeitung ausstehend, für Studierende noch nicht sichtbar.
+event_state_not_published#:#Nicht publiziert, für Studierende noch nicht sichtbar.
+event_state_ready_for_cutting#:#Nicht publiziert (Schnitt erforderlich), für Studierende noch nicht sichtbar.
+event_state_running#:#Wird konvertiert, für Studierende noch nicht sichtbar.
+event_state_offline#:#Offline, für Studierende nicht sichtbar.
+event_state_scheduled#:#Geplante Aufzeichnung, für Studierende nicht sichtbar.
+event_state_scheduled_offline#:#Geplante Aufzeichnung (Offline), für Studierende nicht sichtbar.
+event_state_recording#:#Wird momentan Aufgezeichnet, für Studierende nicht sichtbar.
+event_state_live_scheduled#:#Live-Übertragung (noch nicht begonnen). Offen ab %s.
+event_state_live_offline#:#Geplante Live-Aufzeichnung (Offline), für Studierende nicht sichtbar.
+event_state_live_running#:#Laufende Live-Übertragung.
+event_title#:#Titel
+event_update#:#Speichern
+event_updateOwner#:#Besitzer speichern
+event_view#:#Anzeigen
+event_online#:#Aufzeichnung online
+event_online_info#:#Dies bezieht sich nur auf diese ILIAS-Installation und wird nicht auf Opencast abgebildet
+event_upload_select#:#Datei auswählen
+event_upload_clear#:#Zurücksetzen
+event_supported_filetypes#:#Unterstützte Dateitypen
+event_set_offline#:#Offline schalten
+event_created_unix#:#Datum
+event_set_online#:#Online schalten
+event_delete_confirm_w_duplicates#:#Das Löschen bewirkt, dass die Aufzeichnung definitiv gelöscht wird (auf Opencast und in den anderen ILIAS-Verlinkungen). Wollen Sie diese Aufzeichnung wirklich löschen?
+event_state_failed_owner#:#Fehlgeschlagen. Melden Sie sich bei Ihrer Supportstelle.
+event_state_running_owner#:#Wird konvertiert, für andere Studierende noch nicht sichtbar
+event_report_date_modification#:#Terminanpassungen melden
+event_report_quality_problem#:#Qualitätsprobleme melden
+event_series#:#Serie
+event_own_series#:#Eigene Serie (%s)
+groups_available_participants_header#:#Verfügbare Teilnehmer
+groups_header#:#Gruppen
+groups_new#:#Neue Gruppe
+groups_new_button#:#Erstellen
+groups_new_placeholder#:#Name der neuen Gruppe
+groups_participants_filter#:#Filter
+groups_participants_filter_placeholder#:#Vor- oder Nachname
+groups_participants_header#:#Mitglieder
+group_alert_delete_group#:#Möchten Sie die Gruppe wirklich löschen? Vorhandene Mitglieder werden freigeben.
+group_alert_no_title#:#Kein Gruppenname angegeben
+group_delete_participant#:#Möchten Sie das Mitglied wirklich entfernen?
+group_none_available#:#Keine verfügbar
+group_none_available_all#:#Keine verfügbar
+group_select_group#:#Gruppe auswählen
+current_owner_header#:#Besitzer
+owner_only_one_owner#:#Es kann nur ein Besitzer pro Video ausgewählt werden.
+invitations_back#:#Zurück
+invitations_header#:#Zugriffsrechte erteilen
+invitations_none_available#:#Keine verfügbar
+invitations_invite_all#:#Alle hinzufügen
+obj_xoct#:#Opencast
+objs_xoct#:#Opencast
+perm_upload#:#Upload
+perm_edit_videos#:#Videos Editieren
+publication_usage_add#:#Hinzufügen
+publication_usage_add_new#:#Hinzufügen
+publication_usage_cancel#:#Abbrechen
+publication_usage_channel#:#Channel
+publication_usage_create#:#Erstellen
+publication_usage_delete#:#Löschen
+publication_usage_description#:#Beschreibung
+publication_usage_edit#:#Bearbeiten
+publication_usage_ext_id#:#Metadata-ID
+publication_usage_flavor#:#Flavor
+publication_usage_flavor_info#:#Hier kann auch nur nach dem ersten, bzw. zweiten Teil des Flavor gesucht werden, z.B. 'presentation/', bzw. '/delivery'.
+publication_usage_md_type#:#Typ
+publication_usage_md_type_0#:#Publikation
+publication_usage_md_type_1#:#Attachment
+publication_usage_md_type_2#:#Media
+publication_usage_md_type_select#:#Auswählen...
+publication_usage_msg_success#:#Gespeichert
+publication_usage_publication_id#:#Publikations-ID
+publication_usage_select_usage_id#:#Verwendungszweck
+publication_usage_title#:#Titel
+publication_usage_type_annotate#:#Annotationen
+publication_usage_type_api#:#API
+publication_usage_type_cutting#:#Cutting-Tool
+publication_usage_type_segments#:#Segments
+publication_usage_type_player#:#Player
+publication_usage_type_thumbnail#:#Vorschaubild
+publication_usage_update#:#Aktualisieren
+publication_usage_usage_id#:#Nutzung
+publication_usage_type_thumbnail_fallback_2#:#Thumbnail Fallback
+publication_usage_type_thumbnail_fallback_2#:#Thumbnail Fallback 2
+publication_usage_type_download#:#Download
+publication_usage_type_download_fallback#:#Download Fallback
+publication_usage_type_preview#:#Preview
+publication_usage_type_live_event#:#Live-Event
+publication_usage_type_unprotected_link#:#Ungeschützter Link
+publication_usage_search_key#:#Suchbegriff
+publication_usage_search_key_info#:#Die Medien/Attachments werden nach dem hier angegebenen Flavor/Tag durchsucht.
+publication_usage_tag#:#Tag
+publication_usage_allow_multiple#:#Mehrere Downloads zulassen
+publication_usage_allow_multiple_info#:#Wenn aktiviert und es werden mehrere Medien/Attachments mit dem oben angegebenen Flavor/Tag gefunden, werden diese alle zum Download in einer Dropdown-Liste angeboten. In diesem Fall wäre die Unternutzungsgruppe <b>NICHT</b> wirksam (ILIAS-Einschränkung).
+publication_usage_ext_dl_source#:#Externe Downloadquelle
+publication_usage_ext_dl_source_info#:#Aktivieren Sie diese Option, wenn eine externe Webseite aufgerufen wird, um die Downloads anzuzeigen.
+series_accept_eula#:#Ich akzeptiere die Nutzungsvereinbarungen
+series_alert_eula#:#Die Nutzungsvereinbarung muss akzeptiert werden
+series_cancel#:#Abbrechen
+series_channel_id#:#Series ID
+series_channel_type#:#Serie-Typ
+series_create#:#Serie anlegen
+series_chat_active#:#Chat bei Live-Streams
+series_chat_active_info#:#Nur bei Live-Streams (nicht bei Aufzeichnungen): Aktiviert einen on-screen Chat
+series_default_view#:#Standard-Ansicht
+series_department#:#Department
+series_department_info#:#Name Ihrer Institution
+series_description#:#Beschreibung
+series_discipline#:#Disziplin
+series_edit#:#Serie bearbeiten
+series_est_video_length#:#Erwartete Länge des Videomaterials in Stunden
+series_est_video_length_info#:#Wie Viele Stunden Video erwarten Sie für diese Serie?
+series_existing_channel_no#:#Neue Serie anlegen
+series_existing_channel_yes#:#Bestehende Serie wählen
+series_existing_identifier#:#Bestehende Serie
+series_intended_lifetime#:#Lebensdauer
+series_intended_lifetime_info#:#Wie lange soll das Videomaterial publiziert bleiben
+series_introduction_text#:#Arbeitsanweisung
+series_license#:#Lizenz
+series_metadata#:#Serie-Infos
+series_none#:#Keins
+series_obj_online#:#Online
+series_permission_allow_set_own#:#Zugriffsrechte erteilen
+series_permission_allow_set_own_info#:#Ein Aufzeichnungs-Besitzer/in kann anderen Studierenden das Recht geben, seine/ihre Aufzeichnung anzusehen.
+series_permission_per_clip#:#Rechte pro Aufzeichnung setzen
+series_permission_per_clip_info#:#Diese Einstellung aktiviert eine individuelle Rechteverwaltung auf Aufzeichnungs-Ebene (iVT-Modus). Lassen Sie Einstellung deaktiviert, wenn alle Kursteilnehmer sämtliche Aufzeichnungen der gewählten Serie sehen dürfen.
+series_permission_template#:#Berechtigungen
+series_publish_on_video_portal#:#Serie auf %s publizieren
+series_publish_on_video_portal_info#:#Diese Einstellung führt zu einer Publikation auf dem Videoportal Ihrer Hochschule. Lassen Sie die Einstellung deaktiviert, wenn die Aufzeichnungen nur in ILIAS zu sehen sein sollen.
+series_save#:#Speichern
+series_saved#:#Serie-Informationen gespeichert
+series_show_upload_token#:#Upload-Token anzeigen
+series_show_upload_token_info#:#Zeigt einen Code an, mit welchem Studierende selber Aufzeichnungen hochladen können
+series_streaming_only#:#Ohne Download
+series_streaming_only_info#:#Entfernt 'Download'-Buttons.
+series_title#:#Titel
+series_update#:#Aktualisieren
+series_use_annotations#:#Annotationen aktivieren
+series_has_duplicates#:#Diese Serie hat mehrere Verlinkungen in ILIAS (siehe unter «Info»). Änderungen von Titel, Beschreibung und Lizenz wirken sich auf alle Verlinkungen aus.
+series_has_duplicates_events#:#Diese Serie hat mehrere Verlinkungen in ILIAS (siehe unter «Info»). Hochgeladene Aufzeichnungen werden in alle Verlinkungen hochgeladen.
+series_has_duplicates_events_delete#:#MISSING
+series_member_upload#:#Upload durch Mitglieder
+series_member_upload_info#:#Kurs- bzw. Gruppenmitglieder erhalten durch das Recht "Upload" die Möglichkeit, Videos hochzuladen und eigene Videos zu löschen. Kann später in den Rechteeinstellungen geändert werden.
+series_existing_series#:#Bestehende Serie
+series_view_changeable#:#Ansicht änderbar
+series_video_portal_link#:#Link zur Serie in %s
+series_view_changeable#:#Ansicht änderbar
+series_view_changeable_info#:#Der Benutzer hat die Möglichkeit, die Ansicht selbst zu wechseln.
+series_view_type_0#:#Liste
+series_view_type_1#:#Kacheln
+series_links#:#Links
+config_paella_player_option#:#Paella Player Config für Video-On-Demand
+config_paella_player_option_info#:#Die allgemeine Konfigurationsdatei des Paella Players, die im JSON-Format geladen werden soll.
+pp_default_link#:#Standard-Config
+pp_default_string#:#Verwende die
+pp_file#:#Config-Datei hochladen
+pp_url#:#URL hinterlegen
+pp_link_info#:#Bitte überprüfen Sie durch einen Aufruf des Players, ob die Config erfolgreich geladen werden kann und das richtige Format hat.
+system_account_add_new#:#System-Account hinzufügen
+system_account_cancel#:#Abbrechen
+system_account_create#:#Erstellen
+system_account_delete#:#Löschen
+system_account_domain#:#Domain
+system_account_edit#:#Bearbeiten
+system_account_ext_id#:#Externe ID
+system_account_msg_success#:#Gespeichert
+system_account_status#:#Status
+system_account_update#:#Aktualisieren
+tab_event_index#:#Inhalt
+tab_export#:#Import/Export
+tab_groups#:#Gruppen
+tab_info#:#Info
+tab_list_all#:#Alle Aufzeichnungen
+tab_migrate_event#:#Event importieren
+tab_publication_usage#:#Publikationen
+tab_series_settings#:#Einstellungen
+tab_settings#:#Einstellungen
+tab_system_accounts#:#System-Accounts
+tab_back#:#Zurück
+tab_migration#:#Migration
+tab_video_portal#:#Videoportal
+tab_reports#:#Verfasste Meldungen
+tab_workflow_params#:#Workflow Parameter
+tab_metadata#:#Metadaten
+subtab_api#:#API
+subtab_events#:#Aufzeichnungen
+subtab_player#:#Player
+subtab_series#:#Serien
+subtab_general#:#Allgemeines
+subtab_groups_roles#:#Gruppen & Rollen
+subtab_security#:#Security
+subtab_advanced#:#Erweitert
+subtab_permission_templates#:#Berechtigungsvorlagen
+subtab_parameters#:#Parameter
+subtab_settings#:#Einstellungen
+subtab_workflow_params#:#Workflow-Parameter
+upload_token_channel_id#:#Series-ID
+upload_token_daily_upload_token#:#Token
+upload_token_upload_token#:#Upload-Token
+xoct_new#:#Opencast-Series erstellen
+xoct_rep_robj_xoct_perm_upload#:#Benutzer kann Videos hochladen
+xoct_rep_robj_xoct_perm_edit_videos#:#Benutzer kann Videos editieren
+xoct_visible#:#Opencast-Objekt ist sichtbar
+xoct_read#:#Lesezugriff auf Opencast-Objekt
+xoct_write#:#Einstellungen eines Opencast-Objekts bearbeiten
+xoct_delete#:#Opencast-Objekt löschen oder verschieben
+xoct_edit_permission#:#Rechteeinstellungen des Opencast-Objektes ändern
+xoct_copy#:#Benutzer kann das Objekt kopieren
+form_msg_select#:#Bitte wählen Sie zuerst eine Videodatei aus
+form_msg_not_supported#:#Dateityp wird nicht unterstützt
+info_linked_items#:#Verlinkungen
+info_linked_item#:#Verlinkung
+info_auto_publish_forced#:#Das Video wird automatisch publiziert, da Sie nicht über genügend Rechte verfügen, um es später manuell zu publizieren.
+msg_info_multiple_aftersave#:#Diese Serie hat mehrere Verlinkungen in ILIAS (siehe unter «Info»). Hochgeladene Aufzeichnungen werden in alle Verlinkungen hochgeladen.
+msg_creation_failed#:#Objekte vom Typ "Opencast" können nur innerhalb von Kursen oder Gruppen angelegt werden.
+msg_permission_templates_info#:#Die erstellten Vorlagen können beim Erstellen und Bearbeiten einer Serie ausgewählt werden, um die konfigurierte Rolle mit den entsprechenden Rechten und ACL-Actions auf der Serie zu setzen. Die Rollen der restlichen Vorlagen werden dabei entfernt.
+msg_confirm_delete_perm_template#:#Sind Sie sicher, dass Sie folgende Vorlage löschen möchten?
+msg_confirm_delete_reports#:#Sind Sie sicher, dass Sie folgende Meldungen löschen möchten?
+msg_reports_deleted#:#Meldungen wurden gelöscht.
+msg_reports_table#:#Hier werden alle Meldungen der Benutzer zu Qualitätsproblemen oder Terminanpassungen gelistet. Das Verschicken dieser Meldungen kann im Tab "Einstellungen" (Subtabs "Aufzeichnungen" und "Serien") konfiguriert werden.
+msg_confirm_delete_param#:#Sind Sie sicher, dass Sie folgenden Parameter löschen möchten?
+msg_load_workflow_params#:#Folgende Parameter wurden über die Workflow-API gefunden. Möchten Sie diese laden (neue Parameter werden erstellt, alte gelöscht und bereits vorhandene Parameter werden aktualisiert)?
+msg_no_params_found#:#Es konnten keine Parameter über die API gefunden werden. Möglicherweise existiert für den ausgewählten Workflow kein Configuration Panel, aus welchem die Parameter gelesen werden können. Bitte erstellen Sie die Parameter manuell.
+msg_success#:#Änderungen erfolgreich gespeichert.
+msg_confirm_overwrite_series_params#:#Achtung: Damit werden alle lokal angepassten Konfigurationen zu Workflow-Parameter in den Einstellungen von ILIAS-Opencast-Objekten überschrieben. Fortfahren?
+msg_workflow_params_parsing_failed#:#Das Lesen der Parameter aus der API ist fehlgeschlagen:
+msg_workflow_parameters_info#:#Workflow-Parameter sind Informationen, welche beim Hochladen oder Planen eines Events in der Variable 'processing' an Opencast mitgeschickt werden. Beachten Sie, dass die Parameter auf den Konfigurierten Workflow (Einstellungen -> Aufzeichnungen -> Processing-Workflow-ID) abgestimmt sein müssen. Über die Schaltfläche "Parameter via API Laden" können Sie versuchen, diese Parameter automatisch zu laden - dies funktioniert allerdings nur, wenn in der Workflow-Definition in Opencast ein entsprechendes Configuration-Panel konfiguriert ist.
+msg_invalid_time_format#:#Ungültiges Format.
+msg_missing_file#:#Bitte laden Sie eine Datei hoch.
+byline_timeformat#:#Format: 00:00:00
+table_column_default#:#Default
+table_column_is_default#:#Default
+table_column_title#:#Titel
+table_column_info#:#Info
+table_column_role#:#Rolle
+table_column_read#:#Leserechte
+table_column_write#:#Schreibrechte
+table_column_additional_acl_actions#:#Zus. ACL-Actions
+table_column_additional_actions_download#:#Zus. Actions Download
+table_column_additional_actions_annotate#:#Zus. Actions Annotate
+button_new_permission_template#:#Neue Vorlage hinzufügen
+perm_tpl_form_is_default#:#Default-Vorlage
+perm_tpl_form_is_default_info#:#Diese Vorlage wird angewendet, wenn die Serie nicht auf dem externen Videoportal publiziert werden soll. Es kann daher jeweils nur eine Vorlage als Default-Vorlage definiert werden.
+perm_tpl_form_title_de#:#Titel DE
+perm_tpl_form_title_en#:#Titel EN
+perm_tpl_form_title_de_info#:#Wird für die Anzeige in ILIAS verwendet (Deutsch).
+perm_tpl_form_title_en_info#:#Wird für die Anzeige in ILIAS verwendet (Englisch).
+perm_tpl_form_info_de#:#Info DE
+perm_tpl_form_info_en#:#Info EN
+perm_tpl_form_info_de_info#:#Wird für die Anzeige in ILIAS verwendet (Deutsch).
+perm_tpl_form_info_en_info#:#Wird für die Anzeige in ILIAS verwendet (Englisch).
+perm_tpl_form_role#:#Rolle
+perm_tpl_form_role_info#:#Rolle, welche in Opencast gesetzt wird.
+perm_tpl_form_read#:#Leserechte
+perm_tpl_form_read_info#:#Bestimmt, ob obiger Rolle Leserechte zugeschrieben werden.
+perm_tpl_form_write#:#Schreibrechte
+perm_tpl_form_write_info#:#Bestimmt, ob obiger Rolle Schreibrechte zugeschrieben werden.
+perm_tpl_form_additional_acl_actions#:#Zusätzliche ACL-Actions
+perm_tpl_form_additional_acl_actions_info#:#Zusätzliche ACL-Actions, welche obiger Rolle zugeschrieben werden (kommasepariert).
+perm_tpl_form_additional_actions_download#:#Zus. Actions bei aktivem Download
+perm_tpl_form_additional_actions_download_info#:#Zusätzliche ACL-Actions, welche bei aktivem Download (also "Nur Streaming" deaktiviert) obiger Rolle zugeschrieben werden (kommasepariert).
+perm_tpl_form_additional_actions_annotate#:#Zus. Actions bei aktivem Annotate
+perm_tpl_form_additional_actions_annotate_info#:#Zusätzliche ACL-Actions, welche bei aktivem Annotieren obiger Rolle zugeschrieben werden (kommasepariert).
+perm_tpl_form_additional_role_actions#:#Zusätzliche Rolle
+perm_tpl_form_additional_role_actions_info#:#Rolle, welche in Opencast gesetzt wird (zusätzlich zu der ersten definitierten Rolle, nicht verpflichtend).
+msg_date_report_sent#:#Die Meldung wurde abgeschickt. Die Anpassungen werden Ihnen per Mail bestätigt, sobald sie vorgenommen wurden.
+msg_quality_report_sent#:#Die Meldung wurde abgeschickt. Der Support wurde benachrichtigt und meldet sich bei Ihnen.
+date_from#:#Datum Von
+date_to#:#Datum Bis
+sender#:#Verfasser
+workflow_params_table_title#:#Workflow Parameter
+workflow_params_id#:#ID
+workflow_params_title#:#Titel
+workflow_params_type#:#Typ
+workflow_params_processing_settings#:#Verarbeitungseinstellungen
+workflow_params_default_values#:#Standardwerte
+workflow_params_default_value_member#:#Verwendung Mitglieder
+workflow_params_default_value_admin#:#Verwendung Admins
+workflow_params_value_member#:#Verwendung Mitglieder
+workflow_params_value_admin#:#Verwendung Admins
+list#:#Liste
+tiles#:#Kacheln
+tiles_per_page#:#Kacheln pro Seite:
+event_live_waiting_text#:#Das Live Event hat noch nicht begonnen.<br>Geplante Startzeit: %s
+event_live_interrupted_text#:#Das Live Event wurde unterbrochen oder frühzeitig beendet.
+event_live_over_text#:#Das Live Event wurde beendet.
+msg_workflows_info#:#Hier können Sie die Workflows von Opencast laden und sie anpassen.
+msg_workflow_created#:#Workflow erfolgreich erstellt.
+msg_workflow_updated#:#Workflow erfolgreich aktualisiert.
+config_button_add_workflow#:#Neuen Workflow hinzufügen
+workflow_table_title#:#Workflows
+workflow_id#:#ID
+workflow_title#:#Titel
+workflow_description#:#Beschreibung
+tab_workflows#:#Workflows
+workflow#:#Workflow
+event_msg_republish_started#:#Workflow erfolgreich gestartet.
+workflow_msg_confirm_delete_workflow#:#Sind Sie sicher, dass folgender Workflow gelöscht werden soll?
+workflow_msg_workflow_deleted#:#Workflow erfolgreich gelöscht.
+parameters#:#Parameter
+parameters_info#:#Hier angegebene Workflow-Parameter werden mit dem Wert 'true' mitgeschickt (Parameter durch Komma trennen).
+unprotected_link#:#Ungeschützter Link
+event_unprotected_link_info#:#Zwei Stunden gültiger Direktlink. Nur für Administrierende sichtbar (Recht "Videos Editieren").
+msg_link_copied#:#Link kopiert
+tooltip_copy_link#:#Link in die Zwischenablage kopieren
+cat_create_xoct#:#Opencast-Objekt anlegen
+crs_create_xoct#:#Opencast-Objekt anlegen
+fold_create_xoct#:#Opencast-Objekt anlegen
+grp_create_xoct#:#Opencast-Objekt anlegen
+root_create_xoct#:#Opencast-Objekt anlegen
+field_id#:#ID
+btn_add_new_metadata_field#:#Neues Metadaten-Feld hinzufügen
+md_field_id#:#ID
+md_visible_for_permissions#:#Sichbar für
+md_required#:#Verpflichtend
+md_read_only#:#Nicht editierbar
+md_prefill#:#Vorausgefüllt mit
+md_prefill_info#:#Der vorab ausgefüllte Text, der im Metadatenfeld angezeigt wird, wenn das Objekt neu ist.<br /> Es stehen drei Arten von Platzhaltern zur Verfügung, die auf Benutzer-, Kurs-/Gruppenobjekte oder Metadaten des Kurses/der Gruppe zugreifen, um deren verfügbare Eigenschaften abzurufen .<br /><br /> <i>Das Format</i>: in eckigen Klammern eingeschlossen "[]" in zwei oder drei Teilen, getrennt durch ".", alle in GROSSBUCHSTABEN, es ist möglich, mehrere auf einmal hinzuzufügen, z.B. <b>%s</b> <br /> <br />Der erste ganz linke Teil hat 3 mögliche Werte: %s, %s oder %s zum Tippen.<br /> Der rechte Teil (in 2 Schlüssel.Wert-Paarform) oder Mittelteil (in 3 Schlüssel.Wert.Unterwert-Paarform) akzeptiert nur die folgenden möglichen Werte: <br /><br /> <b>Für %s</b>: <br /> %s <br /><br /> <b>Für %s</b>: <br /> %s <br /><br /> <b>Für %s</b>: <br /> %s <br /><br /> Bei Verwendung von <b>%s</b> muss der dritte Teil (ganz rechts) die Bestellnummer dieser Eigenschaft beginnend mit 1 haben, z. B. <b>%s </b> <br /><br /> Weitere Informationen finden Sie in der Dokumentation der Klassen ilObject, ilUser und ilMD in ILIAS.
+md_values#:#Mögliche Werte
+md_prefill_none#:#Leer
+md_prefill_username_creator#:#Benutzername
+md_prefill_crs_title#:#Kurstitel
+md_actions#:#Aktionen
+md_title_de#:#Titel Deutsch
+md_title_en#:#Titel Englisch
+md_table_events#:#Event-Metadaten
+md_table_series#:#Serien-Metadaten
+md_conf_form_edit#:#Metadatenfeld bearbeiten
+md_conf_form_create#:#Metadatenfeld erstellen
+md_visible_all#:#Alle
+md_visible_admin#:#Nur Admins
+msg_md_config_info#:#Verwaltung der im Plugin verfügbaren Metadaten. Die Reihenfolge kann via Drag & Drop angepasst werden.
+msg_confirm_delete#:#Sind Sie sicher, dass folgende Elemente gelöscht werden sollen?
+delete_modal_title#:#Löschen bestätigen
+action_update#:#Bearbeiten
+action_delete#:#Löschen
+yes#:#Ja
+no#:#Nein
+monday#:#Montag
+tuesday#:#Dienstag
+wednesday#:#Mittwoch
+thursday#:#Donnerstag
+friday#:#Freitag
+saturday#:#Samstag
+sunday#:#Sonntag
+metadata#:#Metadaten
+object_settings#:#Einstellungen
+channel_type#:#Serie
+file#:#Datei
+link#:#URL
+md_values_info#:#Ein Eintrag pro Zeile im Format wie "[Wert]%s[Label]". Das Trennzeichen ist %s, und ändern Sie [Wert] und [Beschriftung] nach Ihren Wünschen: z. B. eng%sEnglisch
+msg_md_confirm_load_list#:#Sind Sie sicher, dass Sie die Liste von der API laden möchten? Bitte beachten Sie, dass nicht gespeicherte Änderungen gelöscht werden und erneut eingegeben werden müssen.
+md_accept#:#Akzeptieren
+md_cancel#:#Stornieren
+msg_md_listproviders_load_success#:#Die Liste wurde erfolgreich geladen.
+msg_md_listproviders_load_invalid#:#Die gültige Liste konnte nicht geladen werden.
+btn_load_metadata_values_from_listprovider#:#Werte von der API laden
+msg_md_listproviders_no_access#:#Auf den ListProvider-API-Endpunkt kann Ihr Opencast-API-Benutzer nicht zugreifen. Stellen Sie bitte sicher, dass der Benutzer über Rollen in Ihrem Opencast verfügt.
+msg_md_listproviders_empty#:#The loaded list is empty
+md_lang_list_zho#:#Chinesisch
+md_lang_list_spa#:#Spanisch
+md_lang_list_nld#:#Niederländisch
+md_lang_list_fin#:#Finnisch
+md_lang_list_gsw#:#Schweizerdeutsch
+md_lang_list_roh#:#Rätoromanisch
+md_lang_list_hin#:#Hindi
+md_lang_list_pol#:#Polnisch
+md_lang_list_dan#:#Dänisch
+md_lang_list_nor#:#Norwegisch
+md_lang_list_tur#:#Türkisch
+md_lang_list_ara#:#Arabisch
+md_lang_list_rus#:#Russisch
+md_lang_list_por#:#Portugiesisch
+md_lang_list_jpx#:#Japanisch
+md_lang_list_fra#:#Französisch
+md_lang_list_deu#:#Deutsch
+md_lang_list_ita#:#Italienisch
+md_lang_list_slv#:#Slowenisch
+md_lang_list_swa#:#Schwedisch
+md_lang_list_ukr#:#Ukrainische
+md_lang_list_eng#:#Englisch
+md_license_list_CC0#:#CC0
+md_license_list_CCBYNCSA#:#CC BY-NC-SA
+md_license_list_CCBYSA#:#CC BY-SA
+md_license_list_CCBYNCND#:#CC BY-NC-ND
+md_license_list_CCBYND#:#CC BY-ND
+md_license_list_CCBY#:#CC BY
+md_license_list_CCBYNC#:#CC BY-NC
+md_license_list_ALLRIGHTS#:#Alle Rechte vorbehalten
+subtab_wf_settings#:#Einstellungen
+subtab_wf_list#:#Liste der Workflow-Definitionen
+workflow_settings_header#:#Allgemeine Einstellungen
+workflow_settings_header_description#:#Hier können Sie die Workflow-Einstellungen und deren Verwendung konfigurieren.<br /> <b>HINWEIS: </b>Beim Speichern der neuen Änderungen wird auch die Liste der Workflow-Definitionen entsprechend aktualisiert.
+config_workflows_tags#:#Workflows-Tags
+config_workflows_tags_info#:#Eine durch Kommas getrennte Liste von Tags, die aus allen verfügbaren Tags in Opencast extrahiert und den Lehrern als Liste für den Start bei Ereignissen bereitgestellt werden sollen.<br/><b>HINWEIS:</b> Wenn Sie das Feld leer lassen, wird die Funktion deaktiviert.
+config_workflows_update_btn#:#Workflowliste aktualisieren
+config_workflows_reset_btn#:#Workflowliste zurücksetzen
+msg_workflow_settings_saved#:#Allgemeine Einstellungen wurden gespeichert, die Workflow-Liste wurde ebenfalls aktualisiert.
+msg_workflow_settings_saved_update_failed#:#Die Workflow-Liste konnte nicht aktualisiert werden. Bitte versuchen Sie es erneut!
+msg_workflow_list_update_success#:#Die Workflow-Liste wurde erfolgreich aktualisiert.
+msg_workflow_list_update_failed#:#Die Workflow-Liste konnte nicht aktualisiert werden. Bitte versuchen Sie es erneut!
+msg_workflow_list_reset_success#:#Die Workflowliste wurde erfolgreich zurückgesetzt.
+msg_workflow_list_reset_failed#:#Die Workflowliste konnte nicht zurückgesetzt werden. Bitte versuchen Sie es erneut!
+msg_workflows_updated#:#Die Workflowliste wurde erfolgreich aktualisiert.
+msg_confirm_reset_workflow_list#:#Die Workflowliste wird zurückgesetzt und alle Änderungen werden entfernt. Möchten Sie trotzdem mit dem Zurücksetzen fortfahren?
+workflow_tags#:#Tags
+workflow_config_panel#:#Konfigurationspanel
+workflow_config_panel_icon_with#:#Mit Konfigurationspanel
+workflow_config_panel_icon_without#:#Ohne Konfigurationspanel
+workflow_empty_select_option#:#--einen Workflow auswählen--
+workflow_description_section_header#:#Beschreibung
+workflow_configpanel_section_header#:#Einstellungen
+msg_startworkflow_no_workflow_seleced#:#Bitte wählen Sie zunächst einen Workflow aus
+msg_startworkflow_required_config_panel_item#:#Erforderliche Felder müssen Werte enthalten
+subtab_publication_usage#:#Publikationsnutzungen
+subtab_publication_sub_usage#:#Unternutzungen
+subtab_publication_groups#:#Unternutzungsgruppen
+publication_usage_msg_success_sub#:#Unternutzung gespeichert
+publication_usage_select_sub_usage_id#:#Unternutzungen
+publication_usage_select_sub_usage_id_desc#:#Wählen Sie eine bereits konfigurierte Publikationsnutzung aus, für die Sie eine Unternutzung erstellen möchten.
+publication_usage_parent_usage_id#:#übergeordnete Publikationsnutzung
+publication_usage_sub_not_found#:#Unternutzung konnte nicht gefunden werden
+publication_usage_sub_not_allowed#:#Unternutzung konnte nicht ersetzt werden
+publication_usage_no_identifier#:#Keine Unternutzung gefunden!
+publication_usage_sub#:#Unternutzung
+publication_usage_display_name#:#Anzeigename
+publication_usage_display_name_info#:#Anzeigename, der in dem Button angezeigt wird. (Maximal %s Zeichen, kann übersetzt werden, wenn (pu_display_name_%s) in eine(r) Sprachdatei gespeichert wird.)
+publication_usage_sub_display_name_info#:#Anzeigename, der in dem Button angezeigt wird. (Maximal %s Zeichen, kann übersetzt werden, wenn (pus_display_name_%s) in eine(r) Sprachdatei gespeichert wird.)
+publication_usage_group_id#:#Unternutzungsgruppe
+publication_usage_add_new_sub#:#untergeordnete Nutzung hinzufügen
+publication_usage_add_new_group#:#Neue Unternutzungsgruppe hinzufügen
+publication_usage_group_name#:#Name
+publication_usage_group_th#:#Gruppe
+publication_usage_group_display_name#:#Anzeigename
+publication_usage_group_display_name_info#:#Anzeigename der Gruppe in der die Unterpublikationen gruppiert werden. (Maximum %s Zeichen, kann übersetzt werden, wenn (pug_display_name_%s) in eine(r) Sprachdatei gespeichert wird.
+publication_usage_group_description#:#Beschreibung
+publication_usage_group_not_found#:#Unternutzungsgruppe nicht gefunden!
+publication_usage_mediatype#:#Mediatyp(en)
+publication_usage_mediatype_info#:#Eine durch Kommas getrennte optionale Liste von Mediatypen, die aus der gewählten Opencast-Publikation extrahiert werden sollen, z. B. „video/mp4, application/x-mpegURL“
+publication_usage_ignore_object_settings#:#Objekteinstellungen ignorieren
+publication_usage_ignore_object_settings_info#:#Die auf das Opencast-Serienobjekt bezogene Einstellung "ohne Download" wird ignoriert.Sorgsam benutzen.
+publication_usage_create_sub#:#Unternutzung erstellen
+publication_usage_delete_sub#:#Unternutzung löschen
+publication_usage_edit_sub#:#Unternutzung bearbeiten
+publication_usage_add_new_sub#:#Unternutzung hinzufügen
+publication_usage_confirm_delete_text_sub#:#Sind Sie sicher, dass Sie diese Unternutzung löschen möchten?
+publication_usage_table_title_sub_usage#:#Unternutzungen
+publication_usage_table_title_usage#:#Nutzungen
+publication_usage_table_title_usage_group#:#Unternutzungsgruppe
+publication_usage_create_group#:#Unternutzungsgruppe erstellen
+publication_usage_edit_group#:#Unternutzungsgruppe bearbeiten
+publication_usage_confirm_delete_text_group#:#Sind Sie sicher, dass Sie diese Unternutzungsgruppe löschen möchten?
+publication_usage_extra_config#:#Zusätzliche
+pug_display_name_default#:#Mehr
+publication_usage_type_captions#:#Captions
+publication_usage_type_captions_fallback#:#Captions Fallback
+config_livestream_type#:#Streaming Typ
+config_livestream_type_info#:#Verschiedene Streaming-Typen erzeugen unterschiedliche Playlist-Dateitypen und Informationen. Es ist wichtig, den unterstützten Streaming-Typ auszuwählen, um die Dateien und Informationen ordnungsgemäß verarbeiten zu können. Der Standardtyp ist auf HLS eingestellt.
+config_livestream_type_hls#:#HLS (.m3u8 / .m3u)
+config_livestream_type_mpegts#:#MPEG-TS (.ts)
+config_livestream_buffered#:#Buffered Livestream
+config_livestream_buffered_info#:#Diese Option sollte aktiviert werden, wenn der Livestream Zeit puffern kann und es möglich ist, während des Streams in der Zeit zurückzugehen, zu pausieren und fortzufahren.<br> Bei Aktivierung werden der Fortschrittsbalken des Players und die Stream-Quelle angezeigt Das Format wird auf "hls" statt auf "hlsLive" gesetzt.
+config_paella_player_fallback_captions_option#:#Paella Player Captions (fallbacks)
+config_paella_player_fallback_captions_option_info#:#Standardmäßig wird die Sprache des Benutzerbrowsers für die Standardbeschriftung verwendet. Das Hinzufügen zusätzlicher Beschriftungen hier hilft dabei, bevorzugte Beschriftungen zu definieren, die auf der Grundlage der angegebenen Reihenfolge priorisiert werden.
+config_paella_player_fallback_langs_option#:#Paella Player Sprachen (fallbacks)
+config_paella_player_fallback_langs_option_info#:#Die Standardsprache für den Paella-Player wird von der Browsersprache übernommen. Das Hinzufügen zusätzlicher Sprachen hier hilft dabei, bevorzugte Sprachen als Ausweichsprachen zu definieren, die auf der Grundlage der angegebenen Reihenfolge priorisiert werden.
+config_paella_player_theme#:#Paella Player Theme
+config_paella_player_theme_info#:#Die in den Paella Player zu ladende Themendatei für Videos auf Abruf im JSON-Format.
+config_paella_player_live_theme#:#Paella Player Theme (Livestream)
+config_paella_player_live_theme_info#:#Die Themendatei, die für Livestream-Videos im JSON-Format in den Paella Player geladen werden soll.
+config_paella_player_preview_fallback#:#Paella Player Preview (fallback)
+config_paella_player_preview_fallback_info#:#Die (Fallback-)Player-Vorschau-Hintergrundbilddatei, die angezeigt werden soll. Das übliche Bilddateiformat wie PNG oder JPG wird empfohlen.<br> HINWEIS: Standardmäßig wird das Vorschaubild aus den Videoressourcen geladen.
+pp_image_link#:#aktuelle Bilddatei

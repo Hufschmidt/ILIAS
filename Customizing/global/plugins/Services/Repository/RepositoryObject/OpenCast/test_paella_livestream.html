@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="Content-type" content="text/html; charset=utf-8;">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name = "viewport" content = "user-scalable=no, initial-scale=1.0, maximum-scale=1.0, width=device-width">
+	<title>Paella Engage Example</title>
+	<script type="text/javascript" src="./js/opencast/src/Paella/paella-player.min.js?3"></script>
+	<style>
+		body {
+			margin: 0px;
+		}
+		#playerContainer {
+			font-family: roboto;
+			font-weight: 600;
+			width: 100vw;
+			height: 100vh;
+			left: 0px;
+			top: 0px;
+			position: relative;
+			overflow: hidden;
+		}
+	</style>
+</head>
+<body id="body" onload="
+let configUrl = location.href.replace(/[^/]*$/, '') + 'js/opencast/src/Paella/config/config.json';
+let previewUrl = location.href.replace(/[^/]*$/, '') + 'templates/images/thumbnail_live_running.png';
+let liveThemeUrl = location.href.replace(/[^/]*$/, '') + 'js/opencast/src/Paella/default_theme/opencast_live_theme.json';
+let bufferedLiveThemeUrl = location.href.replace(/[^/]*$/, '') + 'js/opencast/src/Paella/default_theme/opencast_live_buffered_theme.json';
+
+
+function runPaella() {
+	let buffered = document.querySelector('input[name=buffered]:checked').value;
+	let hlsUrl = document.getElementById('hlsUrl').value;
+	let themeUrl = buffered == 'yes' ? bufferedLiveThemeUrl : liveThemeUrl;
+
+	// this call must be a direct call to the PaellaPlayer class, as il.Opencast is not defined here!
+	window.PaellaPlayer.default.testLivePaella('playerContainer', configUrl, previewUrl, themeUrl, hlsUrl, buffered == 'yes');
+}
+
+const runBtn = document.getElementById('run');
+runBtn.addEventListener('click', runPaella, false);
+runBtn.click();
+">
+	<div style="padding: 10px; border-bottom: 1px solid gray;">
+		<input type="radio" name="buffered" value="yes" checked> With Buffer
+		<input type="radio" name="buffered" value="no"> Without Buffer
+		<br>
+		<input type="text" style="width: 75%; margin-top: 10px;" id="hlsUrl" value="" placeholder="https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8">
+		<button id="run" style="width: 150px; margin-top: 10px;">apply settings</button>
+	</div>
+	<div id="playerContainer"></div>
+</body>
+</html>
