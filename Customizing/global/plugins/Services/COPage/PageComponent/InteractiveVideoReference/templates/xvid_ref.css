@@ -1,0 +1,35 @@
+.iosInteractiveVideoReferenceContainer {
+	background-color: #e6e6e6;
+	list-style: none;
+	margin: 0;
+	padding: 0;
+}
+
+.iosInteractiveVideoReferenceContainer li {
+	background-color: #e6e6e6;
+	padding: 10px;
+}
+
+.iosInteractiveVideoReferenceContainer .lft {
+	background-color: inherit; !important;
+	float: left;
+	width: 40px;
+	padding-right: 10px;
+	overflow: hidden;
+	text-align: center;
+}
+
+.iosInteractiveVideoReferenceContainer .rgt {
+	float: left;
+	background-color: inherit; !important;
+}
+
+.iosInteractiveVideoReferenceContainer .rgt h2 {
+	margin-top: 0;
+}
+
+.InteractiveVideoReferenceHeader{
+	padding-top: 25px;
+	padding-bottom: 10px;
+	margin-left: -8px;
+}
