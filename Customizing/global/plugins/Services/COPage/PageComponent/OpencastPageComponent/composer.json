@@ -1,0 +1,37 @@
+{
+  "name": "opencast-ilias/opencast-page-component",
+  "description": "Opencast Page Component for ILIAS",
+  "type": "project",
+  "keywords": [
+    "ilias",
+    "plugin",
+    "opencast"
+  ],
+  "license": "GPL-3.0-only",
+  "authors": [
+
+  ],
+  "autoload": {
+    "psr-4": {
+      "srag\\Plugins\\OpencastPageComponent\\": "src/"
+    },
+    "classmap": [
+      "classes/",
+      "src/"
+    ],
+    "files": [
+      "../../../Repository/RepositoryObject/OpenCast/vendor/autoload.php"
+    ]
+  },
+  "config": {
+    "classmap-authoritative": true,
+    "optimize-autoloader": true,
+    "sort-packages": true
+  },
+  "scripts": {
+    "pre-autoload-dump": [
+      "srag\\LibrariesNamespaceChanger\\LibrariesNamespaceChanger::rewriteLibrariesNamespaces",
+      "srag\\LibrariesNamespaceChanger\\PHP72Backport::PHP72Backport"
+    ]
+  }
+}

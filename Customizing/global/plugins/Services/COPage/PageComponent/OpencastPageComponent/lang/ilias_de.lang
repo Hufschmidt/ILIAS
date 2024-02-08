@@ -1,0 +1,23 @@
+cmd_insert#:#Video aus Opencast einfügen
+config_configuration#:#Konfiguration
+config_configuration_saved#:#Konfiguration gespeichert
+config_save#:#Speichern
+form_title#:#Videoeigenschaften Bearbeiten
+width#:#Breite
+height#:#Höhe
+height_width#:#Maximale Breite / Höhe in Pixel
+as_link#:#Vorschaubild verlinkt auf Video
+as_link_info#:#Wenn aktiv, wird das Video bei einem Klick auf das Vorschaubild in einem neuen Tab geöffnet. Ansonsten wird das Video in der Seite eingebunden und ein Klick darauf startet das Video direkt.
+config_default_width#:#Standard-Breite
+config_default_height#:#Standard-Höhe
+config_default_as_link#:#Standardmässig "Vorschaubild verlinkt auf Video"
+msg_failed_loading_events#:#Beim Laden der Events ist ein Fehler aufgetreten: %s
+msg_created#:#Upload abgeschlossen. Hinweis: Es kann einige Minuten dauern, bis das Video verarbeitet wurde und in der Liste unten erscheint.
+msg_added#:#Video wurde erfolgreich zur Seite hinzugefügt.
+textFilter#:#Textfilter
+table_title#:#Bestehendes Video aus Opencast einfügen
+btn_upload#:#Neues Video hochladen
+responsiveness#:#Responsive
+responsiveness_info#:#Wenn aktiv, wird die oben definierte Grösse als Maximalgrösse verwendet. Bei weniger Platz (z.B. auf mobilen Geräte) wird das Video kleiner dargestellt.
+event_description#:#Beschreibung
+event_start#:#Datum
