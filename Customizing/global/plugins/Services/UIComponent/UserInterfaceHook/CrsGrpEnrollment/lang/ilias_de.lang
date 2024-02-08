@@ -1,0 +1,32 @@
+course_group_enrollment#:#Kurs Gruppen Zuweisung
+course_group_import#:#Teilnehmerimport
+abort_course_group_import#:#Abbrechen
+course_group_import_field#:#Importdatei hochladen
+course_group_import_field_description#:#Bitte laden Sie eine Datei hoch, in der pro Zeile ein eindeutiger ILIAS-Benutzername, die eindeutige Martrikelnummer oder eine eindeutige E-Mail-Adresse enthalten ist. Diese Benutzerkonten erhalten die Mitgliederrolle.
+import_successfully_enqueued#:#Die Datei wurde erfolgreich hochgeladen und wird verarbeitet. Sie werden benachrichtigt, sobald die Verarbeitung abgeschlossen ist.
+err_csv_file_different_row_width#:#Bitte laden Sie eine CSV Datei hoch, die nur eine Spalte pro Zeile hat.
+err_csv_file_cannot_be_read#:#Importdatei %s kann nicht gelesen werden.
+err_csv_empty#:#Die hochgeladene CSV Datei ist leer.
+report_csv_filtered_out_user_err_msg#:#Keine Berechtigungen dieses Benutzerkonto zuzuweisen
+report_csv_user_not_found_err_msg#:#Das Benutzerkonto konnte nicht gefunden werden
+report_csv_user_already_assigned_err_msg#:#Das Benutzerkonto war bereits zugewiesen
+report_csv_field_name#:#Benutzerkonto
+report_csv_field_error#:#Anmerkung
+report_csv_no_user_import_found#:#Kein Datensatz zu der ID %s gefunden
+report_csv_no_executive_user_found#:#Keinen ausführenden Benutzer für die ID %s gefunden
+report_csv_no_associated_object_found#:#Kein Zielobjekt mit der ID %s gefunden, für das der Import durchgeführt werden soll
+report_csv_export_name#:#Import
+
+cronResult#:#%s Benutzerimporte verarbeitet %s E-Mails konnten nicht versand werden.
+cronResult.noImports#:#Keine Benutzer-Imports zu verarbeiten.
+
+mail.message.title#:#Benutzer-Import auf %s-Objekt '%s' abgeschlossen
+mail.message.text#:#Der Import der Benutzer ist abgeschlossen. Die Ergebnisse finden Sie in der angehängten csv-Datei.
+
+lock.locked#:#Aktuell befindet sich ein Importvorgang in Bearbeitung. Bitte entfernen Sie dem Lock wenn Sie sich sicher sind, dass aktuell kein Import ausgeführt wird.
+lock.release#:#Lock Entfernen
+lock.release.sure#:#Sind Sie sicher, dass Sie die Lock-Datei löschen möchten? Die Existenz dieser Datei verhindert, dass sich Import-Prozesse überlappen.
+lock.released#:#Die Lock-Datei wurde entfernt.
+
+job.title#:#CrsGrpEnrollment Benutzerimport
+job.description#:#Verarbeitet die Warteschlange.

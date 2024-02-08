@@ -1,0 +1,22 @@
+{
+  "require": {
+    "php": "^7.4 || ^8.0",
+    "ext-json": "*"
+  },
+  "autoload": {
+    "psr-4" : { "ILIAS\\Plugin\\CrsGrpEnrollment\\" : "./classes" },
+    "classmap": ["./classes"],
+    "exclude-from-classmap": []
+  },
+  "require-dev": {
+    "captainhook/plugin-composer": "^5.1",
+    "friendsofphp/php-cs-fixer": "^2.16"
+  },
+  "config": {
+    "optimize-autoloader": true,
+    "classmap-authoritative": true,
+    "allow-plugins": {
+      "captainhook/plugin-composer": true
+    }
+  }
+}
