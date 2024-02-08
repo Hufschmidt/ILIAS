@@ -1,0 +1,108 @@
+<nav class="ilToolbar navbar navbar-default yamm {LIGHT_VERSION} ivToolbar_{PLAYER_ID}" role="navigation">
+	<div class="container-fluid interativeVideoNavHeader">
+		<!-- BEGIN return_link -->
+		<ul class="ilToolbarItems nav navbar-nav">
+			<li>
+				<div class="back_link_to">
+					{RETURN_LINK}
+				</div>
+				<div style="display:none;" class="back_to_title">
+					<p>{BACK_TO_TITLE}</p>
+					<div class="text-center">
+						<a id="back_link_active" href="{RETURN_HREF}" class="btn btn-default btn-sm" type="button" value="">{BACK_TO_TEXT}</a>
+						<a class="btn btn-default btn-sm back_link_cancel" type="button" value="">{BACK_CANCEL}</a>
+					</div>
+				</div>
+			</li>
+		</ul>
+		<!-- END return_link -->
+		<!-- BEGIN toolbar_filter -->
+		<!-- Brand and toggle get grouped for better mobile display -->
+		<div class="navbar-header">
+			<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#tb-collapse-2">
+				<span class="sr-only">Toggle navigation</span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+			</button>
+		</div>
+		<div class="collapse navbar-collapse ilFloatRight" >
+			<ul class="ilToolbarItems nav navbar-nav">
+				<li>
+					<div class="dropdown">
+						<button class="btn btn-default dropdown-toggle dropdownMenuLayoutInteraktiveVideo_{PLAYER_ID}" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+							{LAYOUT_FILTER}
+							<span class="caret"></span>
+						</button>
+						<ul id="dropdownMenuLayoutInteraktiveList_{PLAYER_ID}" class="dropdown-menu" aria-labelledby="dropdownMenuInteraktiveVideo"></ul>
+					</div>
+				</li>
+				<li>
+					<div class="dropdown">
+						<button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenuInteraktiveVideo_{PLAYER_ID}" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+							{AUTHOR_FILTER}
+							<span class="caret"></span>
+						</button>
+						<ul id="dropdownMenuInteraktiveList_{PLAYER_ID}" class="dropdown-menu" aria-labelledby="dropdownMenuInteraktiveVideo"></ul>
+					</div>
+				</li>
+				<li>
+					<label>
+						{SHOW_ALL_COMMENTS}
+					</label>
+					<input id="show_all_comments_{PLAYER_ID}" type="checkbox">
+				</li>
+			</ul>
+		</div>
+		<!-- END toolbar_filter -->
+	</div>
+</nav>
+<div class="row">
+	<div class="col-xs-12 {IV_BOOTSTRAP_CLASS_IF_NOT_LIGHT_VERSION} player_element_{PLAYER_ID}">
+		<!-- BEGIN task_description -->
+		<div class=ilFormHeader">
+			<h3 class="ilHeader" id="task_interaction_{PLAYER_ID}"><span id="task_icon_{PLAYER_ID}" class="task_icon arrow_down"></span><span class="task_text">{TASK_TEXT}</span></h3>
+		</div>
+		<div id="task_description_{PLAYER_ID}" class="task_description">{TASK_DESCRIPTION}</div>
+		<!-- END task_description -->
+		<div class="ilInteractiveVideoPlayerContainer">
+			{VIDEO_PLAYER}
+
+		</div>
+		{COMMENTS_FORM}
+		<div class="col-xs-12" style="padding-top:10px;">
+			{MODAL_BUTTON_COMMENT}
+			{MODAL_BUTTON_QUESTION}
+			{MODAL_BUTTON_CHAPTER}
+		</div>
+	</div>
+
+	<div class="col-xs-12 col-sm-6 col-md-6 col-lg-6 {LIGHT_VERSION} iv_tab_navigation comment_element_{PLAYER_ID}">
+		<ul class="nav nav-tabs iv-tabs">
+			<!-- BEGIN comment_stream -->
+			<li class="nav-item">
+				<a class="nav-link iv_tab iv_tab_comments_{PLAYER_ID}" href="#">{TXT_COMMENTS}</a>
+			</li>
+			<!-- END comment_stream -->
+			<!-- BEGIN toc -->
+			<li class="nav-item">
+				<a class="nav-link iv_tab iv_tab_toc_{PLAYER_ID}" href="#">{TXT_TOC}</a>
+			</li>
+			<!-- END toc -->
+		</ul>
+		<div id="ilInteractiveVideoComments_{PLAYER_ID}" class="scroll-text">
+			<ul id="ul_scroll_{PLAYER_ID}">
+			</ul>
+			<ul id="ul_toc_{PLAYER_ID}" class="ul_toc_iv">
+			</ul>
+		</div>
+	</div>
+	<!-- END comments_stream -->
+</div>
+{CONFIG}
+{MODAL_QUESTION_OVERLAY}
+{MODAL_INTERACTION_OVERLAY}
+
+<div class="prototype">
+
+</div>

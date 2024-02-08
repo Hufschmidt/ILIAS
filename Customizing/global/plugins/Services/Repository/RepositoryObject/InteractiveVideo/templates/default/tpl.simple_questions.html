@@ -1,0 +1,56 @@
+<script>
+	var IVQuestionCreator = 
+	{
+		JSON : {JSON},
+		lang : {
+			neutral : {
+				label_feedback	: {LABEL_FEEDBACK_NEUTRAL},
+				label_jump		: {LABEL_JUMP_NEUTRAL},
+				label_jump_info	: {LABEL_JUMP_NEUTRAL_INFO},
+				label_repository : {LABEL_REPOSITORY_NEUTRAL},
+				label_repository_info : {LABEL_REPOSITORY_NEUTRAL_INFO}
+			},
+			correct : {
+				label_feedback	: {LABEL_FEEDBACK_CORRECT},
+				label_jump		: {LABEL_JUMP_CORRECT},
+				label_jump_info	: {LABEL_JUMP_CORRECT_INFO},
+				label_repository : {LABEL_REPOSITORY_CORRECT},
+				label_repository_info : {LABEL_REPOSITORY_CORRECT_INFO}
+			},
+			label_time : {LABEL_TIME}
+
+		},
+		type : {QUESTION_TYPE}
+	}
+</script>
+{CK_CONFIG}
+	<div >
+		<label for="answer_table" class="col-sm-12 control-label">{ANSWERS}</label>
+	<table id="answer_table" class="answerwizard  col-sm-12">
+			<thead>
+			<tr class="form-group">
+			<th class="text_field">{ANSWER_TEXT}</th>
+				<th>{CORRECT_SOLUTION}</th>
+			<th class="xvid_checkbox"></th>
+			</tr>
+			</thead>
+			<tbody id="table_body_question_editor">
+			
+			</tbody>
+		</table>
+	</div>
+		
+<table>
+	<tr class="form-group" id="inner_question_editor_prototype">
+		<td>
+			<input type="text" size="25" class="text_field" maxlength="200"  value="">
+		</td>
+		<td style="text-align: center;">
+			<input type="checkbox" style="margin:0px;" class="correct_solution" size="5"  value="0">
+		</td>
+		<td  class="xvid_checkbox" style="vertical-align: top;">
+			<button class="clone_fields_add btn btn-link"><span class="sr-only"></span><span class="glyphicon glyphicon-plus"></span></button>
+			<button class="clone_fields_remove btn btn-link"><span class="sr-only"></span><span class="glyphicon glyphicon-minus"></span></button>
+		</td>
+	</tr>
+</table>
