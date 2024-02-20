@@ -245,7 +245,7 @@ event_processing_state#:#State
 event_recording_station#:#Recording Station
 event_schedule_new#:#Schedule Event(s)
 event_start_time#:#Start
-event_start#:#Date
+event_start#:#Start
 event_state_failed#:#Publication failed. Please contact the support.
 event_state_instantiated#:#Converting not yet started, not yet visible to students
 event_state_not_published#:#Not published, not yet visible to students
@@ -554,7 +554,7 @@ workflow_msg_workflow_deleted#:#Workflow deleted successfully.
 parameters#:#Parameters
 parameters_info#:#Enter comma-separated workflow parameters which should be set 'true'.
 unprotected_link#:#Unprotected Link
-event_unprotected_link_info#:#Direct link valid for two hours. Only visible to administrators (right "Edit videos").
+unprotected_link_info#:#Direct link valid for two hours. Only visible to administrators (right "Edit videos").
 msg_link_copied#:#Link copied
 tooltip_copy_link#:#Copy link to clipboard
 cat_create_xoct#:#Create Opencast object

@@ -245,7 +245,7 @@ event_recording_station#:#Aufnahmestation
 event_startworkflow#:#Workflow starten
 event_schedule_new#:#Aufzeichnungstermin(e) planen
 event_start_time#:#Start
-event_start#:#Datum
+event_start#:#Start
 event_state_failed#:#Fehlgeschlagen. Melden Sie sich bei Ihrer Supportstelle.
 event_state_instantiated#:#Verarbeitung ausstehend, für Studierende noch nicht sichtbar.
 event_state_not_published#:#Nicht publiziert, für Studierende noch nicht sichtbar.
@@ -549,7 +549,7 @@ workflow_msg_workflow_deleted#:#Workflow erfolgreich gelöscht.
 parameters#:#Parameter
 parameters_info#:#Hier angegebene Workflow-Parameter werden mit dem Wert 'true' mitgeschickt (Parameter durch Komma trennen).
 unprotected_link#:#Ungeschützter Link
-event_unprotected_link_info#:#Zwei Stunden gültiger Direktlink. Nur für Administrierende sichtbar (Recht "Videos Editieren").
+unprotected_link_info#:#Zwei Stunden gültiger Direktlink. Nur für Administrierende sichtbar (Recht "Videos Editieren").
 msg_link_copied#:#Link kopiert
 tooltip_copy_link#:#Link in die Zwischenablage kopieren
 cat_create_xoct#:#Opencast-Objekt anlegen
