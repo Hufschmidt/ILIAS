@@ -1036,7 +1036,6 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
             $rtpl->parseCurrentBlock();
         }
 
-        /* UMR - Dont show up "Öffentlicher Bereich" on Login-Screen
         if (ilPublicSectionSettings::getInstance()->isEnabledForDomain($_SERVER['SERVER_NAME']) &&
             $this->access->checkAccessOfUser(ANONYMOUS_USER_ID, "read", "", ROOT_FOLDER_ID)) {
             $rtpl->setCurrentBlock("homelink");
@@ -1047,7 +1046,6 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
             $rtpl->setVariable("TXT_HOME", $this->lng->txt("home"));
             $rtpl->parseCurrentBlock();
         }
-        */
 
         return $this->substituteLoginPageElements(
             $tpl,
@@ -1078,7 +1076,7 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
             return $this->substituteLoginPageElements(
                 $tpl,
                 $page_editor_html,
-                '', // UMR Dont show up user agreement on Login-Screen
+                $utpl->get(),
                 '[list-user-agreement]',
                 'USER_AGREEMENT'
             );
