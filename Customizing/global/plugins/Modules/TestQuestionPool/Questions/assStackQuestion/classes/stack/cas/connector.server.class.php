@@ -14,7 +14,6 @@
 // You should have received a copy of the GNU General Public License
 // along with Stack.  If not, see <http://www.gnu.org/licenses/>.
 
-
 /**
  * Connection to Maxima running in a tomcat-server using the MaximaPool-servlet.
  * This version handles transfer of the plots generated on possibly remote servlet.
@@ -29,9 +28,8 @@ class stack_cas_connection_server extends stack_cas_connection_base {
 
     protected function guess_maxima_command($path) {
         //fau: add server from DB
-		require_once('./Customizing/global/plugins/Modules/TestQuestionPool/Questions/assStackQuestion/classes/model/configuration/class.assStackQuestionConfig.php');
-		return assStackQuestionConfig::_getServerAddress();
-		//fau.
+        return assStackQuestionConfig::_getServerAddress();
+        //fau.
     }
 
     protected function call_maxima($command) {
@@ -86,7 +84,7 @@ class stack_cas_connection_server extends stack_cas_connection_base {
 
                 } else {
                     // Otherwise this is a plot.
-                    $filename = $CFG->dataroot . "/stack/plots/" . $filenameinzip;
+                    $filename =  ILIAS_WEB_DIR . "/" . CLIENT_ID . "/xqcas/stack/plots/" . $filenameinzip;
                     file_put_contents($filename, $zip->getFromIndex($i));
                 }
             }

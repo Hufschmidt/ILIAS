@@ -68,17 +68,17 @@ abstract class stack_cas_connection_base implements stack_cas_connection {
 
         $this->debug->log('Maxima command', $command);
 
-		//fau: #2 log maxima calls in the benchmark
-		global $ilBench;
-		if (is_object($ilBench)) {
-			$ilBench->startDbBench('MAXIMA ' . $command);
-			$rawresult = $this->call_maxima($command);
-			$ilBench->stopDbBench();
-		} else {
-			$rawresult = $this->call_maxima($command);
-		}
+        //fau: #2 log maxima calls in the benchmark
+        global $ilBench;
+        if (is_object($ilBench)) {
+            $ilBench->startDbBench('MAXIMA ' . $command);
+            $rawresult = $this->call_maxima($command);
+            $ilBench->stopDbBench();
+        } else {
+            $rawresult = $this->call_maxima($command);
+        }
 
-		// fau.
+        // fau.
         $this->debug->log('CAS result', $rawresult);
 
         $unpackedresult = $this->unpack_raw_result($rawresult);
@@ -177,7 +177,7 @@ abstract class stack_cas_connection_base implements stack_cas_connection {
     public function __construct($settings, stack_debug_log $debuglog) {
         global $CFG;
 
-        $path = $CFG->dataroot . '/stack';
+        $path = realpath("./" . $CFG->dataroot . '/stack');
 
         $initcommand = 'load("' . $path . '/maximalocal.mac");' . "\n";
         $initcommand = str_replace("\\", "/", $initcommand);
@@ -187,9 +187,8 @@ abstract class stack_cas_connection_base implements stack_cas_connection {
         if ($settings->platform == 'linux-optimised') {
             $cmd = $settings->maximacommandopt;
         } else if ($settings->platform == 'server') {
-            if(isset($settings->maximacommandserver)){
-                $cmd = $settings->maximacommandserver;
-            }
+            $stack_config =\classes\platform\StackConfig::getAll();
+            $cmd = $stack_config['maxima_pool_url'];
         }
         if ('' === trim($cmd)) {
             $cmd = $this->guess_maxima_command($path);
@@ -205,13 +204,14 @@ abstract class stack_cas_connection_base implements stack_cas_connection {
         }
 
         $this->debug          = $debuglog;
+        /*
         if (strpos($CFG->wwwroot, '_') !== false) {
             $this->wwwroothasunderscores = true;
             $this->wwwrootfixupfind = str_replace('_', '\_', $CFG->wwwroot);
             $this->wwwrootfixupreplace = $CFG->wwwroot;
         } else {
             $this->wwwroothasunderscores = false;
-        }
+        }*/
     }
 
     /**
@@ -284,15 +284,9 @@ abstract class stack_cas_connection_base implements stack_cas_connection {
             // If there are plots in the output.
             $plot = isset($local['display']) ? substr_count($local['display'], '!ploturl!') : 0;
             if ($plot > 0) {
-                // @codingStandardsIgnoreStart
-                // For latex mode, remove the mbox.
-                // This handles forms: \mbox{image} and (earlier?) \mbox{{} {image} {}}.
-                // @codingStandardsIgnoreEnd
-                $local['display'] = preg_replace("|\\\mbox{({})? (<html>.+</html>) ({})?}|", "$2", $local['display']);
-
                 if ($this->wwwroothasunderscores) {
                     $local['display'] = str_replace($this->wwwrootfixupfind,
-                            $this->wwwrootfixupreplace, $local['display']);
+                        $this->wwwrootfixupreplace, $local['display']);
                 }
             }
             foreach ($local as $key => $val) {

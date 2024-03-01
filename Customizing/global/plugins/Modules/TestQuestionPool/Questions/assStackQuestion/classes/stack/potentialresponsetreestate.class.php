@@ -113,6 +113,9 @@ class stack_potentialresponse_tree_state {
         $this->_debuginfo   = $debuginfo;
     }
 
+    /**
+     * @throws stack_exception
+     */
     public function __get($field) {
         switch ($field) {
             case 'weight':
@@ -207,6 +210,7 @@ class stack_potentialresponse_tree_state {
      * Subsitute variables into the feedback text.
      * @param string $feedback the concatenated feedback text.
      * @return string the feedback with question variables substituted.
+     * @throws stack_exception
      */
     public function substitue_variables_in_feedback($feedback) {
         // In this case, we want to get as much castext as possible back to a student.
@@ -232,8 +236,13 @@ class stack_potentialresponse_tree_state {
         $cleanvars[] = stack_ast_container::make_from_teacher_source('simp:' . $simp, '', new stack_cas_security());
 
         $cleansession = new stack_cas_session2($cleanvars, $options, $this->seed);
-        $feedbackct = new stack_cas_text($feedback, $cleansession, $this->seed);
-        $result = $feedbackct->get_display_castext();
+        $feedbackct = castext2_evaluatable::make_from_source($feedback, 'PRT-feedback');
+        $result = '';
+        if ($feedbackct->get_valid()) {
+            $cleansession->add_statement($feedbackct);
+            $cleansession->instantiate();
+            $result = $feedbackct->get_rendered();
+        }
         $this->_errors = trim($this->_errors . ' ' . $feedbackct->get_errors());
         $this->_errors = trim($this->_errors . ' ' . $this->cascontext->get_errors());
         return $result;

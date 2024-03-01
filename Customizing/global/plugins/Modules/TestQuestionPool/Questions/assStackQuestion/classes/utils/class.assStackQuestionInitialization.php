@@ -1,14 +1,28 @@
 <?php
 /**
- * Copyright (c) Laboratorio de Soluciones del Sur, Sociedad Limitada
- * GPLv3, see LICENSE
+ *  This file is part of the STACK Question plugin for ILIAS, an advanced STEM assessment tool.
+ *  This plugin is developed and maintained by SURLABS and is a port of STACK Question for Moodle,
+ *  originally created by Chris Sangwin.
+ *
+ *  The STACK Question plugin for ILIAS is open-source and licensed under GPL-3.0.
+ *  For license details, visit https://www.gnu.org/licenses/gpl-3.0.en.html.
+ *
+ *  To report bugs or participate in discussions, visit the Mantis system and filter by
+ *  the category "STACK Question" at https://mantis.ilias.de.
+ *
+ *  More information and source code are available at:
+ *  https://github.com/surlabs/STACK
+ *
+ *  If you need support, please contact the maintainer of this software at:
+ *  stack@surlabs.es
+ *
  */
 
 /**
  * This class provides all the global variables needed within the stack folder
  *
  * @author Jesús Copado Mejías <stack@surlabs.es>
- * @version $Id: 8.0$
+ * @version $Id: 7.1$
  * @ingroup    ModulesTestQuestionPool
  *
  */
@@ -17,23 +31,21 @@
  * Simulating moodles global configuration
  */
 
-use ILIAS\Filesystem\Filesystems;
-
-global $DIC;
+use classes\platform\StackConfig;
 
 $CFG = new stdClass;
 // the base url of the installation (without script)
-$CFG->wwwroot = ILIAS_HTTP_PATH;
+$CFG->wwwroot = ilUtil::_getHttpPath();
 // the server path of the installation
 $CFG->dirroot = realpath(dirname(__FILE__) . '/../..');
 // the data directory of the plugin
-$CFG->dataroot = ILIAS_WEB_DIR . "/" . CLIENT_ID . "/xqcas";
-$CFG->dataurl = ILIAS_HTTP_PATH . "/" . ILIAS_WEB_DIR . "/" . CLIENT_ID . "/xqcas";
+$CFG->dataroot = ILIAS_WEB_DIR . "/".CLIENT_ID . '/xqcas';
 $GLOBALS['CFG'] =& $CFG;
 
+//define('PARAM_RAW', 'raw');
+//define('MOODLE_INTERNAL', '1');
 
-include_once './Customizing/global/plugins/Modules/TestQuestionPool/Questions/assStackQuestion/classes/utils/locallib.php';
-include_once('./Customizing/global/plugins/Modules/TestQuestionPool/Questions/assStackQuestion/exceptions/class.assStackQuestionException.php');
+//include_once './Customizing/global/plugins/Modules/TestQuestionPool/Questions/assStackQuestion/classes/utils/locallib.php';
 
 
 if (!function_exists('getLanguage')) {
@@ -110,12 +122,12 @@ if (!function_exists('stack_trans')) {
 if (!function_exists('get_config')) {
     function get_config($section = 'qtype_stack')
     {
-        require_once('./Customizing/global/plugins/Modules/TestQuestionPool/Questions/assStackQuestion/classes/model/configuration/class.assStackQuestionConfig.php');
+        //require_once('./Customizing/global/plugins/Modules/TestQuestionPool/Questions/assStackQuestion/classes/model/configuration/class.assStackQuestionConfig.php');
 
+        global $CFG;
         $configs = new stdClass();
 
-        $saved_config = assStackQuestionConfig::_getStoredSettings('all');
-
+        $saved_config = StackConfig::getAll();
         /*
          * CONNECTION CONFIGURATION
          */
@@ -129,16 +141,16 @@ if (!function_exists('get_config')) {
         $configs->casresultscache = $saved_config['cas_result_caching'];
         //Maxima command - If blank: maxima
         if ($saved_config['platform_type'] == 'server') {
-            // prevent a second database query
-            assStackQuestionConfig::_readServers($saved_config);
+            $configs->maximacommand = $saved_config['maxima_pool_url'];
+            $configs->maximacommandserver = $saved_config['maxima_pool_url'];
 
-            // dynamically get the server address for the current request
-            $configs->maximacommand = assStackQuestionConfig::_getServerAddress();
+            if ($saved_config["maxima_uses_proxy"]  == "1") {
+                $configs->platform = "server-proxy";
+            }
         } elseif (!$saved_config['maxima_command'] or $saved_config['platform_type'] == 'unix') {
             $configs->maximacommand = "maxima";
         } else {
             $configs->maximacommand = $saved_config['maxima_command'];
-            $configs->maximacommandserver = $saved_config['maxima_command'];
         }
         //Plot command - If blank: gnuplot
         if (!$saved_config['plot_command']) {
@@ -147,7 +159,7 @@ if (!function_exists('get_config')) {
             $configs->plotcommand = $saved_config['plot_command'];
         }
         //CAS debug
-        $configs->casdebugging = $saved_config['cas_debugging'];
+        $configs->casdebugging = $saved_config['cas_debugging'] == 1;
 
         /*
          * DISPLAY CONFIGURATION
@@ -183,13 +195,10 @@ if (!function_exists('get_config')) {
         $configs->matrixparens = "[";
 
         //assume_real variable in maxima
-        if (isset($saved_config['options_assume_real'])) {
-            $configs->assumereal = $saved_config['options_assume_real'];
-        }
+        $configs->assumereal = $saved_config['options_assume_real'];
         //assume_real variable in maxima
-        if (isset($saved_config['options_logic_symbol'])) {
-            $configs->logicsymbol = $saved_config['options_logic_symbol'];
-        }
+        $configs->logicsymbol = $saved_config['options_logic_symbol'];
+
         /*
          * DEFAULT INPUTS CONFIGURATION
          */
@@ -214,9 +223,9 @@ if (!function_exists('get_config')) {
         //Show validation button
         $configs->inputshowvalidation = $saved_config['input_show_validation'];
 
-        $configs->maximalocalfolder = realpath(ILIAS_WEB_DIR . '/' . CLIENT_NAME . '/xqcas');
-        $configs->stackmaximaversion = "2021120900";
-        $configs->version = "2021120900";
+        $configs->maximalocalfolder = realpath($CFG->dataroot) . '/stack';
+        $configs->stackmaximaversion = "2023121100";
+        $configs->version = "2023121100";
 
         return $configs;
     }
@@ -600,7 +609,7 @@ if (!class_exists('html_writer')) {
                     }
                     break;
                 default:
-                    throw new assStackQuestionException("Time type $type is not supported by html_writer::select_time().");
+                    throw new Exception("Time type $type is not supported by html_writer::select_time().");
             }
 
             if (empty($attributes['id'])) {

@@ -1,11 +1,25 @@
 <?php
 /**
- * Copyright (c) Laboratorio de Soluciones del Sur, Sociedad Limitada
- * GPLv3, see LICENSE
- * @author Jesús Copado Mejías <stack@surlabs.es>
- * @version $Id: 7.1$
+ *  This file is part of the STACK Question plugin for ILIAS, an advanced STEM assessment tool.
+ *  This plugin is developed and maintained by SURLABS and is a port of STACK Question for Moodle,
+ *  originally created by Chris Sangwin.
+ *
+ *  The STACK Question plugin for ILIAS is open-source and licensed under GPL-3.0.
+ *  For license details, visit https://www.gnu.org/licenses/gpl-3.0.en.html.
+ *
+ *  To report bugs or participate in discussions, visit the Mantis system and filter by
+ *  the category "STACK Question" at https://mantis.ilias.de.
+ *
+ *  More information and source code are available at:
+ *  https://github.com/surlabs/STACK
+ *
+ *  If you need support, please contact the maintainer of this software at:
+ *  stack@surlabs.es
+ *
  */
 // fim: [debug] optionally set error before initialisation
+use classes\platform\StackException;
+
 error_reporting(E_ALL);
 ini_set("display_errors", "on");
 // fim.
@@ -32,28 +46,28 @@ exit;
  */
 function checkUserResponse($question_id, $input_name, $user_response)
 {
+    global $DIC;
 	require_once './Customizing/global/plugins/Modules/TestQuestionPool/Questions/assStackQuestion/classes/class.assStackQuestion.php';
 
 	$question = new assStackQuestion();
+    try {
+        $question->loadFromDb($question_id);
+    } catch (stack_exception $e) {
+        return $e;
+    }
 
-	try {
-		$question->loadFromDb($question_id);
-	} catch (stack_exception $e) {
-		return $e;
-	}
+    //Instantiate Question if not.
+    if (!$question->isInstantiated()) {
+        try{
+            $question->questionInitialisation(1, true);
 
-	//Initialize question from seed
-	$active_id = $_GET['active_id'];
-	require_once "./Modules/Test/classes/class.ilObjTest.php";
-	$pass = ilObjTest::_getPass($active_id);
+        } catch (stack_exception|StackException $e) {
+            global $tpl;
+            $tpl->setOnScreenMessage('failure', $e->getMessage(), true);
+        }
+    }
 
-	if (is_int($active_id) and is_int($pass)) {
-		//test mode
-	} else {
-		//preview mode
-		$seed = $_SESSION['q_seed_for_preview_' . $_GET['q_id'] . ''];
-		$question->questionInitialisation($seed, true);
-	}
+
 
 	//Secure input
 	$user_response = array($input_name => ilutil::stripScriptHTML($user_response));
@@ -77,6 +91,9 @@ function checkUserResponse($question_id, $input_name, $user_response)
 		if (is_a($input = $question->inputs[$input_name], 'stack_matrix_input')) {
 			$user_response = $input->maxima_to_response_array($user_response[$input_name]);
 		}
+        if ($question->getCached('statement-qv') !== null) {
+            $question->inputs[$input_name]->add_contextsession( new stack_secure_loader($question->getCached('statement-qv'), 'qv'));
+        }
 		$status = $question->inputs[$input_name]->validate_student_response($user_response, $question->options, $teacher_answer, $question->getSecurity());
 	} catch (stack_exception $e) {
 		return $e->getMessage();
@@ -84,5 +101,5 @@ function checkUserResponse($question_id, $input_name, $user_response)
 
 	$result = array('input' => $user_response, 'status' => $status->status, 'message' => stack_maxima_latex_tidy($question->inputs[$input_name]->render_validation($status, $input_name)));
 
-	return $result['message'];
+    return $result['message'];
 }

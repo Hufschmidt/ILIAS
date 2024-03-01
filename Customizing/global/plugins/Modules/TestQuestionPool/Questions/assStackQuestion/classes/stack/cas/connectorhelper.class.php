@@ -15,10 +15,11 @@
 // along with Stack.  If not, see <http://www.gnu.org/licenses/>.
 
 
-require_once(__DIR__ . '/connector.interface.php');
-require_once(__DIR__ . '/connector.class.php');
-require_once(__DIR__ . '/connector.dbcache.class.php');
-require_once(__DIR__ . '/installhelper.class.php');
+
+//require_once(__DIR__ . '/connector.interface.php');
+//require_once(__DIR__ . '/connector.class.php');
+//require_once(__DIR__ . '/connector.dbcache.class.php');
+//require_once(__DIR__ . '/installhelper.class.php');
 
 
 /**
@@ -49,18 +50,26 @@ abstract class stack_connection_helper {
      */
     public static function make() {
         self::ensure_config_loaded();
+
         $debuglog = stack_utils::make_debug_log(self::$config->casdebugging);
 
         switch (self::$config->platform) {
             case 'win':
+                //require_once(__DIR__ . '/connector.windows.class.php');
                 $connection = new stack_cas_connection_windows(self::$config, $debuglog);
                 break;
             case 'linux':
             case 'linux-optimised':
+                //require_once(__DIR__ . '/connector.linux.class.php');
                 $connection = new stack_cas_connection_linux(self::$config, $debuglog);
                 break;
             case 'server':
+                //require_once(__DIR__ . '/connector.server.class.php');
                 $connection = new stack_cas_connection_server(self::$config, $debuglog);
+                break;
+            case 'server-proxy':
+                //require_once(__DIR__ . '/connector.server_proxy.class.php');
+                $connection = new stack_cas_connection_server_proxy(self::$config, $debuglog);
                 break;
             case 'tomcat':
             case 'tomcat-optimised':
@@ -75,11 +84,11 @@ abstract class stack_connection_helper {
 
         switch (self::$config->casresultscache) {
             case 'db':
-				//fau: #7 Use ILIAS DB instead of Moodle DB
-				global $DIC;
-				$db = $DIC->database();
-				$connection = new stack_cas_connection_db_cache($connection, $debuglog, $db);
-				//fau.
+                //fau: #7 Use ILIAS DB instead of Moodle DB
+                global $DIC;
+                $db = $DIC->database();
+                $connection = new stack_cas_connection_db_cache($connection, $debuglog, $db);
+                //fau.
                 break;
 
             case 'otherdb':
@@ -233,7 +242,8 @@ abstract class stack_connection_helper {
         }
 
         if (!isset(self::$config->stackmaximaversion)) {
-            return false;
+            $notificationsurl = new moodle_url('/admin/index.php');
+            return array('healthchecksstackmaximanotupdated', array($notificationsurl->out()), false);
         }
 
         $usedversion = stack_string('healthchecksstackmaximatooold');
@@ -258,6 +268,7 @@ abstract class stack_connection_helper {
                 break;
 
             case 'server':
+            case 'server-proxy':
                 $fix = stack_string('healthchecksstackmaximaversionfixserver');
                 break;
 
@@ -311,6 +322,7 @@ abstract class stack_connection_helper {
                 'cte("MAXIMAversion",errcatch(MAXIMA_VERSION_STR)), print("3=[ error= ["), ' .
                 'cte("MAXIMAversionnum",errcatch(MAXIMA_VERSION_NUM)), print("4=[ error= ["), ' .
                 'cte("externalformat",errcatch(adjust_external_format())), print("5=[ error= ["), ' .
+                'cte("ts",errcatch(trigsimp(sin(x)^2+cos(x)^2))), print("6=[ error= ["), ' .
                 'cte("CAStime",errcatch(CAStime:"'.$date.'")), print("] ]"), return(true));' .
                 "\n";
 
@@ -338,6 +350,11 @@ abstract class stack_connection_helper {
                     }
                 } else if ('CAStime' === $result['key']) {
                     if ($result['value'] != '"'.$date.'"') {
+                        $success = false;
+                    }
+                } else if ('ts' === $result['key']) {
+                    if ($result['value'] != '1') {
+                        $message[] = stack_string('healthuncachedstack_CAS_trigsimp');
                         $success = false;
                     }
                 } else if ('MAXIMAversion' === $result['key']) {
