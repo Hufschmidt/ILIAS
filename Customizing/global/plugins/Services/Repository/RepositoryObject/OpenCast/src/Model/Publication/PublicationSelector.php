@@ -92,6 +92,10 @@ class PublicationSelector
      */
     protected $unprotected_link;
     /**
+     * @var string
+     */
+    protected $unprotected_links;
+    /**
      * @var SerializableClosure
      */
     private $reference;
@@ -440,7 +444,7 @@ class PublicationSelector
      {
          $links = [];
          $heights = [];
-         if ($this->unprotected_link === null) {
+         if ($this->unprotected_links === null) {
              $publications = $this->getPublicationMetadataForUsage($this->publication_usage_repository->getUsage(PublicationUsage::USAGE_UNPROTECTED_LINK));
              usort($publications, function ($pub1, $pub2) {
                  if ($pub1 instanceof Media && $pub2 instanceof Media) {
