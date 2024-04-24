@@ -55,7 +55,7 @@ class SimpleChoiceQuestionFormEditGUI
         $tpl->addJavaScript($plugin->getDirectory() .  '/libs/npm/node_modules/bootstrap-timepicker/js/bootstrap-timepicker.min.js');
         $tpl->addJavaScript($plugin->getDirectory() . '/js/InteractiveVideoQuestionCreator.js');
         $tpl->addCss($plugin->getDirectory() . '/templates/default/xvid.css');
-        $tpl->addCss($plugin->getDirectory() . 'libs/npm/node_modules/bootstrap-timepicker/css/bootstrap-timepicker.css');
+        $tpl->addCss($plugin->getDirectory() . '/libs/npm/node_modules/bootstrap-timepicker/css/bootstrap-timepicker.css');
 	    $tpl->addOnLoadCode('InteractiveVideoQuestionCreator.registerCreator();');
 		$form = new ilPropertyFormGUI();
 		$form->setFormAction($this->ctrl->getFormAction(new ilObjInteractiveVideoGUI(), 'insertQuestion'));
@@ -109,7 +109,7 @@ class SimpleChoiceQuestionFormEditGUI
 		if(isset($_POST['comment_time']))
 		{
 			$seconds = $_POST['comment_time'];
-			$time->setValueByArray(['comment_time' => (int)$seconds]);
+			$time->setValueByArray(['comment_time' => $seconds]);
 		}
 
 
