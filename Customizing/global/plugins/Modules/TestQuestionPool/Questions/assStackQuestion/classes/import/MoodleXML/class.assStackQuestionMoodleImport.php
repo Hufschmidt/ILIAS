@@ -219,6 +219,11 @@ class assStackQuestionMoodleImport
 			$this->getQuestion()->question_note = (string)$question->questionnote->text;
 		}
 
+        //question description
+        if (isset($question->questiondescription->text)) {
+            $this->getQuestion()->setComment((string) $question->questiondescription->text);
+        }
+
 		//prt correct feedback
 		$prt_correct = (string)$question->prtcorrect->text;
 		if (isset($question->prtcorrect->file)) {
@@ -362,6 +367,7 @@ class assStackQuestionMoodleImport
                     $mapping = $this->getMediaObjectsFromXML($node_data->truefeedback->file);
                     $node->truefeedback = $this->replaceMediaObjectReferences($node->truefeedback, $mapping);
                 }
+                $node->truefeedbackformat = 0;
                 $node->falsescoremode = ilUtil::secureString((string) $node_data->falsescoremode);
                 $node->falsescore = ilUtil::secureString((string) $node_data->falsescore);
                 $node->falsepenalty = (float) $node_data->falsepenalty;
@@ -372,6 +378,7 @@ class assStackQuestionMoodleImport
                     $mapping = $this->getMediaObjectsFromXML($node_data->falsefeedback->file);
                     $node->falsefeedback = $this->replaceMediaObjectReferences($node->falsefeedback, $mapping);
                 }
+                $node->falsefeedbackformat = 0;
 
                 $temp_prt_data->nodes[$node->nodename] = $node;
             }
@@ -420,7 +427,11 @@ class assStackQuestionMoodleImport
 		$this->getQuestion()->setHidden(0);
 
 		//Unit Tests
-		$unit_tests = array();
+        $unit_tests = array(
+            'ids' => array(),
+            'test_cases' => array()
+        );
+
 		if (isset($question->qtest)) {
 			foreach ($question->qtest as $testcase) {
 

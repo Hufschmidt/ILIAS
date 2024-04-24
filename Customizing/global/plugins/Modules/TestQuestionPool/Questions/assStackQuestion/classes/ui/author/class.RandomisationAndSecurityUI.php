@@ -199,6 +199,15 @@ class RandomisationAndSecurityUI
         );
         $html .= $this->renderer->render($test_overview_panel);
 
+        $html .= $this->renderer->render($this->factory->divider()->horizontal());
+
+        $html .= $this->renderer->render(
+            $this->factory->panel()->standard(
+                $this->language->txt("qpl_qst_xqcas_ui_admin_configuration_quality_check_prt_placeholders_button_label"),
+                $this->factory->button()->standard($this->language->txt("qpl_qst_xqcas_ui_author_randomisation_ckeck_prt_placeholders_button_label"), $this->control->getLinkTargetByClass("assStackQuestionGUI", "checkPrtPlaceholders"))
+            )
+        );
+
         return $html;
     }
 
@@ -256,7 +265,9 @@ class RandomisationAndSecurityUI
         $display_options['feedback'] = true;
 
         //Render question text
-        $question_text = StackRenderIlias::renderQuestion($attempt_data, $display_options);
+        $question_text = "<div class='ilc_question_Standard'>" .
+            StackRenderIlias::renderQuestion($attempt_data, $display_options)
+            . "</div>";
 
         $page_text = $this->factory->modal()->lightboxTextPage(assStackQuestionUtils::_getLatex($question_text), $this->language->txt("qpl_qst_xqcas_message_question_text"));
         $modal_text = $this->factory->modal()->lightbox($page_text);
@@ -405,7 +416,7 @@ class RandomisationAndSecurityUI
                     $status_text = "<span style='font-weight: bold; color: red;'>" . $this->language->txt("qpl_qst_xqcas_ui_author_randomisation_unit_test_failed") . "</span>";
                 }
 
-                $test_results_view = $this->factory->legacy($this->renderQtestResults((int) $last_case["seed"], (int) $last_case["timerun"], $last_result->prts));
+                $test_results_view = $this->factory->legacy($this->renderQtestResults((int) $last_case["seed"], (int) $last_case["timerun"], $last_result));
             }
 
             $list[$unit_test_number] = $this->factory->item()->group($status_text .
@@ -439,7 +450,40 @@ class RandomisationAndSecurityUI
         $html .= "</div>";
 
         $html .= "<div style='padding: 20px;'>";
-        // Crear una tabla con los resultados
+        // Crear una tabla con los inputs
+        $html .= "<table class='table'>";
+        $html .= "<thead class='thead-dark'>";
+        $html .= "<tr>";
+        $html .= "<th>Input Name</th>";
+        $html .= "<th>Value</th>";
+        $html .= "<th>Displayed value</th>";
+        $html .= "<th>Status</th>";
+        $html .= "<th>Errors</th>";
+        $html .= "</tr>";
+        $html .= "</thead>";
+
+        if (isset($result) && isset($result->inputs)) {
+            $html .= "<tbody>";
+
+            foreach ($result->inputs as $key => $input) {
+                $html .= "<tr>";
+                $html .= "<td>" . $key . "</td>";
+                $html .= "<td>" . $input->value . "</td>";
+                $html .= "<td>" . assStackQuestionUtils::_getLatex($input->displayed) . "</td>";
+                $html .= "<td>" . $input->status . "</td>";
+                $html .= "<td>" . $input->error . "</td>";
+                $html .= "</tr>";
+            }
+
+            $html .= "</tbody>";
+        }
+
+        $html .= "</table>";
+        $html .= "</div>";
+
+
+        $html .= "<div style='padding: 20px;'>";
+        // Crear una tabla con los prts
         $html .= "<table class='table'>";
         $html .= "<thead class='thead-dark'>";
         $html .= "<tr>";
@@ -455,10 +499,10 @@ class RandomisationAndSecurityUI
         $html .= "</tr>";
         $html .= "</thead>";
 
-        if (isset($result)) {
+        if (isset($result) && isset($result->prts)) {
             $html .= "<tbody>";
 
-            foreach ($result as $key => $prt) {
+            foreach ($result->prts as $key => $prt) {
                 $html .= "<tr class='alert alert-" . ((int) $prt->passed == 1 ? "success" : "danger") . "'>";
                 $html .= "<td>" . $key . "</td>";
                 $html .= "<td>" . $prt->score . "</td>";
@@ -471,7 +515,7 @@ class RandomisationAndSecurityUI
                     str_replace("\n", "<br>", $prt->trace) . "</div>" .
                     "</td>";
                 $html .= "<td>" . $prt->expectedanswernote . "</td>";
-                $html .= "<td>" . str_replace("\n", "<br>", $prt->feedback) . "</td>";
+                $html .= "<td>" . str_replace("\n", "<br>", assStackQuestionUtils::_getLatex($prt->feedback)) . "</td>";
                 $html .= "<td>" . ($prt->passed ? "Yes" : "No") . "</td>";
                 $html .= "</tr>";
             }
@@ -487,12 +531,12 @@ class RandomisationAndSecurityUI
 
     public function showCustomTestForm(array $inputs, array $prts, assStackQuestion $question): string
     {
-        $sections = $this->initCustomTest("", $inputs, null, $prts);
+        $sections = $this->initCustomTest("", $inputs, null, $prts, $question->inputs);
         $form_action = $this->control->getLinkTargetByClass("assStackQuestionGUI", "addCustomTestForm");
         return $this->renderCustomTest($form_action, $sections, $question);
     }
 
-    public function initCustomTest(string $description = "", array $inputs = null, array $expected = null, array $prts = null): array
+    public function initCustomTest(string $description = "", array $inputs = null, array $expected = null, array $prts = null, array $question_inputs = null): array
     {
 
         try {
@@ -514,10 +558,10 @@ class RandomisationAndSecurityUI
             //ENTRIES SECTION
             $formFields = [];
 
-            foreach ($inputs as $key => $input) {
+            foreach ($question_inputs as $key => $input) {
                 $ans = $this->factory->input()->field()->text($key, '');
-                if ($expected) {
-                    $ans = $ans->withValue($input["value"]);
+                if ($expected && array_key_exists($key, $inputs)) {
+                    $ans = $ans->withValue($inputs[$key]["value"]);
                 }
                 $formFields[$key] = $ans;
 
@@ -550,10 +594,14 @@ class RandomisationAndSecurityUI
 
                 $responseNote = $this->factory->input()->field()->select($this->language->txt("qpl_qst_xqcas_ui_author_randomisation_unit_test_addform_response_note"), $options);
 
-                if ($expected) {
+                if (isset($expected) && array_key_exists($key, $expected)) {
                     $rating = $rating->withValue($expected[$key]["score"]);
                     $penalization = $penalization->withValue($expected[$key]["penalty"]);
-                    $responseNote = $responseNote->withValue($expected[$key]["answer_note"]);
+                    if (array_key_exists($expected[$key]["answer_note"], $options)) {
+                        $responseNote = $responseNote->withValue($expected[$key]["answer_note"]);
+                    } else {
+                        $responseNote = $responseNote->withValue("NULL");
+                    }
                 }
 
                 $formFields['score'] = $rating;
@@ -603,7 +651,7 @@ class RandomisationAndSecurityUI
 
     public function showEditCustomTestForm(array $unit_tests, array $prts, assStackQuestion $question): string
     {
-        $sections = $this->initCustomTest($unit_tests["description"], $unit_tests["inputs"], $unit_tests["expected"], $prts);
+        $sections = $this->initCustomTest($unit_tests["description"], $unit_tests["inputs"], $unit_tests["expected"], $prts, $question->inputs);
         $this->control->setParameterByClass(
             'assStackQuestionGUI',
             'test_case',

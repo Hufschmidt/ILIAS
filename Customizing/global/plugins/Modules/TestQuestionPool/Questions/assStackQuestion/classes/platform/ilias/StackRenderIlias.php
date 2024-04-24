@@ -104,22 +104,40 @@ class StackRenderIlias extends StackRender
                 // Incorrect.
                 $prt_feedback_instantiated =
                     $question->prt_incorrect_instantiated->get_rendered($question->getCasTextProcessor());
-                $standard_prt_feedback = $factory->messageBox()->failure(
-                    assStackQuestionUtils::_getLatex($prt_feedback_instantiated . '</br>' . $feedback));
+
+                if (trim($feedback) === '') {
+                    $feedback = $prt_feedback_instantiated;
+                } elseif (trim($prt_feedback_instantiated) !== '' && trim($prt_feedback_instantiated) !== "<p></p>\n<p></p>") {
+                    $feedback = $prt_feedback_instantiated . '</br>' . $feedback;
+                }
+
+                $standard_prt_feedback = $factory->messageBox()->failure(assStackQuestionUtils::_getLatex($feedback));
                 break;
             case 'partially_correct':
                 // Partially correct.
                 $prt_feedback_instantiated =
                     $question->prt_partially_correct_instantiated->get_rendered($question->getCasTextProcessor());
-                $standard_prt_feedback = $factory->messageBox()->info(
-                    assStackQuestionUtils::_getLatex($prt_feedback_instantiated . '</br>' . $feedback));
+
+                if (trim($feedback) === '') {
+                    $feedback = $prt_feedback_instantiated;
+                } elseif (trim($prt_feedback_instantiated) !== '' && trim($prt_feedback_instantiated) !== "<p></p>\n<p></p>") {
+                    $feedback = $prt_feedback_instantiated . '</br>' . $feedback;
+                }
+
+                $standard_prt_feedback = $factory->messageBox()->info(assStackQuestionUtils::_getLatex($feedback));
                 break;
             case 'correct':
                 // Correct.
                 $prt_feedback_instantiated =
                     $question->prt_correct_instantiated->get_rendered($question->getCasTextProcessor());
-                $standard_prt_feedback = $factory->messageBox()->success(
-                    assStackQuestionUtils::_getLatex($prt_feedback_instantiated . '</br>' . $feedback));
+
+                if (trim($feedback) === '') {
+                    $feedback = $prt_feedback_instantiated;
+                } elseif (trim($prt_feedback_instantiated) !== '' && trim($prt_feedback_instantiated) !== "<p></p>\n<p></p>") {
+                    $feedback = $prt_feedback_instantiated . '</br>' . $feedback;
+                }
+
+                $standard_prt_feedback = $factory->messageBox()->success(assStackQuestionUtils::_getLatex($feedback));
                 break;
             default:
                 throw new StackException('Invalid state.');
@@ -249,15 +267,13 @@ class StackRenderIlias extends StackRender
 
             //Validation Placeholders
             if (is_a($input, 'stack_matrix_input')) {
-                $ilias_validation = '<div id="validation_xqcas_' . $question->getId() . '_' . $input_name . '">' . $validation_rendered. '</div>
-                <div class="xqcas_input_validation">
-                    <div id="validation_xqcas_' . $question->getId() . '_' . $input_name . '"></div>
-                </div>' .
+                $ilias_validation = '<div class="xqcas_input_validation">
+                    <div id="validation_xqcas_' . $question->getId() . '_' . $input_name . '">' . $validation_rendered. '</div>
+                </div>'.
                     '<div id="xqcas_input_matrix_width_' . $input_name . '" style="visibility: hidden">' . $input->getWidth() . '</div>
                 <div id="xqcas_input_matrix_height_' . $input_name . '" style="visibility: hidden">' . $input->getHeight() . '</div>';
             } else {
-                $ilias_validation = '<div id="validation_xqcas_' . $question->getId() . '_' . $input_name . '"></div>
-                <div class="xqcas_input_validation">
+                $ilias_validation = '<div class="xqcas_input_validation">
                     <div id="validation_xqcas_' . $question->getId() . '_' . $input_name . '">' . $validation_rendered. '</div>
                 </div>';
             }
@@ -277,9 +293,11 @@ class StackRenderIlias extends StackRender
             }
             $prt = $question->prts[$prt_name];
             $feedback = '';
-            if ($display_options['feedback'] && !empty($response)) {
-                $attempt_data['prt_name'] = $prt->get_name();
-                $feedback = self::renderPRTFeedback($attempt_data, $display_options);
+            if (!isset($display_options['show_correct_solution']) || $display_options['show_correct_solution'] == false) {
+                if ($display_options['feedback'] && !empty($response)) {
+                    $attempt_data['prt_name'] = $prt->get_name();
+                    $feedback = self::renderPRTFeedback($attempt_data, $display_options);
+                }
             }
             $question_text = str_replace("[[feedback:$prt_name]]", $feedback, $question_text);
         }
@@ -408,12 +426,12 @@ class StackRenderIlias extends StackRender
         $general_feedback_text = $question->general_feedback_instantiated->get_rendered($question->getCasTextProcessor());
 
         if (!$general_feedback_text) {
-            return '';
+            $general_feedback_text = '';
         }
 
         $general_feedback_text = stack_maths::process_display_castext($general_feedback_text);
 
-        $general_feedback_text .= "<hr>" . $question->formatCorrectResponse();
+        $general_feedback_text .= $question->formatCorrectResponse();
 
         // Ensure that the MathJax library is loaded.
         self::ensureMathJaxLoaded();

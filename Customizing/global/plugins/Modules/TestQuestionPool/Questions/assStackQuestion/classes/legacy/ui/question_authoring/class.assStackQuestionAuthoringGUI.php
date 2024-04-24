@@ -523,7 +523,7 @@ class assStackQuestionAuthoringGUI
 			$input_type->setValue($this->default["input_type"]);
 			$input_box_size->setValue($this->default["input_box_size"]);
             // $input_strict_syntax->setChecked((bool)$this->default["input_strict_syntax"]);
-			$input_insert_stars->setValue((bool)$this->default["input_insert_stars"]);
+			$input_insert_stars->setValue($this->default["input_insert_stars"]);
 			$input_syntax_hint->setValue($this->default["input_syntax_hint"]);
 			$input_forbidden_words->setValue($this->default["input_forbidden_words"]);
 			$input_allow_words->setValue($this->default["input_allow_words"]);
@@ -537,7 +537,7 @@ class assStackQuestionAuthoringGUI
 			$input_type->setValue(assStackQuestionUtils::_getInputType($input));
 			$input_box_size->setValue($input->get_parameter('boxWidth'));
             // $input_strict_syntax->setChecked((bool)$input->get_parameter('strictSyntax'));
-			$input_insert_stars->setValue((bool)$input->get_parameter('insertStars'));
+			$input_insert_stars->setValue($input->get_parameter('insertStars'));
 			$input_syntax_hint->setValue($input->get_parameter('syntaxHint'));
 			$input_forbidden_words->setValue($input->get_parameter('forbidWords'));
 			$input_allow_words->setValue($input->get_parameter('allowWords'));
@@ -621,7 +621,7 @@ class assStackQuestionAuthoringGUI
 		$node_list = array();
 		//Get list of nodes
 		foreach ($prt->get_nodes_summary() as $node_name => $prt_node) {
-			$node_list[$node_name] = $node_name + 1;
+			$node_list[$node_name] = $node_name;
 		}
 		$prt_first_node->setOptions($node_list);
 		$prt_first_node->setValue($prt->get_first_node());
@@ -817,7 +817,7 @@ class assStackQuestionAuthoringGUI
 	public function getNodePart(stack_potentialresponse_tree_lite $prt, object $node)
 	{
 		//Create columns property
-		$part = new ilMultipartFormPart($node->nodename + 1);
+		$part = new ilMultipartFormPart($node->nodename);
 
 		$positive_negative_columns = new ilColumnsFormPropertyGUI($this->getPlugin()->txt('prt_node_posneg'), 'prt_' . $prt->get_name() . '_node_' . $node->nodename . '_positive_negative', 12, TRUE);
 
@@ -984,13 +984,13 @@ class assStackQuestionAuthoringGUI
 			$node_pos_score->setValue($this->default["prt_pos_score"]);
 			$node_pos_penalty->setValue($this->default["prt_pos_penalty"]);
 			$node_pos_answernote->setValue($this->default["prt_pos_answernote"]);
-			//$node_pos_feedback_class->setValue(1);
+			$node_pos_feedback_class->setValue(0);
 		} else {
 			$node_pos_mode->setValue($node->truescoremode);
 			$node_pos_score->setValue($node->truescore);
 			$node_pos_answernote->setValue($node->trueanswernote);
 			$node_pos_penalty->setValue($node->truepenalty);
-			//$node_pos_feedback_class->setValue($node->truefeedbackclass);
+			$node_pos_feedback_class->setValue($node->truefeedbackformat);
 		}
 
         $node_pos_next_node->setValue($node->truenextnode);
@@ -1066,13 +1066,13 @@ class assStackQuestionAuthoringGUI
 			$node_neg_score->setValue($this->default["prt_neg_score"]);
 			$node_neg_penalty->setValue($this->default["prt_neg_penalty"]);
 			$node_neg_answernote->setValue($this->default["prt_neg_answernote"]);
-			//$node_neg_feedback_class->setValue(1);
+			$node_neg_feedback_class->setValue(0);
 		} else {
 			$node_neg_mode->setValue($node->falsescoremode);
 			$node_neg_score->setValue($node->falsescore);
 			$node_neg_answernote->setValue($node->falseanswernote);
 			$node_neg_penalty->setValue($node->falsepenalty);
-			//$node_neg_feedback_class->setValue($node->falsefeedbackclass);
+			$node_neg_feedback_class->setValue($node->falsefeedbackformat);
 		}
 
         $node_neg_next_node->setValue($node->falsenextnode);
@@ -1240,12 +1240,12 @@ class assStackQuestionAuthoringGUI
 		 * QUESTION WHICH USES THIS STYLES AND THOSE WHICH NOT.
 		 */
 
-		$options[1] = $lng->txt("default");
-		$options[2] = $this->getPlugin()->txt("feedback_node_right");
-		$options[3] = $this->getPlugin()->txt("feedback_node_wrong");
-		$options[4] = $this->getPlugin()->txt("feedback_solution_hint");
-		$options[5] = $this->getPlugin()->txt("feedback_extra_info");
-		$options[6] = $this->getPlugin()->txt("feedback_plot_feedback");
+		$options[0] = $lng->txt("default");
+		$options[1] = $this->getPlugin()->txt("feedback_node_right");
+		$options[2] = $this->getPlugin()->txt("feedback_node_wrong");
+		$options[3] = $this->getPlugin()->txt("feedback_solution_hint");
+		$options[4] = $this->getPlugin()->txt("feedback_extra_info");
+		$options[5] = $this->getPlugin()->txt("feedback_plot_feedback");
 
 		return $options;
 	}

@@ -132,6 +132,10 @@ class assStackQuestionMoodleXMLExport
 			$a_xml_writer->xmlElement("text", NULL, $question->question_note);
 			$a_xml_writer->xmlEndTag("questionnote");
 
+            $a_xml_writer->xmlStartTag("questiondescription", array("format" => "html"));
+            $a_xml_writer->xmlElement("text", NULL, $question->getComment());
+            $a_xml_writer->xmlEndTag("questiondescription");
+
 			$a_xml_writer->xmlStartTag("prtcorrect", array("format" => "html"));
 			$media = $this->getRTEMedia($question->prt_correct);
 			$this->addRTEText($a_xml_writer, $question->prt_correct);
@@ -191,7 +195,7 @@ class assStackQuestionMoodleXMLExport
 					$a_xml_writer->xmlElement("checkanswertype", NULL, (int)$input->get_parameter('sameType'));
 					$a_xml_writer->xmlElement("mustverify", NULL, (int)$input->get_parameter('mustVerify'));
 					$a_xml_writer->xmlElement("showvalidation", NULL, (int)$input->get_parameter('showValidation'));
-					$a_xml_writer->xmlElement("options", NULL, assStackQuestionUtils::_serializeExtraOptions($input->get_extra_options()));
+					$a_xml_writer->xmlElement("options", NULL, $input->get_parameter('options'));
 
 					$a_xml_writer->xmlEndTag("input");
 				}

@@ -1052,8 +1052,14 @@ class assStackQuestion extends assQuestion implements iQuestionCondition, ilObjQ
     public function saveToDb($original_id = -1): void
     {
         global $tpl;
+
+        $original_id = (int) $original_id;
+        if ($original_id === 0) {
+            $original_id = -1;
+        }
+
         if ($this->getTitle() != "" and $this->getAuthor() != "" and $this->getQuestion() != "") {
-            $this->saveQuestionDataToDb((int) $original_id);
+            $this->saveQuestionDataToDb($original_id);
             $this->saveAdditionalQuestionDataToDb();
 
             parent::saveToDb();
@@ -1175,7 +1181,7 @@ class assStackQuestion extends assQuestion implements iQuestionCondition, ilObjQ
         if ($total_weight > 0) {
             $ilias_points = ($fraction / $total_weight) * $this->getMaximumPoints();
         } else {
-            throw new StackException('No points available for evaluation');
+            $ilias_points = 0;
         }
 
         $evaluation_data['points']['total'] = (float)$ilias_points;
@@ -1348,14 +1354,14 @@ class assStackQuestion extends assQuestion implements iQuestionCondition, ilObjQ
             $newnode->falsescoremode = '=';
             $newnode->falsepenalty = 0;
             $newnode->falsefeedback = '';
-            $newnode->falsefeedbackformat = '1';
+            $newnode->falsefeedbackformat = '0';
             $newnode->falseanswernote = $prt_name . '-0-F';
             $newnode->falsenextnode = '-1';
             $newnode->truescore = '1';
             $newnode->truescoremode = '=';
             $newnode->truepenalty = 0;
             $newnode->truefeedback = '';
-            $newnode->truefeedbackformat = '1';
+            $newnode->truefeedbackformat = '0';
             $newnode->trueanswernote = $prt_name . '-0-T';
             $newnode->truenextnode = '-1';
             $prt->nodes[] = $newnode;

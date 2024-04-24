@@ -345,7 +345,10 @@ class assStackQuestionDB
 			'SELECT * FROM xqcas_qtests WHERE question_id = ' . $db->quote($question_id, 'integer') . ' ORDER BY xqcas_qtests.id';
 		$res = $db->query($query);
 
-		$unit_tests = array();
+		$unit_tests = array(
+            'ids' => array(),
+            'test_cases' => array()
+        );
 
 		//If there is a result returns array, otherwise returns false.
 		while ($row = $db->fetchAssoc($res)) {
@@ -746,14 +749,14 @@ class assStackQuestionDB
                 "true_next_node" => array("text", $node->truenextnode),
                 "true_answer_note" => array("text", $node->trueanswernote),
                 "true_feedback" => array("clob", ilRTE::_replaceMediaObjectImageSrc($node->truefeedback)),
-                "true_feedback_format" => array("integer", 0),
+                "true_feedback_format" => array("integer", (int) $node->truefeedbackformat),
                 "false_score_mode" => array("text", $node->falsescoremode),
                 "false_score" => array("text", $node->falsescore),
                 "false_penalty" => array("text", $node->falsepenalty),
                 "false_next_node" => array("text", $node->falsenextnode),
                 "false_answer_note" => array("text", $node->falseanswernote),
                 "false_feedback" => array("clob", ilRTE::_replaceMediaObjectImageSrc($node->falsefeedback)),
-                "false_feedback_format" => array("integer", 0),
+                "false_feedback_format" => array("integer", (int) $node->falsefeedbackformat),
 			));
 		} else {
 			//UPDATE
@@ -775,14 +778,14 @@ class assStackQuestionDB
                     "true_next_node" => array("text", $node->truenextnode),
                     "true_answer_note" => array("text", $node->trueanswernote),
                     "true_feedback" => array("clob", ilRTE::_replaceMediaObjectImageSrc($node->truefeedback)),
-                    "true_feedback_format" => array("integer", 0),
+                    "true_feedback_format" => array("integer", (int) $node->truefeedbackformat),
                     "false_score_mode" => array("text", $node->falsescoremode),
                     "false_score" => array("text", $node->falsescore),
                     "false_penalty" => array("text", $node->falsepenalty),
                     "false_next_node" => array("text", $node->falsenextnode),
                     "false_answer_note" => array("text", $node->falseanswernote),
                     "false_feedback" => array("clob", ilRTE::_replaceMediaObjectImageSrc($node->falsefeedback)),
-                    "false_feedback_format" => array("integer", 0),
+                    "false_feedback_format" => array("integer", (int) $node->falsefeedbackformat),
 				)
 			);
 		}
@@ -957,16 +960,16 @@ class assStackQuestionDB
 					}
 
 					//Manage Unit Tests Expected
-					$testcase_expected_ids = self::_readUnitTestExpected($question_id, $testcase_name, true);
+					$testcase_expected_ids = self::_readUnitTestExpected((int) $question_id, $testcase_name, true);
 
 					foreach ($test_case['expected'] as $prt_name => $expected) {
 						if (!array_key_exists($prt_name, $testcase_expected_ids) or empty($testcase_expected_ids)) {
 							//CREATE
-							self::_saveStackUnitTestExpected($question_id, $testcase_name, $prt_name, $expected, -1);
+							self::_saveStackUnitTestExpected((int) $question_id, $testcase_name, $prt_name, $expected, -1);
 						} else {
 							//UPDATE
 							if (isset($expected['score']) and isset($expected['penalty']) and isset($expected['answer_note'])) {
-								self::_saveStackUnitTestExpected($question_id, $testcase_name, $prt_name, $expected, $testcase_expected_ids[$prt_name]);
+								self::_saveStackUnitTestExpected((int) $question_id, $testcase_name, $prt_name, $expected, $testcase_expected_ids[$prt_name]);
 							} else {
                                 global $tpl;
                                 $tpl->setOnScreenMessage('failure', 'question test expected:' . $question_id . $testcase_name . $prt_name, true);
@@ -1090,7 +1093,7 @@ class assStackQuestionDB
 			"check_answer_type" => array("integer", $input->get_parameter('sameType') !== null ? $input->get_parameter('sameType') : ''),
 			"must_verify" => array("integer", $input->get_parameter('mustVerify') !== null ? $input->get_parameter('mustVerify') : ''),
 			"show_validation" => array("integer", $input->get_parameter('showValidation') !== null ? $input->get_parameter('showValidation') : ''),
-			"options" => array("clob", assStackQuestionUtils::_serializeExtraOptions($input->get_extra_options()) !== null ? assStackQuestionUtils::_serializeExtraOptions($input->get_extra_options()) : ''),
+			"options" => array("clob", $input->get_parameter('options') !== null ? $input->get_parameter('options') : ''),
 		));
 
 		return true;
@@ -1738,7 +1741,7 @@ class assStackQuestionDB
 	 * @return assStackQuestion[]
 	 * @throws stack_exception
 	 */
-	public static function _getAllQuestionsFromPool(int $question_id, int $q_type_id): array
+	public static function _getAllQuestionsFromPool(int $question_id, int $q_type_id, bool $only_id = false): array
 	{
 		global $DIC;
 		$db = $DIC->database();
@@ -1750,14 +1753,22 @@ class assStackQuestionDB
 									WHERE qpl.obj_fi = (SELECT obj_fi FROM qpl_questions WHERE question_id = %s)
 									AND qpl.question_type_fi = %s", array('integer', 'integer'), array($question_id, $q_type_id));
 
-			while ($row = $db->fetchAssoc($result)) {
-				$new_question_id = (int) $row['question_id'];
+            if ($only_id) {
+                while ($row = $db->fetchAssoc($result)) {
+                    $new_question_id = (int)$row['question_id'];
 
-				$ilias_question = new assStackQuestion();
-				$ilias_question->loadFromDb($new_question_id);
+                    $questions_array[] = $new_question_id;
+                }
+            } else {
+                while ($row = $db->fetchAssoc($result)) {
+                    $new_question_id = (int)$row['question_id'];
 
-				$questions_array[$new_question_id] = $ilias_question;
-			}
+                    $ilias_question = new assStackQuestion();
+                    $ilias_question->loadFromDb($new_question_id);
+
+                    $questions_array[$new_question_id] = $ilias_question;
+                }
+            }
 		}
 
 		return $questions_array;
@@ -1767,7 +1778,7 @@ class assStackQuestionDB
 	 * @return assStackQuestion[]
 	 * @throws stack_exception
 	 */
-	public static function _getAllQuestionsFromTest(int $question_id, int $q_type_id): array
+	public static function _getAllQuestionsFromTest(int $question_id, int $q_type_id, bool $only_id = false): array
 	{
 		global $DIC;
 		$db = $DIC->database();
@@ -1775,19 +1786,27 @@ class assStackQuestionDB
 		$questions_array = array();
 
 		if ($question_id > 0 and $q_type_id) {
-			$result = $db->queryF(/** @lang text */ "SELECT question_fi FROM tst_test_question AS tst INNER JOIN qpl_questions AS qpl
+            $result = $db->queryF(/** @lang text */ "SELECT question_fi FROM tst_test_question AS tst INNER JOIN qpl_questions AS qpl
 								WHERE tst.question_fi = qpl.question_id
 								AND tst.test_fi = (SELECT test_fi FROM tst_test_question WHERE question_fi = %s)
 								AND qpl.question_type_fi = %s", array('integer', 'integer'), array($question_id, $q_type_id));
 
-			while ($row = $db->fetchAssoc($result)) {
-				$new_question_id = $row['question_fi'];
+            if ($only_id) {
+                while ($row = $db->fetchAssoc($result)) {
+                    $new_question_id = $row['question_fi'];
 
-				$ilias_question = new assStackQuestion();
-				$ilias_question->loadFromDb($new_question_id);
+                    $questions_array[] = $new_question_id;
+                }
+            } else {
+                while ($row = $db->fetchAssoc($result)) {
+                    $new_question_id = $row['question_fi'];
 
-				$questions_array[$new_question_id] = $ilias_question;
-			}
+                    $ilias_question = new assStackQuestion();
+                    $ilias_question->loadFromDb($new_question_id);
+
+                    $questions_array[$new_question_id] = $ilias_question;
+                }
+            }
 		}
 
 		return $questions_array;
@@ -2023,7 +2042,7 @@ class assStackQuestionDB
 			"false_next_node" => array("text", "-1"),
 			"false_answer_note" => array("text", $new_prt_name . '-' . $new_node_name . '-F'),
 			"false_feedback" => array("clob", $db_original_node->false_feedback),
-			"false_feedback_format" => array("integer", 0),
+			"false_feedback_format" => array("integer", $db_original_node->false_feedback_format),
 		));
 
 		unset($_SESSION['copy_node']);
@@ -2168,32 +2187,36 @@ class assStackQuestionDB
         }
 
         foreach ($data as $input_name => $response) {
-            if (array_key_exists($input_name, $question->inputs)) {
-                if (array_key_exists($input_name, $question->getTas())) {
-                    if ($question->getTas($input_name)->is_correctly_evaluated()) {
-                        $teacher_answer = $question->getTas($input_name)->get_value();
+            if (strpos($input_name, '_sub_') !== false) {
+                $input_name = substr($input_name, 0, strpos($input_name, '_sub_'));
+            }
 
-                        if (is_a($input = $question->inputs[$input_name], 'stack_matrix_input')) {
-                            $user_response[$input_name] = $input->maxima_to_response_array($data[$input_name]);
-                        } else {
-                            $user_response[$input_name] = $data[$input_name];
-                        }
-                        if ($question->getCached('statement-qv') !== null) {
-                            /** @var TYPE_NAME $question */
-                            $question->inputs[$input_name]->add_contextsession(new stack_secure_loader($question->getCached('statement-qv'), 'qv'));
-                        }
-                        $status = $question->inputs[$input_name]->validate_student_response($user_response, $question->options, $teacher_answer, $question->getSecurity());
+            if (array_key_exists($input_name, $question->inputs) && !array_key_exists($input_name . "_validation", $data)) {
+                if (is_a($input = $question->inputs[$input_name], 'stack_matrix_input')) {
+                    foreach ($input->maxima_to_response_array($input->contents_to_maxima($input->response_to_contents($data))) as $key => $value) {
+                        $user_response[$key] = $value;
+                    }
 
-                        $data[$input_name . "_validation"] = stack_maxima_latex_tidy($question->inputs[$input_name]->render_validation($status, $input_name));
-                    } else {
-                        global $tpl;
-                        $tpl->setOnScreenMessage('failure', "not properly evaluated", true);
-                        break;
+                    // Prevent decide empty matrix when syntax is wrong
+                    if (isset($user_response)) {
+                        foreach ($input->response_to_contents($data) as $key => $value) {
+                            if (isset($value)) {
+                                foreach ($value as $sub_key => $sub_value) {
+                                    if (isset($user_response[$input_name . "_sub_" . $key . "_" . $sub_key]) && $user_response[$input_name . "_sub_" . $key . "_" . $sub_key] != $sub_value) {
+                                        $data[$input_name . "_validation"] = html_writer::tag('div', $DIC->language()->txt("qpl_qst_xqcas_matrix_syntax_error"), array('class' => 'alert alert-danger stackinputerror'));
+                                    }
+                                }
+                            }
+                        }
                     }
                 } else {
-                    global $tpl;
-                    $tpl->setOnScreenMessage('failure', "no teacher answer on this input", true);
-                    break;
+                    $user_response[$input_name] = $data[$input_name];
+                }
+
+                if (!isset($data[$input_name . "_validation"])) {
+                    $status = $question->getInputState($input_name, $user_response);
+
+                    $data[$input_name . "_validation"] = stack_maxima_latex_tidy($question->inputs[$input_name]->render_validation($status, $input_name));
                 }
             }
         }
@@ -2233,7 +2256,7 @@ class assStackQuestionDB
         global $DIC;
         $db = $DIC->database();
 
-        $solution = $db->query("SELECT value1, value2 FROM tst_solutions WHERE question_fi = " .
+        $solution = $db->query("SELECT value1, value2, points FROM tst_solutions WHERE question_fi = " .
             $db->quote($question_id, 'integer') . " AND active_fi = " .
             $db->quote($active_id, 'integer') . " AND pass = " .
             $db->quote($pass, 'integer'));
@@ -2248,7 +2271,7 @@ class assStackQuestionDB
 
         //Old Test
         if (!isset($solution_db_parsed['inputs'])) {
-            $old_student_solutions = assStackQuestionUtils::_fromDBToReadableFormat($solution_db);
+            $old_student_solutions = assStackQuestionUtils::_fromDBToReadableFormat($solution_db, (string) $question_id);
 
             if (isset($old_student_solutions["prt"])) {
                 foreach ($old_student_solutions["prt"] as $prt_name => $prt_info) {
@@ -2268,5 +2291,78 @@ class assStackQuestionDB
         }
 
         return $solution_db_parsed;
+    }
+
+    /**
+     * Get the question type id from plugin name
+     * @return int
+     */
+    public static function getQuestionTypeID(): int
+    {
+        global $DIC;
+        $db = $DIC->database();
+
+        $result = $db->queryF("SELECT question_type_id FROM qpl_qst_type WHERE type_tag = 'assStackQuestion'", array(), array());
+        if ($db->numRows($result) == 1) {
+            $row = $db->fetchAssoc($result);
+            return (int) $row["question_type_id"];
+        }
+        return 0;
+    }
+
+    /**
+     * Get the needed information for check the prt placeholders
+     * @param string|null $question_id
+     * @return array
+     */
+    public static function getPrtsAndPlaceholders(?string $question_id = null) :array {
+        global $DIC;
+        $db = $DIC->database();
+
+        $retval = array();
+
+        if (isset($question_id)) {
+            $result = $db->queryF("SELECT qpl_questions.title, qpl_questions.question_text, xqcas_prts.name, xqcas_options.specific_feedback FROM qpl_questions LEFT JOIN xqcas_prts ON qpl_questions.question_id = xqcas_prts.question_id INNER JOIN xqcas_options ON qpl_questions.question_id = xqcas_options.question_id WHERE qpl_questions.question_id = %s", array('integer'), array($question_id));
+
+            while ($row = $db->fetchAssoc($result)) {
+                $retval['question_text'] = $row['question_text'];
+                if (isset($row['name'])) {
+                    $retval['prts'][] = $row['name'];
+                }
+                $retval['specific_feedback'] = $row['specific_feedback'];
+                $retval['title'] = $row['title'];
+            }
+        } else {
+            $result = $db->queryF("SELECT qpl_questions.question_id, qpl_questions.title, qpl_questions.question_text, xqcas_prts.name, xqcas_options.specific_feedback FROM qpl_questions LEFT JOIN xqcas_prts ON qpl_questions.question_id = xqcas_prts.question_id INNER JOIN xqcas_options ON qpl_questions.question_id = xqcas_options.question_id WHERE qpl_questions.question_type_fi = %s", array('integer'), array(self::getQuestionTypeID()));
+
+            while ($row = $db->fetchAssoc($result)) {
+                $retval[$row['question_id']]['question_text'] = $row['question_text'];
+                if (isset($row['name'])) {
+                    $retval[$row['question_id']]['prts'][] = $row['name'];
+                }
+                $retval[$row['question_id']]['specific_feedback'] = $row['specific_feedback'];
+                $retval[$row['question_id']]['title'] = $row['title'];
+            }
+        }
+
+        return $retval;
+    }
+
+    /**
+     * Update the specific feedback for a question
+     *
+     * @param string $question_id
+     * @param string $specific_feedback
+     * @return void
+     */
+    public static function updateSpecificFeedback(string $question_id, string $specific_feedback) :void {
+        global $DIC;
+        $db = $DIC->database();
+
+        $db->update("xqcas_options", array(
+            'specific_feedback' => array('clob', $specific_feedback)
+        ), array(
+            'question_id' => array('integer', $question_id)
+        ));
     }
 }
