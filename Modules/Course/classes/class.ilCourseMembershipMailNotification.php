@@ -474,6 +474,7 @@ class ilCourseMembershipMailNotification extends ilMailNotification
             }
         }
 
+        /*
         $body .= $this->getLanguageText('crs_passed') . ': ';
 
         if ($part->hasPassed($a_usr_id)) {
@@ -481,6 +482,7 @@ class ilCourseMembershipMailNotification extends ilMailNotification
         } else {
             $body .= $this->getLanguageText('no');
         }
+        */
         return $body;
     }
 
