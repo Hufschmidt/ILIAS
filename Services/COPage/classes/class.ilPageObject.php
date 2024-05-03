@@ -365,6 +365,10 @@ abstract class ilPageObject
             return true;
         }
         $options = 0;
+        if ($this->getXMLContent() === "") {
+            $this->setXMLContent("<PageObject></PageObject>");
+        }
+
         //$options = DOMXML_LOAD_VALIDATING;
         //$options = LIBXML_DTDLOAD;
         //$options = LIBXML_NOXMLDECL;
@@ -374,6 +378,13 @@ abstract class ilPageObject
         $res = xpath_eval($xpc, $path);
         if (count($res->nodeset) == 1) {
             $this->node = $res->nodeset[0];
+        } else {
+            $mess = "No PageObject Node found: " . $this->getParentType() . ", " . $this->getId() . ", " . $this->getXMLContent(true);
+            if (defined('DEVMODE') && DEVMODE) {
+                throw new ilCOPageException($mess);
+            } else {
+                $this->log->error($mess);
+            }
         }
 
         if (empty($error)) {
@@ -1547,7 +1558,7 @@ s     */
     /**
      * Validate the page content agains page DTD
      */
-    public function validateDom(): ?array
+    public function validateDom(bool $throw = false): ?array
     {
         $this->stripHierIDs();
 
@@ -1555,7 +1566,7 @@ s     */
         //libxml_disable_entity_loader(false);
 
         $error = null;
-        $this->dom->validate($error);
+        $this->dom->validate($error, $throw);
         return $error;
     }
 
@@ -2404,9 +2415,10 @@ s     */
         $this->buildDom(true);
         $dom_doc = $this->getDomDoc();
 
+        $errors = $this->validateDom(true);
+
         $iel = $this->containsDeactivatedElements($content);
         $inl = $this->containsIntLinks($content);
-
         // create object
         $this->db->insert("page_object", array(
             "page_id" => array("integer", $this->getId()),
@@ -2448,6 +2460,8 @@ s     */
 
         $this->buildDom(true);
         $dom_doc = $this->getDomDoc();
+
+        $errors = $this->validateDom(true);
 
         $iel = $this->containsDeactivatedElements($content);
         $inl = $this->containsIntLinks($content);
@@ -2648,7 +2662,6 @@ s     */
             $iel = $this->containsDeactivatedElements($content);
             $this->log->debug("checking internal links");
             $inl = $this->containsIntLinks($content);
-
             $this->db->update("page_object", array(
                 "content" => array("clob", $content),
                 "parent_id" => array("integer", $this->getParentId()),
@@ -2909,7 +2922,7 @@ s     */
                 $this->db->quote($a_old_nr, "integer") . "," .
                 $this->db->quote($u["template"], "integer") . "," .
                 $this->db->quote($u["stype"], "text") . "," .
-                $this->db->quote($u["sname"], "text") .
+                $this->db->quote(ilStr::subStr($u["sname"], 0, 30), "text") .
                 ")");
         }
     }
@@ -4226,8 +4239,8 @@ s     */
         int $a_right
     ): array {
         // get page objects
-        $l_page = ilPageObjectFactory::getInstance($this->getParentType(), $this->getId(), $a_left);
-        $r_page = ilPageObjectFactory::getInstance($this->getParentType(), $this->getId(), $a_right);
+        $l_page = ilPageObjectFactory::getInstance($this->getParentType(), $this->getId(), $a_left, $this->getLanguage());
+        $r_page = ilPageObjectFactory::getInstance($this->getParentType(), $this->getId(), $a_right, $this->getLanguage());
         $this->preparePageForCompare($l_page);
         $this->preparePageForCompare($r_page);
         $l_hashes = $l_page->getPageContentsHashes();
