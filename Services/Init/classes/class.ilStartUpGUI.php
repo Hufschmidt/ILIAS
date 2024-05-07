@@ -1010,6 +1010,7 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
 
         $rtpl = new ilTemplate('tpl.login_registration_links.html', true, true, 'Services/Init');
 
+        /* UMR - Don't show up "Benutzerkonto registrieren" on Login-Screen
         // allow new registrations?
         include_once 'Services/Registration/classes/class.ilRegistrationSettings.php';
         if (ilRegistrationSettings::_lookupRegistrationType() != ilRegistrationSettings::IL_REG_DISABLED) {
@@ -1021,6 +1022,8 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
             );
             $rtpl->parseCurrentBlock();
         }
+        */
+
         // allow password assistance? Surpress option if Authmode is not local database
         if ($this->setting->get("password_assistance")) {
             $rtpl->setCurrentBlock("password_assistance");
@@ -1038,6 +1041,7 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
             $rtpl->parseCurrentBlock();
         }
 
+        /* UMR - Don't show up "Öffentlicher Bereich" on Login-Screen
         if (ilPublicSectionSettings::getInstance()->isEnabledForDomain($_SERVER['SERVER_NAME']) &&
             $this->access->checkAccessOfUser(ANONYMOUS_USER_ID, "read", "", ROOT_FOLDER_ID)) {
             $rtpl->setCurrentBlock("homelink");
@@ -1048,6 +1052,7 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
             $rtpl->setVariable("TXT_HOME", $this->lng->txt("home"));
             $rtpl->parseCurrentBlock();
         }
+        */
 
         return $this->substituteLoginPageElements(
             $tpl,
