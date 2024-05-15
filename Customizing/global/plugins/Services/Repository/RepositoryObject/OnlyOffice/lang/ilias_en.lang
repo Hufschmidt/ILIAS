@@ -1,0 +1,101 @@
+obj_xono#:#OnlyOffice
+obj_xono_duplicate#:#Copy OnlyOffice
+objs_xono#:#OnlyOffices
+objs_xono_duplicate#:#Copy OnlyOffices
+rbac_create_xono#:#Create OnlyOffice
+xono_add#:#Add
+xono_delete#:#Delete
+xono_edit_permission#:#Edit permission
+xono_new#:#Create OnlyOffice
+xono_read#:#Read
+xono_visible#:#visible
+xono_write#:#Edit
+xono_edit_button#:#Edit File
+xono_view_button#:#View File
+xono_back_button#:#Back to ILIAS
+xono_version#:#Version
+xono_date#:#Date
+xono_editor#:#Created By
+xono_download#:#Download
+form_open_editor#:#Show in ONLYOFFICE Online Editor
+form_open_download#:#Download the File
+form_open_ilias#:#Show Version History on ILIAS
+form_open_setting#:#How should the file be opened?
+config_baseurl#:#ILIAS root URL
+config_onlyoffice_url#:#ONLYOFFICE root URL
+config_onlyoffice_secret#:#ONLYOFFICE secret for token validation
+config_configuration#:#Configuration
+config_configuration_saved#:#Configuration saved
+config_save#:#Save
+config_word_doc#:#Text Template (Word)
+config_excel_doc#:#Table Template (Excel)
+config_ppt_doc#:#Presentation Template (PowerPoint)
+object_manage_contents#:#Edit
+object_offline#:#Offline
+object_permission_denied#:#Permission denied
+object_show_contents#:#Version History
+object_status#:#Status
+settings_cancel#:#Cancel
+settings_desc#:#Description
+settings_online#:#Online
+settings_save#:#Save
+settings_saved#:#Settings saved
+saved#:#Settings saved
+settings_settings#:#Settings
+settings_title#:#Title
+settings_open_setting#:#How should the file be opened?
+settings_open_setting_ilias#:#Show Version History on ILIAS
+settings_open_setting_editor#:#Open in ONLYOFFICE Online Editor
+settings_open_setting_download#:#Download the File
+settings_number_of_versions#:#Max. Number of Versions
+settings_start_time#:#Start Time
+settings_end_time#:#End Time
+settings_time_greater_than#:#The start time of the limited period must be smaller than the end time. Please try again.
+rep_robj_xono_perm_editFile#:#Edit File
+form_input_file#:#File
+form_input_upload_file#:#Upload a File
+form_input_create_file#:#Create a new File
+form_input_create_file_text#:#Text
+form_template_text#:#(Type: Text)
+form_input_create_file_table#:#Table
+form_template_table#:#(Type: Table)
+form_input_create_file_presentation#:#Presentation
+form_template_presentation#:#(Type: Presentation)
+form_input_template#:#Create from Template
+form_input_template_no_templates#:#Add a template in the plugin configuration to create a new file from a template.
+object_tab_info#:#Information
+xono_reload_info#:#Are you returning from ONLYOFFICE editor and cannot see your newly created file version?<br>Please wait 10s and press F5.
+create_title_info#:#If no title is specified, the title of the uploaded file is taken.
+config_number_of_versions#:#Max. Number of Versions
+config_tab_general#:#General
+config_tab_templates#:#Templates
+config_create_template#:#Create New Template
+config_edit_template#:#Edit Template
+config_table_type#:#Type
+config_table_title#:#Title
+config_table_description#:#Description
+config_table_extension#:#Extension
+config_table_settings#:#Settings
+config_table_options#:#Options
+config_table_edit#:#Edit
+config_table_delete#:#Delete
+config_template_saved#:#Template saved
+config_template_edited#:#Template successfully edited
+config_template_deleted#:#Template successfully deleted
+config_template_invalid_extension#:#The file extension of the uploaded template is invalid. Please consult the whitelist or blacklist of your ILIAS instance respectively.
+config_template_unrecognised_extension#:#The file extension of the uploaded template is not supported by OnlyOffice. Please use a different file type.
+config_template_delete#:#Do you really want to delete the following template?
+number_of_versions_info#:#The number of versions loaded in the version history (default = 10).
+last_edit#:#Last edited
+editing_period#:#Editing Period
+edit_settings#:#Edit Content
+show_versions#:#Versions
+settings_allow_edit#:#Users are allowed to edit
+settings_allow_edit_limited#:#Limited Period
+settings_allow_edit_limited_start#:#Start Time
+settings_allow_edit_limited_end#:#End Time
+settings_allow_edit_info#:#All users that are allowed to read the file are allowed to edit it.
+editor_edit_timeup#:#The editing period for the document has expired. The document is now in read-only mode.
+editor_edit_timewasup#:#The current time does not match the editing period for the document. The document is now in read-only mode.
+editor_edit_period#:#The editing period for the document is %s.
+

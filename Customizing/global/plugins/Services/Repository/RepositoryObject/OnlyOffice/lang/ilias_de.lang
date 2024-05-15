@@ -1,0 +1,106 @@
+obj_xono#:#OnlyOffice
+obj_xono_duplicate#:#OnlyOffice kopieren
+objs_xono#:#OnlyOffices
+objs_xono_duplicate#:#OnlyOffices kopieren
+rbac_create_xono#:#OnlyOffice anlegen
+xono_add#:#Hinzufügen
+xono_delete#:#Löschen
+xono_edit_permission#:#Rechte bearbeiten
+xono_new#:#OnlyOffice anlegen
+xono_read#:#Lesen
+xono_visible#:#Sichtbar
+xono_write#:#Bearbeiten
+xono_edit_button#:#Aktuellste Version in OnlyOffice bearbeiten
+xono_view_button#:#Aktuellste Version in OnlyOffice anzeigen
+xono_back_button#:#Zurück zu ILIAS
+xono_version#:#Version
+xono_date#:#Datum
+xono_editor#:#Erstellt von
+xono_download#:#Herunterladen
+xono_new_from_template#:#Von Template erstellen
+create_from_template#:#Template
+create_from_template_info#:#Verwende Template aus der Plugin-Konfiguration
+filetype_word#:#Text
+filetype_excel#:#Tabelle
+filetype_ppt#:#Präsentation
+form_open_editor#:#Im ONLYOFFICE online Editor öffnen
+form_open_download#:#Datei herunterladen
+form_open_ilias#:#Versionsverlauf auf ILIAS anzeigen
+form_open_setting#:#Wie soll die Datei geöffnet werden?
+config_baseurl#:#ILIAS root URL
+config_onlyoffice_url#:#ONLYOFFICE root URL
+config_onlyoffice_secret#:#ONLYOFFICE secret für die Token-Validierung
+config_configuration#:#Konfiguration
+config_configuration_saved#:#Konfiguration gespeichert
+config_save#:#Speichern
+config_word_doc#:#Vorlage Text (Word)
+config_excel_doc#:#Vorlage Tabelle (Excel)
+config_ppt_doc#:#Vorlage Präsentation (PowerPoint)
+object_manage_contents#:#Bearbeiten
+object_offline#:#Offline
+object_permission_denied#:#Zugriff verweigert
+object_show_contents#:#Versionsverlauf
+object_status#:#Status
+settings_cancel#:#Abbrechen
+settings_desc#:#Beschreibung
+settings_online#:#Online
+settings_save#:#Speichern
+settings_saved#:#Einstellungen gespeichert
+saved#:#Einstellungen gespeichert
+settings_settings#:#Einstellungen
+settings_title#:#Titel
+settings_open_setting#:#Wie soll die Datei geöffnet werden?
+settings_open_setting_ilias#:#Versionsverlauf auf ILIAS anzeigen
+settings_open_setting_editor#:#Im ONLYOFFICE online Editor öffnen
+settings_open_setting_download#:#Datei herunterladen
+settings_number_of_versions#:#Max. Anzahl Versionen
+settings_start_time#:#Startzeit
+settings_end_time#:#Endzeit
+settings_time_greater_than#:#Die Startzeit des begrenzten Zeitraumes muss kleiner sein als die Endzeit. Bitte erneut versuchen.
+rep_robj_xono_perm_editFile#:#Aktuellste Version in OnlyOffice bearbeiten
+form_input_file#:#Datei
+form_input_upload_file#:#Datei hochladen
+form_input_create_file#:#Neue Datei erstellen
+form_input_create_file_text#:#Text
+form_template_text#:#(Typ: Text)
+form_input_create_file_table#:#Tabelle
+form_template_table#:#(Typ: Tabelle)
+form_input_create_file_presentation#:#Präsentation
+form_template_presentation#:#(Typ: Präsentation)
+form_input_template#:#Aus Vorlage erstellen
+form_input_template_no_templates#:#Fügen Sie eine Vorlage in der Plugin-Konfiguration hinzu, um eine Datei aus einer Vorlage zu erstellen.
+object_tab_info#:#Info
+xono_reload_info#:#OnlyOffice legt eine neue Version an, sobald alle Personen das Dokument verlassen haben und 10 Sekunden verstrichen sind. Dann können Sie diese Seite neu laden und sehen die neue Version.
+create_title_info#:#Falls kein Titel eingegeben wird, wird der Titel der Datei übernommen.
+config_number_of_versions#:#Max. Anzahl Versionen
+config_number_of_versions_info#:#Die Anzahl Versionen, die im Versionsverlauf geladen werden (default = 10).
+config_tab_general#:#Allgemein
+config_tab_templates#:#Vorlagen
+config_create_template#:#Neue Vorlage erstellen
+config_edit_template#:#Vorlage bearbeiten
+config_table_type#:#Typ
+config_table_title#:#Titel
+config_table_description#:#Beschreibung
+config_table_extension#:#Erweiterung
+config_table_settings#:#Einstellungen
+config_table_options#:#Optionen
+config_table_edit#:#Bearbeiten
+config_table_delete#:#Löschen
+config_template_saved#:#Vorlage gespeichert
+config_template_edited#:#Vorlage erfolgreich bearbeitet
+config_template_deleted#:#Vorlage erfolgreich gelöscht
+config_template_invalid_extension#:#Die Dateierweiterung der hochgeladenen Vorlage is ungültig. Bitte überprüfen Sie jeweils die Blacklist und Whitelist Ihrer ILIAS-Instanz.
+config_template_unrecognised_extension#:#Die Dateierweiterung der hochgeladenen Vorlage wird nicht von OnlyOffice unterstützt. Bitte benutzen Sie einen unterschiedlichen Dateityp.
+config_template_delete#:#Möchten Sie die folgende Vorlage wirklich löschen?
+last_edit#:#Zuletzt bearbeitet
+editing_period#:#Bearbeitungszeitraum
+-edit_settings-#:#Inhalt Bearbeiten
+-show_versions-#:#Versionen
+settings_allow_edit#:#Benutzer dürfen bearbeiten
+settings_allow_edit_limited#:#Begrenzter Zeitraum
+settings_allow_edit_limited_start#:#Startzeit
+settings_allow_edit_limited_end#:#Endzeit
+settings_allow_edit_info#:#Alle Benutzer mit Leserecht dürfen die Datei auch bearbeiten.
+editor_edit_timeup#:#Der Bearbeitungszeitraum für das Dokument ist abgelaufen. Das Dokument befindet sich nun im Lesemodus.
+editor_edit_timewasup#:#Die aktuelle Zeit liegt ausserhalb des Bearbeitungszeitraumes für das Dokument. Das Dokument befindet sich nun im Lesemodus.
+editor_edit_period#:#Der Bearbeitungszeitraum für das Dokument ist %s.
