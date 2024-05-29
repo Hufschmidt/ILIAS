@@ -105,6 +105,8 @@ class ilObjOnlyOfficeGUI extends ilObjectPluginGUI
      */
     public function performCommand(string $cmd): void
     {
+        $this->setTitleAndDescription();
+        
         self::dic()->help()->setScreenIdComponent(ilOnlyOfficePlugin::PLUGIN_ID);
         $next_class = self::dic()->ctrl()->getNextClass($this);
 
@@ -215,7 +217,7 @@ class ilObjOnlyOfficeGUI extends ilObjectPluginGUI
         $ti = new ilTextInputGUI($this->lng->txt("title"), "title");
         $ti->setSize(min(40, ilObject::TITLE_LENGTH));
         $ti->setMaxLength(ilObject::TITLE_LENGTH);
-        $ti->setInfo(self::plugin()->translate("create_title_info"));
+        //$ti->setInfo(self::plugin()->translate("create_title_info"));
         $ti->setRequired(true);
         $ti->setMaxLength(100);
         $form->addItem($ti);
@@ -278,7 +280,7 @@ class ilObjOnlyOfficeGUI extends ilObjectPluginGUI
         if (count($templates) >= 1) {
             $file_settings->addOption($file_settings_template_option);
         } else {
-            $file_settings->setInfo(self::plugin()->translate('form_input_template_no_templates'));
+            //$file_settings->setInfo(self::plugin()->translate('form_input_template_no_templates'));
         }
 
         $file_settings->setValue("ilias");
@@ -351,7 +353,7 @@ class ilObjOnlyOfficeGUI extends ilObjectPluginGUI
 
         // Handle file upload, otherwise create new document
         if ($_POST[self::POST_VAR_FILE_SETTING] === self::OPTION_SETTING_UPLOAD) {
-            self::dic()->upload()->process();
+            //self::dic()->upload()->process();
             $results = self::dic()->upload()->getResults();
             $result = end($results);
             $this->storage_service->createNewFileFromUpload($result, $a_new_object->getId());
