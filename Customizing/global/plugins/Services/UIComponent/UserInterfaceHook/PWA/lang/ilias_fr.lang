@@ -1,0 +1,9 @@
+configuration_saved#:#Configuration enregistrée
+settings#:#Paramètres de la Progressive Web App
+title_long#:#Nom de l’App
+title_short#:#Nom court de l’App
+icon_192#:#Icône petite (192 x 192px, PNG)
+icon_512#:#Icône grande (512 x 512px, PNG)
+install_title#:#Installer l’app sur votre appareil
+not_now#:#Pas maintenant
+install#:#Installer
