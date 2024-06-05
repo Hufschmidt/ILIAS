@@ -194,7 +194,7 @@ class assStackQuestionGUI extends assQuestionGUI
      */
 	public function getSolutionOutput($active_id, $pass = null, $graphicalOutput = false, $result_output = false, $show_question_only = true, $show_feedback = false, $show_correct_solution = false, $show_manual_scoring = false, $show_question_text = true): string
     {
-        global $tpl;
+        global $DIC, $tpl;
 
         StackRenderIlias::ensureMathJaxLoaded();
 
@@ -205,6 +205,7 @@ class assStackQuestionGUI extends assQuestionGUI
             }
         } else {
             $purpose = 'preview';
+            $active_id = $DIC->user()->getId();
         }
 
         $seed = assStackQuestionDB::_getSeed($purpose, $this->object, (int)$active_id, (int)$pass);
@@ -1496,18 +1497,10 @@ class assStackQuestionGUI extends assQuestionGUI
 		$seed = (int) $_GET['variant_identifier'];
 		$question_id = (int) $_GET['q_id'];
 
-        if ($seed != $active_variant) {
-            //delete seed
-            assStackQuestionDB::_deleteStackSeeds($question_id, '', $seed);
+        //delete seed
+        assStackQuestionDB::_deleteStackSeeds($question_id, '', $seed);
 
-            $this->randomisationAndSecurity();
-        } else {
-            $content = $renderer->render($factory->messageBox()->failure($DIC->language()->txt('qpl_qst_xqcas_ui_author_randomisation_cannot_delete_active_variant')));
-
-            $content .= $renderer->render($factory->button()->standard($DIC->language()->txt("back"), $this->ctrl->getLinkTarget($this, "randomisationAndSecurity")));
-
-            $this->tpl->setContent($content);
-        }
+        $this->randomisationAndSecurity();
 	}
 
 	/**
@@ -2083,13 +2076,8 @@ class assStackQuestionGUI extends assQuestionGUI
             $questions = assStackQuestionDB::_getAllQuestionsFromPool((int) $this->object->getId(), (int) $this->object->getQuestionTypeID(), true);
         }
 
-        foreach (StackCheckPrtPlaceholders::getMissing($questions) as $question_id => $missing) {
-            if (empty($missing["missing"])) {
-                $pane = sprintf($DIC->language()->txt('qpl_qst_xqcas_ui_admin_configuration_quality_check_prt_placeholders_no_prts'), $question_id);
-                $pane .= '<br><br><strong>Title: </strong>' . $missing["title"];
-
-                $rendered .= $DIC->ui()->renderer()->render($DIC->ui()->factory()->messageBox()->failure($pane));
-            } else {
+        foreach (StackCheckPrtPlaceholders::getErrors($questions) as $question_id => $missing) {
+            if (!empty($missing["missing"])) {
                 $pane = '<div style="display: flex; width: 100%; justify-content: space-between;">';
                 $pane .= sprintf($DIC->language()->txt('qpl_qst_xqcas_ui_admin_configuration_quality_check_prt_placeholders_missing_placeholders'), $question_id, implode(', ', $missing["missing"]));
                 $this->ctrl->setParameterByClass("assStackQuestionGUI", "question_id", $question_id);
@@ -2098,6 +2086,20 @@ class assStackQuestionGUI extends assQuestionGUI
                 $pane .= '<br><strong>Title: </strong>' . $missing["title"];
 
                 $rendered .= $DIC->ui()->renderer()->render($DIC->ui()->factory()->messageBox()->confirmation($pane));
+            } else if (!empty($missing["badname"])) {
+                $pane = '<div style="display: flex; width: 100%; justify-content: space-between;">';
+                $pane .= sprintf($DIC->language()->txt('qpl_qst_xqcas_ui_admin_configuration_quality_check_prt_placeholders_bad_name'), $question_id, implode(', ', $missing["badname"]));
+                $this->ctrl->setParameterByClass("assStackQuestionGUI", "question_id", $question_id);
+                $pane .= $DIC->ui()->renderer()->render($DIC->ui()->factory()->button()->standard("Fix", $this->ctrl->getLinkTargetByClass("assStackQuestionGUI", "fixPrtName")));
+                $pane .= '</div>';
+                $pane .= '<br><strong>Title: </strong>' . $missing["title"];
+
+                $rendered .= $DIC->ui()->renderer()->render($DIC->ui()->factory()->messageBox()->info($pane));
+            } else {
+                $pane = sprintf($DIC->language()->txt('qpl_qst_xqcas_ui_admin_configuration_quality_check_prt_placeholders_no_prts'), $question_id);
+                $pane .= '<br><br><strong>Title: </strong>' . $missing["title"];
+
+                $rendered .= $DIC->ui()->renderer()->render($DIC->ui()->factory()->messageBox()->failure($pane));
             }
         }
 
@@ -2132,6 +2134,32 @@ class assStackQuestionGUI extends assQuestionGUI
             $rendered = $DIC->ui()->renderer()->render($DIC->ui()->factory()->messageBox()->failure("Unknown error"));
         }
 
+        $this->tpl->setContent($rendered);
+    }
+
+    /**
+     * Fix the PRT names
+     */
+    public function fixPrtName() {
+        global $DIC;
+
+        $tabs = $DIC->tabs();
+
+        $tabs->activateTab('edit_properties');
+        $tabs->activateSubTab('randomisation_and_security');
+
+
+        if (isset($_GET['question_id'])) {
+            $result = StackCheckPrtPlaceholders::fixBadNames($_GET['question_id']);
+
+            $rendered = "<h2>" . $DIC->language()->txt('qpl_qst_xqcas_ui_admin_configuration_quality_check_prt_names_fixed') . "</h2>";
+            $rendered .= "<br><strong>Title: </strong><br>" . $result["title"];
+            $rendered .= "<br><br>" . $result["changed"];
+
+            $rendered = $DIC->ui()->renderer()->render($DIC->ui()->factory()->messageBox()->success($rendered));
+        } else {
+            $rendered = $DIC->ui()->renderer()->render($DIC->ui()->factory()->messageBox()->failure("Unknown error"));
+        }
 
         $this->tpl->setContent($rendered);
     }
