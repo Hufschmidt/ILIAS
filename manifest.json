@@ -1,6 +1,6 @@
 {
-    "short_name": "ILIAS Marburg App",
-    "name": "ILIAS Marburg App",
+    "short_name": "ILIAS Marburg WebApp",
+    "name": "ILIAS Marburg WebApp",
     "icons": [
     {
       "src": "/Customizing/global/plugins/Services/UIComponent/UserInterfaceHook/PWA/manifest_logo64.png",
