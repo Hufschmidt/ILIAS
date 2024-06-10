@@ -61,6 +61,7 @@ class ilSCCronTrash extends ilCronJob
     public function getValidScheduleTypes(): array
     {
         return [
+            self::SCHEDULE_TYPE_IN_HOURS,
             self::SCHEDULE_TYPE_DAILY,
             self::SCHEDULE_TYPE_WEEKLY,
             self::SCHEDULE_TYPE_MONTHLY,
