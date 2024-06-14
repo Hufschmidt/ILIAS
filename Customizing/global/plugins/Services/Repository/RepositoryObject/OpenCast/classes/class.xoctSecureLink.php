@@ -47,7 +47,7 @@ class xoctSecureLink
 
         $data = $opencastContainer[API::class]->routes()->securityApi->sign($url, $valid_until, $ip);
 
-        if ($data->error) {
+        if (isset($data->error)) {
             // We would only be able to log it here as error to avoid further confilicts.
             xoctLog::getInstance()->write(
                 "[Error]: Signing link ($url) failed: {$data->error}",
@@ -102,10 +102,8 @@ class xoctSecureLink
             $additional_time_percent = PluginConfig::getConfig(
                 PluginConfig::F_SIGN_PLAYER_LINKS_ADDITIONAL_TIME_PERCENT
             ) / 100;
-            $valid_until = gmdate(
-                "Y-m-d\TH:i:s\Z",
-                time() + $duration_in_seconds + $duration_in_seconds * $additional_time_percent
-            );
+            $valid_until_timestamp = time() + $duration_in_seconds + $duration_in_seconds * $additional_time_percent;
+            $valid_until = gmdate("Y-m-d\TH:i:s\Z", (int)$valid_until_timestamp);
         }
         $url_path = parse_url($url, PHP_URL_PATH);
         $extension = pathinfo($url_path, PATHINFO_EXTENSION);
