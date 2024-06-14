@@ -1,0 +1,158 @@
+//
+// Copyright (c) 2017 Institut fuer Lern-Innovation, Friedrich-Alexander-Universitaet Erlangen-Nuernberg
+// GPLv3, see LICENSE
+//
+// @author Fred Neumann <fred.neumann@fau.de>
+// @version $Id$
+//
+
+<!-- language file start -->
+publish_oer#:#OER-Veröffentlichung
+publish#:#Veröffentlichen...
+unpublish#:#Zurückziehen
+republish#:#Aktualisieren...
+label_status#:#Status:
+label_licence#:#Lizenz:
+label_published#:#Veröffentlicht
+label_ready#:#Nicht veröffentlicht
+label_private#:#Nicht veröffentlicht
+label_broken#:#Veröffentlicht, aber nicht in der OER-Kategorie zugreifbar!
+msg_meta_published#:#Die Metadaten wurden veröffentlicht.
+msg_meta_republished#:#Die veröffentlichten Metadaten wurden aktualisiert.
+msg_meta_unpublished#:#Die veröffentlichten Metadaten wurden zurückgezogen.
+help#:#Hilfe
+more_help#:#Hilfe-Wiki öffnen
+back#:#Zurück
+config_base#:#Grundfunktionen
+config_base_info#:#Hier stellen Sie die Grundfunktionen des Plugins ein
+wiki_ref_id#:#Hilfe-Wiki
+wiki_ref_id_info#:#Wählen Sie das importierte OERinForm-Wiki aus. Die Seiten in diesem Wiki können als Hilfeseiten bei bestimmte Funktionen eingeblendet werden.
+pub_ref_id#:#OER-Kategorie
+pub_ref_id_info#:#Kategorie im öffentlichen Bereich, in welche die veröffentlichten Materialien verknüpft werden sollen. Die Rechtevoreinstellungen in dieser Kategorie müssen alle neuen Objekte für Anonymous lesbar machen!
+wizard#:#Assistent
+wizard_finish#:#Freigeben
+wizard_next#:#Weiter
+wizard_previous#:#Zurück
+wizard_step#:#Schritt %s:
+oer_publishing#:#OER-Veröffentlichung
+check_rights#:#Prüfung auf Rechte Dritter
+check_rights_desc#:#Ihr Inhalt kann nur als OER veröffentlicht werden, wenn er frei von Rechten Dritter ist, oder die verwendenten Inhalte Dritter ebenfalls unter einer OER-Lizenz veröfentlicht sind.
+select_license#:#Festlegung einer Lizenz
+select_license_desc#:#Sie sollten Ihr Material unter einer "Creative Commons"-Lizenz veröffentlichen. Wählen sie zunächst alle Lizenzen von Teilen Ihres Materials aus und klicken Sie dann auf "Speichern und Prüfen". Anschließend sehen Sie, welche Lizenz Sie für das gesamte Material wählen können.
+check_attrib#:#Korrekte Lizenzangaben
+check_attrib_desc#:#Überprüfen Sie die richtige Auszeichnung des Materials
+describe_meta#:#Einordnen und Beschreiben
+describe_meta_desc#:#Vergeben Sie die wichtigsten Zusatzangaben, damit Ihr Inhalt mit entsprechenden Suchfiltern gefunden wird
+declare_publish#:#Einverständniserklärung und Freigabe
+declare_publish_desc#:#Zur Veröffentlichung müssen Sie noch Ihre Einverständniserklärung speichern. Sind alle Prüfungen erfolgt und die Voraussetzungen erfüllt, können Sie den Inhalt als OER freigeben. Er wird im öffentlichen Bereich sichtbar und seine Metadaten werden für OER-Verzeichnisse ausgegeben.
+cr_berechtigung#:#Urheber*in oder Rechteinhaber*in
+cr_schoepfung#:#Geistige Schöpfung
+cr_erschaffen#:#Selbst erschaffen
+cr_zustimmung#:# Miturheber*innen
+cr_exklusiv#:#Nutzungsrechte
+cr_schoepfung_info#:#Das Material bzw. Werk ist eine geistige Schöpfung i.S.v. § 2 UrhG oder eine Leistung anderer Art  nach § 70 ff. UrhG.
+cr_erschaffen_info#:#Ich habe das Werk erschaffen.
+cr_zustimmung_info#:#Ich habe für die Veröffentlichung die Zustimmung von eventuellen Miturheber*innen, die an dem Werk einen eigenen schöpferischen Anteil erbracht haben, eingeholt.
+cr_exklusiv_info#:#Ich habe das Werk zwar nicht selbst erschaffen, aber mir wurden von dem*der Urheber*in die exklusiven Nutzungsrechte eingeräumt, so dass ich dazu befugt bin, das Werk unter einer offenen Lizenz zu veröffentlichen.
+cr_sonstige_rechte#:#Sonstige Rechte beachten
+cr_persoenlichkeit#:#Perönlichkeitsrecht
+cr_einwilligung#:#Abbildungen
+cr_musik#:#Musik
+cr_marken#:#Markenrechte
+cr_kontext#:#Kontext
+cr_sonstige_rechte_info#:#Habe ich nicht gegen sonstige Rechte verstoßen?
+cr_persoenlichkeit_info#:#Ich habe das allgemeine Persönlichkeitsrecht (Recht am eigenen Bild, Recht am eigenen Wort) anderer beachtet und eine Einwilligung (vorzugsweise schriftlich) eingeholt.
+cr_einwilligung_info#:#Bei Abbildungen von Personen habe ich mir die Einwilligung der Abgebildeten eingeholt (außer es besteht eine Ausnahme nach §§ 22, 23 KUG).
+cr_musik_info#:#Sofern ich Musik eingeflochten habe, habe ich die Rechte geprüft und gegebenenfalls eine GEMA- Meldung gemacht.
+cr_marken_info#:#Ich habe geprüft, ob an abgebildeten Motiven Markenrechte bestehen.
+cr_kontext_info#:#Ich verwende das Material nicht in einem Kontext, dass den*die Urheber*in in einem schlechten Licht darstellt und ihn*sie bzw. seine*ihre Aussage „entstellt“ i.S.v. § 14 UrhG.
+ca_selbst#:#Lizenzangabe des eigenen Materials
+ca_lizenz_selbst#:#Eigene Lizenz
+ca_lizenz_link#:#Link zum Lizenztext
+ca_lizenz_kompat#:#Kompatibilität
+ca_lizenz_selbst_info#:#Ich habe die Lizenz (inkl. Versionsnummer) unter mein Werk geschrieben bzw. so kenntlich gemacht, dass offensichtlich erkennbar ist, dass das Material unter der genannten CC- Lizenz stehen soll.
+ca_lizenz_link_info#:#Ich habe einen Link (bei digitalen Produkten genügt ein hinterlegter Hyperlink, ansonsten ausgeschrieben) zum Lizenztext hinzugefügt.
+ca_lizenz_kompat_info#:#Ich habe die Kompatibilität zwischen den verwendeten Lizenzen und meiner vergebenen Lizenz geprüft und halte mich in dem Rahmen der Lizenz.
+ca_tullu#:#TULLU-Regel
+ca_urheber#:#Urheber*in
+ca_miturheber#:#Miturheber*in
+ca_titel#:#Titel
+ca_lizenz_andere#:#Lizenz
+ca_aenderungen#:#Änderungen
+ca_tullu_info#:#TULLU ist eine Merkhilfe für die folgenden notwendigen Angaben: Titel, Urheber*in, Lizenz, Link, [Ursprungsort].
+ca_urheber_info#:#Ich habe den*die Urheber*in des verwendeten Materials/der Materialauszüge genannt.
+ca_miturheber_info#:#Sofern existent, habe ich Miturheber*innen ebenfalls als Urheber*innen gekennzeichnet.
+ca_titel_info#:#Sofern das Werk einen Titel hat, habe ich ihn aufgeführt.
+ca_lizenz_andere_info#:#Ich habe den Link zur CC-Lizenz (bei digitalen Produkten genügt ein hinterlegter Hyperlink, ansonsten ausgeschrieben) zum Lizenztext hinzugefügt.
+ca_aenderungen_info#:#Ich habe die Änderungen, die ich an dem Material vorgenommen habe, gekennzeichnet und ausreichend beschrieben.
+ca_weitere#:#Weitere Prüfungen
+ca_fotos#:#Fotos
+ca_nichtoffen#:#Andere Lizenzen
+ca_zitat#:#Zitate
+ca_nichtkomm#:#Nichtkommerziell
+ca_quellen_check#:#Quellen und Dokumentation
+ca_fotos_info#:#Bei Fotos habe ich, sofern möglich, den Lizenzhinweis gut sichtbar in unmittelbarer Nähe zu dem Foto angebracht.
+ca_nichtoffen_info#:#Sofern ich Material, das nicht unter einer offenen Lizenz steht, verwendet habe, habe ich dies gekennzeichnet und darauf hingewiesen, dass „soweit nicht anders gekennzeichnet, das Material unter der angegebenen Lizenz steht“.
+ca_zitat_info#:#Sofern ich mich in der Zitatschranke des § 51 UrhG bewege, dient das Zitat dem Zweck des neuen Kontextes bzw. es findet eine inhaltliche Auseinandersetzung statt.
+ca_nichtkomm_info#:#Sofern ich Material mit einer NC-Lizenz verwendet habe, ist meine Nutzung auch wirklich „nicht- kommerziell“ (Achtung: Dies könnte von den Gerichten auch für die Verwendung im universitären Rahmen bejaht werden).
+ca_quellen_check_info#:#Ich habe die Quellen des verwendeten Materials überprüft und halte sie für zuverlässig. Ich vertraue den Quellen so weit, dass sie keine Urheberrechte oder Persönlichkeitsrechte verletzen. Ich habe alle verwendeten Quellen und Hilfsmittel nach bestem Wissen und Gewissen dokumentiert.
+sl_existing#:#Lizenzen enthaltener Werke
+sl_cc0#:#CC0
+sl_cc_by#:#CC BY
+sl_cc_by_sa#:#CC BY-SA
+sl_cc_by_nd#:#CC BY-ND
+sl_cc_by_nc#:#CC BY-NC
+sl_cc_by_nc_sa#:#CC BY-NC-SA
+sl_cc_by_nc_nd#:#CC BY-NC-ND
+sl_other#:#Andere
+sl_own_choice#:#Gesamt-Lizenz
+sl_cc0_info#:#Das Werk unterliegt keinerlei Urheberrechtsschutz und kann ohne Einschränkungen genutzt und verändert werden.
+sl_cc_by_info#:#Das Werk kann frei genutzt und verändert werden, sofern der*die Urherber*in genannt wird.
+sl_cc_by_sa_info#:#Das Werk kann frei genutzt und verändert werden, sofern der*die Urherber*in genannt wird und das neue Werk unter derselben CC-Lizenz wie das Ursprungswerk veröffentlicht wird.
+sl_cc_by_nd_info#:#Das Werk kann frei genutzt werden, sofern der*die Urherber*in genannt wird. Es darf jedoch nicht verändert werden.
+sl_cc_by_nc_info#:#Das Werk kann frei genutzt und verändert werden, sofern der*die Urherber*in genannt wird und das Werk nicht kommerziell genutzt wird.
+sl_cc_by_nc_sa_info#:#Das Werk kann frei genutzt werden, sofern der*die Urherber*in genannt und das Werk nicht kommerziell genutzt werden, sowie das neue Werk unter derselben CC-Lizenz wie das Ursprungswerk veröffentlicht wird.
+sl_cc_by_nc_nd_info#:#Das Werk kann frei genutzt werden, sofern der*die Urherber*in genannt und das Werk nicht kommerziell genutzt werden. Es darf jedoch nicht verändert werden.
+sl_other_info#:#Das Material einthält auch Werke unter anderen Lizenzen. Für diese müssen Sie selbst prüfen, ob sie mit einer CC-Lizenz vereinbar sind.
+sl_own_choice_info#:#Wählen Sie hier die Lizenz, unter der Sie das Material veröffentlichen wollen. Eine bereits in den Metadaten festgelege Lizenz ist hier voreingestellt. Wenn Sie die Auswahl hier ändern, wird das erst bei der Freigabe im letzten Schritt verändert. Die Lizenzen "CC0", "CC BY" und "CC BY-SA" gelten allgemein als OER-konform und werden von CreativeCommons.org als Free Cultural Works anerkannt.
+cf_freigabe#:#Einverständniserklärung und Freigabe
+cf_konsequenzen#:#Bleibende Lizenz
+cf_bereit#:#Veröffentlichung
+cf_konsequenzen_info#:#Ich habe die Lizenzentscheidung wohlüberlegt getroffen, wissend, dass eine nachträgliche Rücknahme oder Änderung nicht möglich ist.
+cf_bereit_info#:#Ich bin bereit, das Material zu veröffentlichen.
+selected_license#:#Ausgewählte Lizenz
+no_cc_license#:#Keine oder andere Lizenz
+no_cc_license_info#:#Mit dieser Auswahl können Sie das Material nicht als OER veröffentlichen.
+save_and_check#:#Speichern und Prüfen
+public_ref_not_created#:#Das Objekt konnte nicht in der OER-Kategorie verknüpft werden!
+public_ref_not_public#:#Das Objekt ist in der OER-Kategorie verknüpft, aber nicht öffentlich lesbar. Bitte kontaktieren Sie Ihren Plattform-Administrator.
+fail_cr_berechtigung#:#Bearbeiten Sie "Urheber oder Rechteinhaber"
+fail_cr_sonstige_rechte#:#Bearbeiten Sie "Sonstige Rechte"
+fail_select_license#:#Ihre Lizenzwahl ist nicht geeignet
+fail_metadata#:#Sie müssen mindestens Titel und Autor(en) angeben.
+fail_ca_selbst#:#Bearbeiten Sie "Lizenzangaben des eigenen Materials"
+fail_ca_tullu#:#Bearbeiten Sie die "TULLU-Regel"
+fail_ca_weitere#:#Bearbeiten Sie "Weitere Prüfungen"
+fail_check_final#:#Bearbeiten Sie die Einverständniserklärung
+basic_configuration#:#Grund-Konfiguration
+label_keywords#:#Stichworte:
+label_authors#:#Autor(en):
+config_help#:#Hilfe-Seiten
+config_help_info#:#Hier können Sie Urls angeben, die bei der Veröffentlichung eines Inhalts als Hilfeseiten verlinkt werden. Sie öffnen sich in einem neuen Fenster.
+noti_head#:#Benachrichtigung
+noti_check#:#Abgestimmt
+noti_check_info#:#Die Veröffentlichung des Materials ist mit meinem Vorgesetzten bzw. der Arbeitsgruppe abgestimmt. Zur Bestätigung trage ich die E-Mail-Adresse der mir vorgesetzten Person ein, die bei Fertigstellung der Freigabe über die Veröffentlichung informiert wird.
+noti_mail#:#E-Mail-Adresse
+fail_notification#:# Sie müssen die Veröffentlichung abstimmen und eine E-Mail-Adresse zur Benachrichtigung eingeben.
+mail_notification#:#Benachrichtigung
+mail_notification_info#:#Konfigurieren Sie hier die Vorlage für eine E-Mail, die versendet wird, sobald ein Inhalt zur Veröffentlichung im OER-Assistenten freigegeben wird. Die Empfänger-Adresse wird im Assistenten beim ersten Schritt eingegeben.
+config_mail#:#Benachrichtigung über Veröffentlichung
+noti_subject#:#Betreff
+noti_subject_default#:#OER-Veröffentlichung
+noti_message#:#Inhalt
+noti_message_default#:#Dies ist eine automatisch generierte Mail, die Sie über die Veröffentlichung von Material aus Ihrem Arbeitsumfeld informiert. Den Inhalt finden Sie unter folgendem Link:\n[CONTENT_LINK]\n\nDer Inhalt wurde veröffentlicht von: [PUBLISHER_NAME] <[PUBLISHER_EMAIL]>\n\nWenn Sie mit der Veröffentlichung nicht einverstanden sind, wenden Sie sich bitte an die Autor*innen oder in letzter Instanz an den ILIAS-Support.
+mail_content_link#:#Link zum veröffentlichten Inhalt
+mail_publisher_name#:#Titel, Vor- und Nachname der Person, die den Inhalt veröffentlicht
+mail_publisher_email#:#E-Mail-Adresse der Person, die den Inhalt veröffentlicht
+publish_notification_failed#:#Das Objekt wurde veröffentlicht, aber die Benachrichtigung konnte nicht versandt werden.
+published_and_notified#:#Das Objekt wurde veröffentlicht und die Benachrichtigung versandt.
