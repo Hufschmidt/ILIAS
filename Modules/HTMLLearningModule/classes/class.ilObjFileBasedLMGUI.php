@@ -99,6 +99,12 @@ class ilObjFileBasedLMGUI extends ilObjectGUI
             case "ilfilesystemgui":
                 $this->checkPermission("write");
                 $ilTabs->activateTab('id_list_files');
+
+                // UMR: Info about max filesize
+                $bytes = ilFileUtils::getUploadSizeLimitBytes();
+                $info  = sprintf("%s %.1f MB", $this->lng->txt("file_notice"), $bytes / 1024 / 1024);
+                $this->tpl->setOnScreenMessage('info', $info, true);
+
                 $fs_gui = new ilFileSystemGUI($this->object->getDataDirectory());
                 $fs_gui->activateLabels(true, $this->lng->txt("cont_purpose"));
                 $fs_gui->setUseUploadDirectory(true);
