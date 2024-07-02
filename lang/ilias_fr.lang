@@ -7400,6 +7400,7 @@ crs#:#crs_course_status_of_users#:#Validation des Utilisateurs
 crs#:#crs_create_date#:#Date de création
 crs#:#crs_custom_user_fields#:#Données Personnelles pour le Cours
 crs#:#crs_custom_user_fields_infobox#:#Create additional data fields for course members to fill in when joining. You can show this information as an additional column in the "Members" tab.###14 05 2024 new variable
+crs#:#crs_custom_user_fields_table_title#:#Relevant User Data of This Course###25 06 2024 new variable
 crs#:#crs_dates#:#Dates
 crs#:#crs_deactivate_notification#:#Désactiver Notification
 crs#:#crs_delete_objectve_sure#:#Etes-vous sûr de vouloir supprimer les objectifs sélectionnés ?
@@ -9890,6 +9891,7 @@ grp#:#grp_create_or_use_existing#:#Voulez-vous ajouter l’utilisateur à un gro
 grp#:#grp_created_and_user_been_added#:#Le groupe a été créé et l'utilisateur a été ajouté.
 grp#:#grp_custom_user_fields#:#Données Personnelles pour le Groupe
 grp#:#grp_custom_user_fields_infobox#:#Create additional data fields for group members to fill in when they join. You can show this information as an additional column in the "Members" tab.###14 05 2024 new variable
+grp#:#grp_custom_user_fields_table_title#:#Relevant User Data of This Group###25 06 2024 new variable
 grp#:#grp_deactivate_notification#:#Désactiver Notification
 grp#:#grp_edit_members#:#Modifier les participants
 grp#:#grp_enable_map#:#Activer Carte du Groupe
@@ -11125,9 +11127,8 @@ mathjax#:#mathjax_polyfill_url#:#Url of a Polyfill###31 10 2023 new variable
 mathjax#:#mathjax_polyfill_url_desc_line1#:#For MathJax 2 not needed###31 10 2023 new variable
 mathjax#:#mathjax_polyfill_url_desc_line2#:#For MathJax 3 e.g. https://polyfill.io/v3/polyfill.min.js?features=es6###31 10 2023 new variable
 mathjax#:#mathjax_script_url#:#URL of the MathJax Script###31 10 2023 new variable
-mathjax#:#mathjax_script_url_desc_line1#:#For MathJax 2 e.g. https://cdn.jsdelivr.net/npm/mathjax@2.7.9/MathJax.js?config=TeX-AMS-MML_HTMLorMML,Safe###31 10 2023 new variable
-mathjax#:#mathjax_script_url_desc_line2#:#For MathJax 3 e.g. https://cdn.jsdelivr.net/npm/mathjax@3.0.1/es5/tex-mml-chtml.js###31 10 2023 new variable
-mathjax#:#mathjax_script_url_desc_line3#:#Please activate the safe mode to avoid XSS attacks by MathJax code with javascript. For MathJax 2 it can be activated by adding the 'Safe' parameter to the CDN url. For MathJax 3 you need to include script that configures it before MathJax is loaded. Use for example https://your-domain/your-ilias/Services/MathJax/js/cdn-mathjax3-es5-tex-mml-chtml-safe.js###31 10 2023 new variable
+mathjax#:#mathjax_script_url_desc_line1#:#For MathJax 2 e.g. %s###31 10 2023 new variable
+mathjax#:#mathjax_script_url_desc_line2#:#Please activate the safe mode to avoid XSS attacks by MathJax code with javascript. For MathJax 2 it can be activated by adding the 'Safe' parameter to the CDN url. For MathJax 3 you need to include a script that configures it before MathJax is loaded. Use for example %s###31 10 2023 new variable
 mathjax#:#mathjax_server_address#:#Adresse de serveur
 mathjax#:#mathjax_server_address_info#:#Par ex. http://localhost:8003
 mathjax#:#mathjax_server_cache_cleared#:#Le cache MathJax a été supprimé.
@@ -16338,6 +16339,8 @@ tbl#:#tbl_template_deleted#:#La vue courante a été supprimée.
 tbl#:#tbl_templates#:#Vue
 tos#:#deleteDocument#:#Delete###31 10 2023 new variable
 tos#:#detachCriterionAssignment#:#Delete###31 10 2023 new variable
+tos#:#tos_accept_usr_agreement_anonymous#:#Terms of Service###25 06 2024 new variable
+tos#:#tos_accept_usr_agreement_anonymous_intro#:#Before you proceed to ILIAS you accept the following Terms of Service.###25 06 2024 new variable
 tos#:#tos_acceptance_history#:#Historique d'Acceptation
 tos#:#tos_account_reg_not_possible#:#A self registration is not possible because of a missing user agreement. Please contact your <a href="%1$s">system administrator</a> for further information.
 tos#:#tos_add_document_btn_label#:#Add Document
