@@ -1,39 +1,3 @@
-<style>
-.il-layout-page-content > div {
-        background:             url('') no-repeat scroll left top / cover;
-}
-.form-horizontal,
-.ilFormHeader,
-.ilFormFooter,
-.form-horizontal .form-group {
-    background-color: transparent;
-}
-div.ilc_section_Background,
-a.ilc_section_Background {
-  background-color: rgba(255, 255, 255, 0.8);
-}
-.ilFormHeader {
-  padding-top: 15px;
-}
-</style>
-
-<script>
-    document.addEventListener("DOMContentLoaded", function() {
-        // Ordnerpfad für die Hintergrundbilder
-        var imagePath = "./Customizing/global/skin/umr_8/background/";
-        // Element auswählen, das das Hintergrundbild enthält
-        var backgroundElement = document.querySelector(".il-layout-page-content > div");
-        // Bilder im Ordner einlesen
-        var imageFiles = ['image1.jpg', 'image2.jpg', 'image3.jpg', 'image4.jpg', 'image5.jpg', 'image6.jpg', 'image7.jpg', 'image8.jpg', 'image9.jpg', 'image10.jpg', 'image11.jpg'];
-        // Zufälliges Bild auswählen
-        var randomImage = imageFiles[Math.floor(Math.random() * imageFiles.length)];
-        // Vollständige Bild-URL erstellen
-        var backgroundImageUrl = imagePath + randomImage;
-        // Das Hintergrundbild im Stylesheet aktualisieren
-        backgroundElement.style.backgroundImage = "url('" + backgroundImageUrl + "')";
-    });
-</script>
-
 <!-- BEGIN login_information -->
 <div class="small">{TXT_LOGIN_INFORMATION}</div>
 <!-- END login_information -->
