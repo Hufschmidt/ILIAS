@@ -82,8 +82,8 @@ class ilWhiteboardConfigGUI extends ilPluginConfigGUI
             $object = $this->object;
 
             $field = self::$factory->input()->field()->text(
-                $this->plugin_object->txt('websocket_url'),
-                $this->plugin_object->txt('info_websocket_url'))
+                $this->plugin_object->txt('info_websocket_url'),
+                $this->plugin_object->txt('info_websocket_url_info'))
                 ->withValue($object->getWebsocket())
                 ->withRequired(true)
                 ->withAdditionalTransformation($DIC->refinery()->custom()->transformation(

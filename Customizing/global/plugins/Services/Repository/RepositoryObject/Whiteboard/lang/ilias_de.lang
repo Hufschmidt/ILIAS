@@ -1,5 +1,5 @@
-obj_xswb#:#Test Whiteboard-Raum
-objs_xswb#:#Test Whiteboard-Räume
+obj_xswb#:#Whiteboard
+objs_xswb#:#Whiteboards
 obj_xswb_duplicate#:#Kopieren
 objs_xswb_duplicate#:#Kopiere Whiteboard
 obj_xswb_select#:#Wähle Whiteboard
@@ -10,14 +10,14 @@ xswb_write#:#Whiteboard bearbeiten
 xswb_delete#:#Whiteboard löschen
 xswb_visible#:#Whiteboard ist sichtbar
 xswb_edit_permission#:#Zugriffsrecht bearbeiten
-crs_create_xswb#:#Erstelle Whiteboard
-grp_create_xswb#:#Erstelle Whiteboard
-fold_create_xswb#:#Erstelle Whiteboard
-root_create_xswb#:#Erstelle Whiteboard
-cat_create_xswb#:#Erstelle Whiteboard
+crs_create_xswb#:#Whiteboard anlegen
+grp_create_xswb#:#Whiteboard anlegen
+fold_create_xswb#:#Whiteboard anlegen
+root_create_xswb#:#Whiteboard anlegen
+cat_create_xswb#:#Whiteboard anlegen
 title#:#Titel
 description#:#Beschreibung
-default_permissions#:#Standardberechtigungen
+default_permissions#:#Berechtigungen
 all_write#:#Alle Benutzer können bearbeiten
 all_read#:#Alle Benutzer können lesen
 online#:#Online
@@ -32,7 +32,7 @@ offline:#:Offline
 important#:#Wichtig
 online_status#:#Online Status
 lp_status#:#Lernfortschritt
-update_successful#:Die Änderungen wurden gespeichert.
+update_successful#:#Die Änderungen wurden gespeichert
 news_title#:#Titel (en)
 news_content#:#Inhalt (en)
 xswb_copy#:#Whiteboard kopieren
@@ -41,7 +41,7 @@ status#:#Status
 settings#:#Einstellungen
 info_websocket_url#:#Websocket URL
 info_websocket_url_info#:#Die Websocket URL wird benötigt, um die Whiteboard-App zu starten. Nur Domäne und Port, zum Beispiel: ilias8.com:5123
-info_config_saved#:#Die Konfiguration wurde gespeichert.
-room_full#:#Der Whiteboard-Raum ist voll.
-open_other_tab#:#In einem anderen Tab öffnen.
-websocket_error#:#Websocket-Verbindung fehlgeschlagen.
+info_config_saved#:#Die Konfiguration wurde gespeichert
+room_full#:#Der Whiteboard-Raum ist voll
+open_other_tab#:#Whiteboard is already open in another browser tab
+websocket_error#:#Websocket-Verbindung fehlgeschlagen
