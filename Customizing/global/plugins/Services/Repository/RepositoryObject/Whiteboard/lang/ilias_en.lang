@@ -1,0 +1,47 @@
+obj_xswb#:#Whiteboard Room
+objs_xswb#:#Whiteboard Rooms
+obj_xswb_duplicate#:#Copy
+objs_xswb_duplicate#:#Copy Test Repository Objects
+obj_xswb_select#:#Select Test Repository Object
+xswb_add#:#Add Whiteboard
+xswb_new#:#Add New Whiteboard
+xswb_read#:#Read access to Whiteboard
+xswb_write#:#Edit Whiteboard
+xswb_delete#:#Delete Whiteboard
+xswb_visible#:#Whiteboard is visible
+xswb_edit_permission#:#Change permission settings
+crs_create_xswb#:#Create Whiteboard Object
+grp_create_xswb#:#Create Whiteboard Object
+fold_create_xswb#:#Create Whiteboard Object
+root_create_xswb#:#Create Whiteboard Object
+cat_create_xswb#:#Create Whiteboard Object
+title#:#Title
+description#:#Description
+default_permissions#:#Default permissions
+all_write#:#All users can edit
+all_read#:#All users can read
+online#:#Online
+save#:#Save
+update#:#Update
+properties#:#Properties
+content#:#Content
+copy#:#Copy
+edit#:#Edit
+export#:#Export
+offline:#:Offline
+important#:#Important
+online_status#:#Online Status
+lp_status#:#Learning Progress
+update_successful#:#Update Successful
+news_title#:#Title (en)
+news_content#:#Content (en)
+xswb_copy#:#Copy Test Repository Object
+offline#:#Offline
+status#:#Status
+settings#:#Whiteboard Settings
+websocket_url#:#Websocket URL
+info_websocket_url#:#The Websocket URL is used to connect to the Websocket server. This is necessary for the collaborative whiteboard. Only domain and port, for example: ilias8.com:5123
+info_config_saved#:#The configuration has been saved.
+room_full#:#The whiteboard room is full.
+open_other_tab#:#You have already opened this room in another window.
+websocket_error#:#The Websocket server could not be reached. Please, contact your system administrator.
