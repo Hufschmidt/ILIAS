@@ -165,6 +165,13 @@ class ilMultiVcTableGUIRecordingsBBB extends ilTable2GUI
         // GET FILTERED DATA FROM DB AND ADD BBB-DATA
         #echo '<pre>'; var_dump([$hideRecsUntilDate, $this->parent_obj->object->getBBBRecsByRefId($refId, $hideRecsUntilDate)]); exit;
         foreach($this->parent_obj->object->getBBBRecsByRefId($refId, $hideRecsUntilDate) as $key => $data) {
+            // Check if the key exists in the $a_data array
+            if(!isset($a_data[$key])) {
+                // If gone, I suppose we can delete the entries from DB
+                $this->parent_obj->object->deleteBBBRecById($refId, $key);
+                continue;
+            }
+            
             if(!is_array($a_data[$key])) {
                 $a_data[$key] = [
                     'START_TIME' => '',
