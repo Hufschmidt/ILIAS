@@ -289,6 +289,7 @@ class ilObjInteractiveVideoGUI extends ilObjectPluginGUI implements ilDesktopIte
 		$video_tpl = $this->buildContentTemplate();
 
 		$tpl->setContent($video_tpl->get());
+        $tpl->setPermanentLink(ilInteractiveVideoPlugin::PLUGIN_ID, $this->ref_id);
 	}
 
     /**
@@ -2612,17 +2613,10 @@ class ilObjInteractiveVideoGUI extends ilObjectPluginGUI implements ilDesktopIte
                 $this->showTutorInsertChapterForm();
                 return;
             }
-			$this->ctrl->redirect($this, 'showTutorInsertCommentForm');
+			#$this->ctrl->redirect($this, 'showTutorInsertCommentForm');
+            $this->showTutorInsertCommentForm();
 		}
-
-		if($is_tutor)
-		{
-			$this->editComments();
-		}
-		else
-		{
-			$this->showContent();
-		}
+        
 	}
 
     /**
@@ -3187,7 +3181,12 @@ class ilObjInteractiveVideoGUI extends ilObjectPluginGUI implements ilDesktopIte
         $question->setFeedbackCorrect(ilInteractiveVideoPlugin::stripSlashesWrapping($this->getValueFromFormOrArray('feedback_correct', $form)));
         $question->setFeedbackOneWrong(ilInteractiveVideoPlugin::stripSlashesWrapping($this->getValueFromFormOrArray('feedback_one_wrong', $form)));
 
-        $question->setLimitAttempts((int)$this->getValueFromFormOrArray('limit_attempts', $form));
+        if ($question->getType() !== 2) {
+            $question->setLimitAttempts((int)$this->getValueFromFormOrArray('limit_attempts', $form));
+        } else {
+            $question->setLimitAttempts(0);
+        }
+
         $question->setIsJumpCorrect((int)$this->getValueFromFormOrArray('is_jump_correct', $form));
         $question->setShowCorrectIcon((int)$this->getValueFromFormOrArray('show_correct_icon', $form));
         $question->setFeedbackCorrectId((int)$this->getValueFromFormOrArray('feedback_correct_obj', $form));
