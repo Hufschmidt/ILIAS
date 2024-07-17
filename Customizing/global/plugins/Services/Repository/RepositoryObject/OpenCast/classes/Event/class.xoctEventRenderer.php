@@ -557,10 +557,10 @@ class xoctEventRenderer
         $tooltiptext = $this->plugin->txt('tooltip_copy_link');
         $unprotectedlink_html = '';
         foreach (array_combine($links, $heights) as $link => $height) {
-            //$signed_link = xoctSecureLink::signDownload($link);
+            $signed_link = xoctSecureLink::signDownload($link);
             $unprotectedlink_html .= 
             '<div class="xoct_tooltip">
-                <a onclick="xoctEvent.copyLink(this, event)" onmouseout="xoctEvent.outFunc(this)" data-url="'.$link.'">
+                <a onclick="xoctEvent.copyLink(this, event)" onmouseout="xoctEvent.outFunc(this)" data-url="'.$signed_link.'">
                     <span class="xoct_tooltiptext">'.$tooltiptext.'</span>
                     '.$height.'
                 </a>
