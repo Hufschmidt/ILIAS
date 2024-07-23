@@ -8814,6 +8814,7 @@ ecs#:#ecs_cmap_att_module#:#Module
 ecs#:#ecs_cmap_att_organisation#:#Organisation
 ecs#:#ecs_cmap_att_orgunit#:#Organisational Unit
 ecs#:#ecs_cmap_att_term#:#Term
+ecs#:#ecs_cmap_att_termID#:#Term-ID
 ecs#:#ecs_cmap_att_title#:#Title
 ecs#:#ecs_cmap_att_venue#:#Venue
 ecs#:#ecs_cmap_attributes#:#Mapping Attributes

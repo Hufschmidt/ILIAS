@@ -8814,6 +8814,7 @@ ecs#:#ecs_cmap_att_module#:#Modul
 ecs#:#ecs_cmap_att_organisation#:#Organisation
 ecs#:#ecs_cmap_att_orgunit#:#Organisationseinheit
 ecs#:#ecs_cmap_att_term#:#Semester
+ecs#:#ecs_cmap_att_termID#:#Semester-ID
 ecs#:#ecs_cmap_att_title#:#Veranstaltungstitel
 ecs#:#ecs_cmap_att_venue#:#Ort
 ecs#:#ecs_cmap_attributes#:#Attribute

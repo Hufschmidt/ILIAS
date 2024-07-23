@@ -71,6 +71,7 @@ class ilECSMappingUtils
                 'organisation',
                 'orgunit',
                 'term',
+                'termID',
                 'title',
                 'lecturer',
                 'courseType',
@@ -109,6 +110,9 @@ class ilECSMappingUtils
 
             case 'term':
                 return array((string) $course->term);
+
+            case 'termID':
+                return array((string) $course->termID);
 
             case 'title':
                 return array((string) $course->title);
