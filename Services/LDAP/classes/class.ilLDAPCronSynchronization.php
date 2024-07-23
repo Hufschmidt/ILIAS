@@ -86,7 +86,8 @@ class ilLDAPCronSynchronization extends ilCronJob
                 $current_server->doConnectionCheck();
                 $this->logger->info("LDAP: starting user synchronization for " . $current_server->getName());
 
-                $ldap_query = new ilLDAPQuery($current_server);
+                include_once('Services/LDAP/classes/class.ilLDAPQueryUMR.php');
+                $ldap_query = new ilLDAPQueryUMR($current_server);
                 $ldap_query->bind();
 
                 if (is_array($users = $ldap_query->fetchUsers())) {

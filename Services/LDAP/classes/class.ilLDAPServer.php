@@ -531,7 +531,8 @@ class ilLDAPServer
             try {
                 ilLoggerFactory::getLogger('auth')->debug('Using url: ' . $url);
                 // Need to do a full bind, since openldap return valid connection links for invalid hosts
-                $query = new ilLDAPQuery($this, $url);
+                include_once './Services/LDAP/classes/class.ilLDAPQueryUMR.php';
+                $query = new ilLDAPQueryUMR($this, $url);
                 $query->bind(ilLDAPQuery::LDAP_BIND_TEST);
                 $this->url = $url;
                 return true;

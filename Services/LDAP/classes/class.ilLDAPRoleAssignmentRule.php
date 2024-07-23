@@ -151,7 +151,8 @@ class ilLDAPRoleAssignmentRule
         }
 
         try {
-            $query = new ilLDAPQuery($server);
+            include_once './Services/LDAP/classes/class.ilLDAPQueryUMR.php';
+            $query = new ilLDAPQueryUMR($server);
             $query->bind();
             $res = $query->query(
                 $this->getDN(),

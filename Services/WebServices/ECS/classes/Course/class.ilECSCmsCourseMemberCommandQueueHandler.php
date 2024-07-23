@@ -432,7 +432,8 @@ class ilECSCmsCourseMemberCommandQueueHandler implements ilECSCommandQueueHandle
             $server = ilLDAPServer::getInstanceByServerId(ilLDAPServer::_getFirstActiveServer());
             $server->doConnectionCheck();
 
-            $query = new ilLDAPQuery($server);
+            include_once './Services/LDAP/classes/class.ilLDAPQueryUMR.php';
+            $query = new ilLDAPQueryUMR($server);
             $query->bind(ilLDAPQuery::LDAP_BIND_DEFAULT);
 
             $users = $query->fetchUser($a_person_id);

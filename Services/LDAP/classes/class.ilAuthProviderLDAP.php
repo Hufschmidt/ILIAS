@@ -47,7 +47,8 @@ class ilAuthProviderLDAP extends ilAuthProvider implements ilAuthProviderAccount
     {
         try {
             // bind
-            $query = new ilLDAPQuery($this->getServer());
+            include_once './Services/LDAP/classes/class.ilLDAPQueryUMR.php';
+            $query = new ilLDAPQueryUMR($this->getServer());
             $query->bind();
         } catch (ilLDAPQueryException $e) {
             $this->getLogger()->error('Cannot bind to LDAP server... ' . $e->getMessage());
@@ -159,7 +160,8 @@ class ilAuthProviderLDAP extends ilAuthProvider implements ilAuthProviderAccount
         $this->force_new_account = true;
 
         try {
-            $query = new ilLDAPQuery($this->getServer());
+            include_once './Services/LDAP/classes/class.ilLDAPQueryUMR.php';
+            $query = new ilLDAPQueryUMR($this->getServer());
             $query->bind();
         } catch (ilLDAPQueryException $e) {
             $this->getLogger()->error('Cannot bind to LDAP server... ' . $e->getMessage());
@@ -197,7 +199,8 @@ class ilAuthProviderLDAP extends ilAuthProvider implements ilAuthProviderAccount
         $this->force_new_account = true;
 
         try {
-            $query = new ilLDAPQuery($this->getServer());
+            include_once './Services/LDAP/classes/class.ilLDAPQueryUMR.php';
+            $query = new ilLDAPQueryUMR($server);
             $query->bind();
         } catch (ilLDAPQueryException $e) {
             $this->getLogger()->error('Cannot bind to LDAP server... ' . $e->getMessage());

@@ -202,7 +202,8 @@ class ilLDAPUserSynchronisation
         }
 
         try {
-            $query = new ilLDAPQuery($this->getServer());
+            include_once './Services/LDAP/classes/class.ilLDAPQueryUMR.php';
+            $query = new ilLDAPQueryUMR($this->getServer());
             $query->bind(ilLDAPQuery::LDAP_BIND_DEFAULT);
             $user = $query->fetchUser($this->getExternalAccount());
             $this->logger->dump($user, ilLogLevel::DEBUG);

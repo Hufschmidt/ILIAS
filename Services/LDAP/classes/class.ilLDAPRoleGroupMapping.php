@@ -414,7 +414,8 @@ class ilLDAPRoleGroupMapping
             is_object($this->query[$a_server_id][$a_url])) {
             return $this->query[$a_server_id][$a_url];
         }
-        $tmp_query = new ilLDAPQuery($this->servers[$a_server_id], $a_url);
+        include_once './Services/LDAP/classes/class.ilLDAPQueryUMR.php';
+        $tmp_query = new ilLDAPQueryUMR($this->servers[$a_server_id], $a_url);
         $tmp_query->bind(ilLDAPQuery::LDAP_BIND_ADMIN);
 
         return $this->query[$a_server_id][$a_url] = $tmp_query;
