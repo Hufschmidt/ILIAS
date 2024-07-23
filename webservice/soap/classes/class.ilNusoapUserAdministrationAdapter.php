@@ -1490,6 +1490,27 @@ class ilNusoapUserAdministrationAdapter
             'Process task in background'
         );
 
+        $this->server->register(
+            'handleECSTasks',
+            array('sid' => 'xsd:string','server_id' => 'xsd:int'),
+            array('success' => 'xsd:boolean'),
+            SERVICE_NAMESPACE,
+            SERVICE_NAMESPACE . '#handleECSTasks',
+            SERVICE_STYLE,
+            SERVICE_USE,
+            'Updates and processes the ECS queue.'
+        );
+
+        $this->server->register('checkECSEvents',
+            array('sid' => 'xsd:string','server_id' => 'xsd:int', 'remote' => 'xsd:boolean'),
+            array('events' => 'xsd:boolean'),
+            SERVICE_NAMESPACE,
+            SERVICE_NAMESPACE.'#checkECSEvents',
+            SERVICE_STYLE,
+            SERVICE_USE,
+            'Check for local and remote ECS events that need processing.'
+        );
+
         // OrgUnits Functions
         /**
          * @var $f Base[]

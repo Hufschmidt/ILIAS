@@ -540,6 +540,53 @@ class ilSoapUtils extends ilSoapAdministration
     }
 
     /**
+     * Method for soap webservice: handleECSTasks
+     * Ensure the ECS queqe is updated and processed
+     */
+    public function handleECSTasks($sid, $a_server_id)
+    {
+        $this->initAuth($sid);
+        $this->initIlias();
+
+        if (!$this->__checkSession($sid)) {
+            return $this->__raiseError($this->__getMessage(), $this->__getMessageCode());
+        }
+
+        include_once('./Services/WebServices/ECS/classes/class.ilECSTaskScheduler.php');
+
+        global $DIC;
+
+        $ilLog = $DIC['ilLog'];
+
+        $ilLog->write(__METHOD__ . ': Starting task execution...');
+        $scheduler = ilECSTaskScheduler::_getInstanceByServerId($a_server_id);
+        $scheduler->startTaskExecution();
+
+        return true;
+    }
+
+    /**
+     * Method for soap webservice: checkECSEvents
+     * Checks how many ECS events still need to be processed.
+     */
+    public function checkECSEvents($sid, $a_server_id, $remote)
+    {
+        $this->initAuth($sid);
+        $this->initIlias();
+
+        if(!$this->__checkSession($sid))
+        {
+            return $this->__raiseError($this->__getMessage(),$this->__getMessageCode());
+        }
+
+        global $ilLog;
+        $ilLog->write(__METHOD__.': Starting task execution...');
+
+        include_once('./Services/WebServices/ECS/classes/class.ilECSEventQueueReader.php');
+        return ilECSEventQueueReader::hasEvents($a_server_id, $remote);
+    }
+
+    /**
      * Method for soap webservice: deleteExpiredDualOptInUserObjects
      * This service will run in background. The client has not to wait for response.
      */

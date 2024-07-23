@@ -1082,6 +1082,34 @@ class ilSoapFunctions
     }
 
     /**
+     * @param ...$params
+     * @return mixed
+     */
+    public static function handleECSTasks($sid, $a_server_id)
+    {
+        include_once './webservice/soap/classes/class.ilSoapUtils.php';
+
+        $sou = new ilSoapUtils();
+        $sou->disableSoapCheck();
+        $sou->ignoreUserAbort();
+        return $sou->handleECSTasks($sid, $a_server_id);
+    }
+
+    /**
+     * @param ...$params
+     * @return mixed
+     */
+    public static function checkECSEvents($sid, $a_server_id,$remote)
+    {
+        include_once './webservice/soap/classes/class.ilSoapUtils.php';
+
+        $sou = new ilSoapUtils();
+        $sou->disableSoapCheck();
+        $sou->ignoreUserAbort();
+        return $sou->checkECSEvents($sid, $a_server_id,$remote);
+    }
+
+    /**
      * @param mixed $name
      * @param mixed $arguments
      * @return mixed
