@@ -378,6 +378,10 @@ class ilECSCourseCreationHandler
                 case ilECSMappingUtils::PARALLEL_GROUPS_IN_COURSE:
                     $this->logger->debug('Performing update for parallel groups in course.');
                     $this->updateParallelGroups($a_content_id, $course, $obj_id);
+
+                    // Ensure everything is updated
+                    $crs = ilObjectFactory::getInstanceByObjId($obj_id, false);
+                    $this->setImported($course_id, $crs, $a_content_id);
                     break;
 
                 case ilECSMappingUtils::PARALLEL_ALL_COURSES:
@@ -387,7 +391,9 @@ class ilECSCourseCreationHandler
 
                 case ilECSMappingUtils::PARALLEL_ONE_COURSE:
                 default:
-                    // nothing to do
+                    // Ensure everything is updated
+                    $crs = ilObjectFactory::getInstanceByObjId($obj_id, false);
+                    $this->setImported($course_id, $crs, $a_content_id);
                     break;
 
             }
@@ -404,12 +410,20 @@ class ilECSCourseCreationHandler
 
                     // Create parallel groups under crs
                     $this->createParallelGroups($a_content_id, $course, $crs->getRefId());
+
+                    // Ensure everything is updated
+                    $obj_id = $this->getImportId($course_id);
+                    $this->updateParallelGroups($a_content_id, $course, $obj_id);
                     break;
 
                 case ilECSMappingUtils::PARALLEL_COURSES_FOR_LECTURERS:
                     $this->logger->debug('Parallel scenario "Courses foreach Lecturer".');
                     // Import empty to store the ecs ressource id (used for course member update).
                     $this->setImported((int) $course_id, null, $a_content_id);
+
+                    // Ensure everything is updated
+                    $obj_id = $this->getImportId((int) $course_id);
+                    $this->updateCourseData($course, $obj_id);
                     break;
 
                 case ilECSMappingUtils::PARALLEL_ALL_COURSES:
@@ -421,6 +435,9 @@ class ilECSCourseCreationHandler
                     //$this->createCourseReference($crs, $a_parent_obj_id);
                     //$this->setImported($course_id, $crs, $a_content_id);
                     $this->createParallelCourses($a_content_id, $course, $ref);
+
+                    // Ensure everything is updated
+                    $this->updateParallelCourses($a_content_id, $course, $a_parent_obj_id);
                     break;
 
                 default:
@@ -509,6 +526,9 @@ class ilECSCourseCreationHandler
                         $course_obj->setSubscriptionMaxMembers($group->maxParticipants);
                     }
                     $course_obj->update();
+
+                    // Update event-reference
+                    $this->setImported($course->lectureID, $course_obj, $a_content_id, $group->id);
                 }
             }
             $this->addUrlEntry($this->getImportId((int) $course->lectureID, (string) $group->ID));
@@ -576,6 +596,9 @@ class ilECSCourseCreationHandler
                         $group_obj->setMaxMembers((int) $group->maxParticipants);
                     }
                     $group_obj->update();
+
+                    // Update event-reference
+                    $this->setImported($course->lectureID, $group_obj, $a_content_id, $group->id);
                 }
             }
             $this->addUrlEntry($this->getImportId((int)$course->lectureID, (string)$group->id));
