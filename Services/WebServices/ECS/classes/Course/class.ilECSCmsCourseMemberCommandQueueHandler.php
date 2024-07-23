@@ -119,6 +119,10 @@ class ilECSCmsCourseMemberCommandQueueHandler implements ilECSCommandQueueHandle
      */
     public function handleUpdate(ilECSSetting $server, $a_content_id): bool
     {
+        include_once './Services/WebServices/ECS/classes/Tree/class.ilECSCmsData.php';
+        include_once './Services/WebServices/ECS/classes/Tree/class.ilECSCmsTree.php';
+        include_once './Services/WebServices/ECS/classes/Course/class.ilECSCourseConnector.php';
+
         if (!$this->checkAllocationActivation($server, $a_content_id)) {
             return true;
         }
