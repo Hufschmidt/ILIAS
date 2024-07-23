@@ -485,6 +485,13 @@ class ilECSCourseCreationHandler
         }
         $this->logger->debug('Creating new parallel course instance from ecs : ' . $title);
         $course_obj->setTitle($title);
+        if ($course->number && $course->lectureType) {
+          $course_obj->setDescription($course->number . ' / ' . $course->lectureType);
+        } elseif ($course->number)  {
+          $course_obj->setDescription($course->number);
+        } elseif ($course->lectureType)  {
+          $course_obj->setDescription($course->lectureType);
+        }
         $course_obj->setSubscriptionMaxMembers((int) $group->maxParticipants);
         $course_obj->setOfflineStatus(true);
         // UMR-Settings
@@ -525,6 +532,15 @@ class ilECSCourseCreationHandler
                     if(!is_null($group->maxParticipants)) {
                         $course_obj->setSubscriptionMaxMembers($group->maxParticipants);
                     }
+                    if (strlen($course_obj->getDescription()) === 0) {
+                        if ($course->number && $course->lectureType) {
+                          $course_obj->setDescription($course->number . ' / ' . $course->lectureType);
+                        } elseif ($course->number)  {
+                          $course_obj->setDescription($course->number);
+                        } elseif ($course->lectureType)  {
+                          $course_obj->setDescription($course->lectureType);
+                        }
+                      }
                     $course_obj->update();
 
                     // Update event-reference
@@ -643,6 +659,15 @@ class ilECSCourseCreationHandler
         $this->logger->debug('new title is : ' . $title);
 
         $crs_obj->setTitle($title);
+        if (strlen($crs_obj->getDescription()) === 0) {
+          if ($course->number && $course->lectureType) {
+            $crs_obj->setDescription($course->number . ' / ' . $course->lectureType);
+          } elseif ($course->number)  {
+            $crs_obj->setDescription($course->number);
+          } elseif ($course->lectureType)  {
+            $crs_obj->setDescription($course->lectureType);
+          }
+        }
         $crs_obj->update();
         return true;
     }
@@ -657,6 +682,13 @@ class ilECSCourseCreationHandler
         $title = $course->title;
         $this->logger->debug('Creating new course instance from ecs : ' . $title);
         $course_obj->setTitle($title);
+        if ($course->number && $course->lectureType) {
+          $course_obj->setDescription($course->number . ' / ' . $course->lectureType);
+        } elseif ($course->number)  {
+          $course_obj->setDescription($course->number);
+        } elseif ($course->lectureType)  {
+          $course_obj->setDescription($course->lectureType);
+        }
         $course_obj->setOfflineStatus(true);
         // UMR-Settings
         $course_obj->setUseNews(true);
