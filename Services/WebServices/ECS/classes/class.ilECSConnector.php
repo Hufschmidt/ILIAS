@@ -469,6 +469,10 @@ class ilECSConnector
      */
     protected function prepareConnection(): void
     {
+    if ($this->curl instanceof ilCurlConnection)
+    {
+      $this->curl->close();
+    }
         try {
             $this->curl = new ilCurlConnection($this->settings->getServerURI() . $this->path_postfix);
             $this->curl->init(true);
