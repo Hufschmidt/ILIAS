@@ -6,49 +6,24 @@ include_once('Services/LDAP/classes/class.ilLDAPQuery.php');
  * Wrapper for ilLDAPQuery implementing tree-merging and
  * value-mapping of HRZ-Marburg account and people LDAP trees.
  */
-class ilLDAPQueryUMR {
-  /**
-   * References to actual ilLDAPQuery implementation
-   * and server options
-   */
-  protected $query;
-  protected $link;
-  protected $options;
-
+class ilLDAPQueryUMR extends ilLDAPQuery {
+  /** Stores underlying LDAP-Server to fetch query-attributes for */
+  protected ilLDAPServer $server;
 
   /**
-   * Funcion: Constructor($a_server, $a_url)
-   *  Creates a new LDAPqueryUMR object used to query
-   *  HRZ-Marburg like LDAP-Trees.
+   * Creates a new instance of ilLDAPQueryUMR and
+   * stores the underlying $a_server into a PROTECTED
+   * variable, because ilLDAPQuery is a fat little c*nt!
    *
    * Parameters:
-   *  $a_server <ilLDAPServer> ILIAS LDAP Connection implemtation
-   *  $a_url <String> [Optional] URL where LDAP server is listerning (Fallback to $a_server config)
+   *  $a_server - LDAP-Server to connect to
+   *  $a_url    - (Optional) LDAP-Server url to bind against
    */
-  public function __construct(ilLDAPServer $a_server, $a_url = '') {
-    $this->query = new ilLDAPQuery($a_server,$a_url = '');
-
-    $this->options = $a_server->toPearAuthArray();
+  public function __construct(ilLDAPServer $a_server, string $a_url = '')
+  {
+      parent::__construct($a_server, $a_url);
+      $this->server = $a_server;
   }
-
-
-  /**
-   * Function: bind($a_binding_type, $a_user_dn, $a_password)
-   *  Starts the LDAP bind operation.
-   *
-   * Parameters:
-   *  $a_binding_type <Numeric> - [Optional] Bind with:
-   *   Given username/password - IL_LDAP_BIND_AUTH
-   *   Attached LDAP-Server admin username/password - IL_LDAP_BIND_ADMIN
-   *   Attached LDAP-Server username/password - IL_LDAP_BIND_DEFAULT
-   *   (Fallback to attached server config)
-   *  $a_user_dn <String> - [Optional] LDAP username to use instead, only with IL_LDAP_BIND_AUTH
-   *  $a_password <String> - [Optional] LDAP password to use instead, only with IL_LDAP_BIND_AUTH
-   */
-  public function bind($a_binding_type = IL_LDAP_BIND_DEFAULT, $a_user_dn = '', $a_password = '') {
-    $this->query->bind($a_binding_type, $a_user_dn, $a_password);
-  }
-
 
   /**
    * Function: fetchUser($a_name)
@@ -69,16 +44,15 @@ class ilLDAPQueryUMR {
    *     unimrlinktopeople => <String> Link between account and people tree
    *     ilInternalAccount => null
    */
-  public function fetchUser($a_name) {
+  public function fetchUser(string $a_name): array {
     // Fetch account data
-    $users = $this->query->fetchUser($a_name);
+    $users = parent::fetchUser($a_name);
 
     // Merge and map account data
     return array_map(function($user_data) {
       return $this->applyUMRLink($user_data);
     }, $users);
   }
-
 
   /**
    * Function: fetchUsers()
@@ -96,33 +70,15 @@ class ilLDAPQueryUMR {
    *     unimrlinktopeople => <String> Link between account and people tree
    *     ilInternalAccount => null
    */
-  public function fetchUsers() {
+  public function fetchUsers(): array {
     // Fetch account data
-    $users = $this->query->fetchUsers();
+    $users = parent::fetchUsers();
 
     // Merge and map account data
     return array_map(function($user_data) {
       return $this->applyUMRLink($user_data);
     }, $users);
   }
-
-
-  /**
-   * Function: checkGroupMembership($a_ldap_user_name, $ldap_user_data)
-   *  Checks if given user member of certain group(s), eg. used to assign roles.
-   *
-   * Parameters:
-   *  $a_ldap_user_name - Username to check
-   *  $ldap_user_data - LDAP data for user
-   *
-   * Returns:
-   *  <Boolean> True if group-member, falls otherwise
-   */
-  public function checkGroupMembership($a_ldap_user_name, $ldap_user_data) {
-    // Simply forward to implementation
-    return $this->query->checkGroupMembership($a_ldap_user_name, $ldap_user_data);
-  }
-
 
   /**
    * Function: applyUMRLink($user_data)
@@ -158,20 +114,13 @@ class ilLDAPQueryUMR {
 
     // Fetch same person from people tree and merge
     if (isset($link) && strlen($link) > 0) {
-      $result    = $this->query->query($link, '(objectClass=*)', IL_LDAP_SCOPE_BASE, $this->options['attributes']);
+      $options   = $this->server->toPearAuthArray();
+      $result    = $this->query($link, '(objectClass=*)', ilLDAPServer::LDAP_SCOPE_BASE, $options['attributes']);
       $link_data = $result->get();
 
       // Merge people into account tree (skip dn)
       unset($link_data['dn']);
-      foreach ($link_data as $attr => $value)
-        if (is_int($attr) && array_key_exists($value, $link_data))
-          if (array_key_exists($value, $user_data))
-            $user_data[$value]              = $link_data[$value];
-          else {
-            $user_data[$value]              = $link_data[$value];
-            $user_data[$user_data['count']] = $value;
-            $user_data['count']            += 1;
-          }
+      $user_data = array_merge($user_data, $link_data);
     }
 
     // Map all data according to ILIAS values
