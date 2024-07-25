@@ -133,7 +133,8 @@ class ilErrorHandling extends PEAR
         //		   error-handler.
         //		 * Check for context? The current implementation e.g. would output HTML for
         //		   for SOAP.
-        if ($this->isDevmodeActive()) {
+
+        if ($this->isDevmodeActive() || (ini_get('display_errors') && ilContext::getType() == ilContext::CONTEXT_WEB)) {
             return $this->devmodeHandler();
         }
 
