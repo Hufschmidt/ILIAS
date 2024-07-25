@@ -164,11 +164,12 @@ class ilLuceneSearcher
             return;
         }
         try {
+            $timeout = ($ilIliasIniFile->variableExists('hrz', 'lucene_timeout')) ? $ilIliasIniFile->readVariable('hrz', 'lucene_timeout') : 0;
             switch ($this->getType()) {
 
                 case self::TYPE_USER:
                     /** @noinspection PhpUndefinedMethodInspection */
-                    $res = ilRpcClientFactory::factory('RPCSearchHandler')->searchUsers(
+                    $res = ilRpcClientFactory::factory('RPCSearchHandler', $timeout)->searchUsers(
                         CLIENT_ID . '_' . $this->setting->get('inst_id', '0'),
                         $this->query_parser->getQuery()
                     );
@@ -176,7 +177,7 @@ class ilLuceneSearcher
 
                 case self::TYPE_STANDARD:
                 default:
-                    $res = ilRpcClientFactory::factory('RPCSearchHandler')->search(
+                    $res = ilRpcClientFactory::factory('RPCSearchHandler', $timeout)->search(
                         CLIENT_ID . '_' . $this->setting->get('inst_id', '0'),
                         $this->query_parser->getQuery(),
                         $this->getPageNumber()
