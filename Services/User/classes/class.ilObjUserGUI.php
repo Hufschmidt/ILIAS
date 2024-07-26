@@ -1585,6 +1585,8 @@ class ilObjUserGUI extends ilObjectGUI
         }
         if ($_FILES["userfile"]["size"] == 0) {
             $this->tpl->setOnScreenMessage('failure', $this->lng->txt("msg_no_file"));
+        } elseif ($_FILES["userfile"]["size"] > ilFileUtils::getUploadSizeLimitBytes()) {
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt("form_msg_file_size_exceeds"));
         } else {
             $webspace_dir = ilFileUtils::getWebspaceDir();
             $image_dir = $webspace_dir . "/usr_images";

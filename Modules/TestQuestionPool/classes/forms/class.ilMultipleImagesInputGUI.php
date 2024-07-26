@@ -165,6 +165,12 @@ abstract class ilMultipleImagesInputGUI extends ilIdentifiedMultiValuesInputGUI
             $F = array_merge([self::FILE_DATA_INDEX_DODGING_FILE => (array) $this->dodging_files], $F);
         }
 
+        // error handling
+        if ($F['size'] > ilFileUtils::getUploadSizeLimitBytes()) {
+            $this->setAlert($this->lng->txt("form_msg_file_size_exceeds"));
+            return false;
+        }
+
         if ($this->getRequired() && !is_array($F['error'])) {
             $this->setAlert($this->lng->txt("form_msg_file_no_upload"));
             return false;

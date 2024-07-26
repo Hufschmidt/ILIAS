@@ -90,7 +90,8 @@ class assMatchingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
                 $upload_tmp_name = $this->request->getUploadFilename(['terms', 'image'], $index);
 
                 if (isset($uploads[$upload_tmp_name]) && $uploads[$upload_tmp_name]->isOk() &&
-                    in_array($uploads[$upload_tmp_name]->getMimeType(), $allowed_mime_types)) {
+                    in_array($uploads[$upload_tmp_name]->getMimeType(), $allowed_mime_types) &&
+                    $uploads[$upload_tmp_name]->getSize() <= ilFileUtils::getUploadSizeLimitBytes()) {
                     $filename = '';
                     $name = $uploads[$upload_tmp_name]->getName();
                     if ($this->object->setImageFile(
@@ -123,7 +124,8 @@ class assMatchingQuestionGUI extends assQuestionGUI implements ilGuiQuestionScor
                 $upload_tmp_name = $this->request->getUploadFilename(['definitions', 'image'], $index);
 
                 if (isset($uploads[$upload_tmp_name]) && $uploads[$upload_tmp_name]->isOk() &&
-                    in_array($uploads[$upload_tmp_name]->getMimeType(), $allowed_mime_types)) {
+                    in_array($uploads[$upload_tmp_name]->getMimeType(), $allowed_mime_types) &&
+                    $uploads[$upload_tmp_name]->getSize() <= ilFileUtils::getUploadSizeLimitBytes()) {
                     $filename = '';
                     $name = $uploads[$upload_tmp_name]->getName();
                     if ($this->object->setImageFile(

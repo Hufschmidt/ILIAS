@@ -170,9 +170,14 @@ class ilImagemapFileInputGUI extends ilImageFileInputGUI
         $filename_arr = pathinfo($_FILES[$this->getPostVar()]["name"]);
         $suffix = $filename_arr["extension"] ?? '';
         $mimetype = $_FILES[$this->getPostVar()]["type"];
-        $size_bytes = $_FILES[$this->getPostVar()]["size"];
         $temp_name = $_FILES[$this->getPostVar()]["tmp_name"];
         $error = $_FILES[$this->getPostVar()]["error"];
+
+        // error handling
+        if ($_FILES[$this->getPostVar()]["size"] > ilFileUtils::getUploadSizeLimitBytes()) {
+            $this->setAlert($lng->txt("form_msg_file_size_exceeds"));
+            return false;
+        }
 
         // error handling
         if ($error > 0) {

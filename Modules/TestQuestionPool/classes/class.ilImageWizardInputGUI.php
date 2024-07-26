@@ -151,6 +151,12 @@ class ilImageWizardInputGUI extends ilTextInputGUI
         if (is_array($_FILES[$this->getPostVar()]['error']['image'])) {
             foreach ($_FILES[$this->getPostVar()]['error']['image'] as $index => $error) {
                 // error handling
+                if ($_FILES[$this->getPostVar()]['size']['image'][$index] > ilFileUtils::getUploadSizeLimitBytes()) {
+                    $this->setAlert($lng->txt("form_msg_file_size_exceeds"));
+                    return false;
+                }
+
+                // error handling
                 if ($error > 0) {
                     switch ($error) {
                         case UPLOAD_ERR_FORM_SIZE:

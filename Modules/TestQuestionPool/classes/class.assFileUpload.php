@@ -354,11 +354,10 @@ class assFileUpload extends assQuestion implements ilObjQuestionScoringAdjustabl
         $filename_arr = pathinfo($_FILES["upload"]["name"]);
         $suffix = $filename_arr["extension"];
         $mimetype = $_FILES["upload"]["type"];
-        $size_bytes = $_FILES["upload"]["size"];
         $temp_name = $_FILES["upload"]["tmp_name"];
         $error = $_FILES["upload"]["error"];
 
-        if ($size_bytes > $this->getMaxFilesizeInBytes()) {
+        if ($_FILES["upload"]["size"] > $this->getMaxFilesizeInBytes()) {
             $this->tpl->setOnScreenMessage('failure', $this->lng->txt("form_msg_file_size_exceeds"), true);
             return false;
         }
@@ -646,7 +645,7 @@ class assFileUpload extends assQuestion implements ilObjQuestionScoringAdjustabl
     {
         $max = ilFileUtils::getUploadSizeLimitBytes();
         $limit = $this->getMaxSize();
-        
+
         if ($limit > 0) {
                 return min((int) $limit, (int) $max);
         }

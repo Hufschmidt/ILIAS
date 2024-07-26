@@ -129,9 +129,7 @@ class ilSessionFile
     public function validate(): bool
     {
         if ($this->getFileSize() > ilFileUtils::getUploadSizeLimitBytes()) {
-            global $lng;
-            $lng->loadLanguageModule("form");
-            $this->ilErr->appendMessage($lng->txt('form_msg_file_size_exceeds'));
+            $this->ilErr->appendMessage($this->lng->txt('file_upload_form_size'));
         }
 
         switch ($this->getErrorCode()) {

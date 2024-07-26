@@ -351,7 +351,9 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
             if (($source === 'none') || (!$source)) {
                 $ilErr->raiseError($this->lng->txt("msg_no_file"), $ilErr->MESSAGE);
             }
-            // get_cfg_var("upload_max_filesize"); // get the may filesize form t he php.ini
+            if ($_FILES["scormfile"]["size"] > ilFileUtils::getUploadSizeLimitBytes()) {
+                $ilErr->raiseError($this->lng->txt("err_max_file_size_exceeds"), $ilErr->MESSAGE);
+            }
             switch ($_FILES["scormfile"]["error"]) {
                 case UPLOAD_ERR_INI_SIZE:
                 case UPLOAD_ERR_FORM_SIZE:
@@ -373,6 +375,10 @@ class ilObjSAHSLearningModuleGUI extends ilObjectGUI
             // check if the file is in the upload directory and readable
             if (!ilUploadFiles::_checkUploadFile($uploadedFile)) {
                 $ilErr->raiseError($this->lng->txt("upload_error_file_not_found"), $ilErr->MESSAGE);
+            }
+            // check if the file has allowed size
+            if (!ilUploadFiles::_checkUploadFileSize($uploadedFile)) {
+                $ilErr->raiseError($this->lng->txt("err_max_file_size_exceeds"), $ilErr->MESSAGE);
             }
 
             $file = pathinfo($uploadedFile);

@@ -69,6 +69,13 @@ class ilUploadFiles
         return in_array($a_file, $files);
     }
 
+    public static function _checkUploadFileSize(string $a_file): bool
+    {
+        $size = filesize($a_file);
+
+        return $size !== false && $size <= ilFileUtils::getUploadSizeLimitBytes();
+    }
+
     public static function _copyUploadFile(string $a_file, string $a_target, bool $a_raise_errors = true): bool
     {
         global $DIC;

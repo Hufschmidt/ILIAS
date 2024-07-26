@@ -179,7 +179,7 @@ class ilFileInputGUI extends ilSubEnabledFormPropertyGUI implements ilToolbarIte
             $this->setAlert($lng->txt("form_msg_file_size_exceeds"));
             return false;
         }
-        
+
         if ($_FILES[$this->getPostVar()]["size"] > ilFileUtils::getUploadSizeLimitBytes()) {
             $this->setAlert($lng->txt("form_msg_file_size_exceeds"));
             return false;
@@ -198,6 +198,11 @@ class ilFileInputGUI extends ilSubEnabledFormPropertyGUI implements ilToolbarIte
         $suffix = $filename_arr["extension"] ?? '';
         $temp_name = $_FILES[$this->getPostVar()]["tmp_name"];
         $error = $_FILES[$this->getPostVar()]["error"];
+
+        if ($_FILES[$this->getPostVar()]["size"] > ilFileUtils::getUploadSizeLimitBytes()) {
+            $this->setAlert($lng->txt("form_msg_file_size_exceeds"));
+            return false;
+        }
 
         // error handling
         if ($error > 0) {

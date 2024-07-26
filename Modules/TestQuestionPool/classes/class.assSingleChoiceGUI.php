@@ -647,7 +647,7 @@ class assSingleChoiceGUI extends assQuestionGUI implements ilGuiQuestionScoringA
                 $file_org_name = $_FILES['choice']['name']['image'][$index] ?? '';
                 $file_temp_name = $_FILES['choice']['tmp_name']['image'][$index] ?? '';
 
-                if ($file_temp_name !== '') {
+                if ($file_temp_name !== '' && $_FILES['choice']['size']['image'][$index] < ilFileUtils::getUploadSizeLimitBytes()) {
                     // check suffix
                     $file_name_parts = explode(".", $file_org_name);
                     $suffix = strtolower(array_pop($file_name_parts));
