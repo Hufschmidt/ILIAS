@@ -547,18 +547,16 @@ class ilSoapUtils extends ilSoapAdministration
     {
         $this->initAuth($sid);
         $this->initIlias();
-
-        if (!$this->__checkSession($sid)) {
-            return $this->__raiseError($this->__getMessage(), $this->__getMessageCode());
+        if (!$this->checkSession($sid)) {
+            return $this->raiseError($this->getMessage(), $this->getMessageCode());
         }
-
-        include_once('./Services/WebServices/ECS/classes/class.ilECSTaskScheduler.php');
 
         global $DIC;
 
         $ilLog = $DIC['ilLog'];
-
         $ilLog->write(__METHOD__ . ': Starting task execution...');
+
+        include_once('./Services/WebServices/ECS/classes/class.ilECSTaskScheduler.php');
         $scheduler = ilECSTaskScheduler::_getInstanceByServerId($a_server_id);
         $scheduler->startTaskExecution();
 
@@ -573,10 +571,8 @@ class ilSoapUtils extends ilSoapAdministration
     {
         $this->initAuth($sid);
         $this->initIlias();
-
-        if(!$this->__checkSession($sid))
-        {
-            return $this->__raiseError($this->__getMessage(),$this->__getMessageCode());
+        if (!$this->checkSession($sid)) {
+            return $this->raiseError($this->getMessage(), $this->getMessageCode());
         }
 
         global $ilLog;
