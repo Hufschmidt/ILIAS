@@ -527,31 +527,36 @@ class ilECSEventQueueReader
 
     /**
      * hasEvents
-   *  Returns wether of local and remote ECS taks/events that need to be processes.
-   *
+     *  Returns wether of local and remote ECS taks/events that need to be processes.
+     *
      * @access public
      * @param bool $server_id - ECS server id to query
      * @param bool $includeRemote - Wether to query amount of ECS events
      * @return bool True if ECS events exist
      */
     public static function hasEvents($server_id, $includeRemote = true) {
-    global $ilDB;
+        global $ilDB;
 
-    $result   = $ilDB->query("SELECT * FROM ecs_events WHERE server_id = " . $ilDB->quote($server_id, 'integer'));
-    $dbEvents = $result->numRows();
+        $result   = $ilDB->query("SELECT * FROM ecs_events WHERE server_id = " . $ilDB->quote($server_id, 'integer') . " AND " . $ilDB->in('type', [self::TYPE_CMS_COURSES, self::TYPE_CMS_COURSE_MEMBERS], false, 'string'));
+        $dbEvents = $result->numRows();
 
-    $fifoEvents = 0;
-    if ($includeRemote)
-    {
-        include_once('Services/WebServices/ECS/classes/class.ilECSSetting.php');
-        $server = ilECSSetting::getInstanceByServerId($server_id);
+        $fifoEvents = 0;
+        if ($includeRemote)
+        {
+            include_once('Services/WebServices/ECS/classes/class.ilECSSetting.php');
+            $server = ilECSSetting::getInstanceByServerId($server_id);
 
-        include_once('Services/WebServices/ECS/classes/class.ilECSConnector.php');
-        $connector  = new ilECSConnector($server);
-        $result    = $connector->readEventFifo(false);
-        $fifoEvents = count($result->getResult());
-    }
+            include_once('Services/WebServices/ECS/classes/class.ilECSConnector.php');
+            $connector  = new ilECSConnector($server);
+            $result    = $connector->readEventFifo(false);
+            $fifoEvents = count($result->getResult());
+        }
 
-    return ($dbEvents + $fifoEvents) > 0;
+        global $DIC;
+        $logger = $DIC->logger()->wsrv();
+        $logger->info(__METHOD__ . ': DB-Events: ' . $dbEvents);
+        $logger->info(__METHOD__ . ': Fifo-Events: ' . $fifoEvents);
+
+        return ($dbEvents + $fifoEvents) > 0;
     }
 }
