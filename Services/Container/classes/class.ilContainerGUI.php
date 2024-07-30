@@ -2261,6 +2261,8 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
         $title->setRequired(true);
         $title->setSize(min(40, ilObject::TITLE_LENGTH));
         $title->setMaxLength(ilObject::TITLE_LENGTH);
+        $server_id = ($this->object->getId() > 0) ? ilECSImportManager::getInstance()->lookupServerId($this->object->getId()) : 0;
+        if ($server_id > 0) { $title->setDisabled(true); }
         $form->addItem($title);
 
         if ($this->getCreationMode() === false && count($trans->getLanguages()) > 1) {
