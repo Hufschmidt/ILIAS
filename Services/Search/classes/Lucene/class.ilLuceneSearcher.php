@@ -164,7 +164,8 @@ class ilLuceneSearcher
             return;
         }
         try {
-            $timeout = ($ilIliasIniFile->variableExists('hrz', 'lucene_timeout')) ? $ilIliasIniFile->readVariable('hrz', 'lucene_timeout') : 0;
+            global $ilIliasIniFile;
+            $timeout = ($ilIliasIniFile->variableExists('hrz', 'lucene_timeout')) ? intval($ilIliasIniFile->readVariable('hrz', 'lucene_timeout')) : 5;
             switch ($this->getType()) {
 
                 case self::TYPE_USER:
