@@ -570,7 +570,7 @@ class ilECSCourseCreationHandler
      */
     protected function createParallelGroup($a_content_id, $course, $group, $parent_ref): void
     {
-        if ($this->getImportId($course->lectureID, $group->id)) {
+        if ($this->getImportId($course->lectureID, (string) $group->id)) {
             $this->log->debug('Parallel group already created, updating import');
             return ;
         }
