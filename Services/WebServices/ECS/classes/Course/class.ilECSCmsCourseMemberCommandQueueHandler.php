@@ -275,7 +275,7 @@ class ilECSCmsCourseMemberCommandQueueHandler implements ilECSCommandQueueHandle
             $obj_id
         );
 
-        $this->log->debug('Handled unassignmnent...');
+        $this->log->debug('Handling unassignmnent...');
 
         // Delete remote deleted
         foreach ($usr_ids as $usr_id) {
@@ -302,7 +302,7 @@ class ilECSCmsCourseMemberCommandQueueHandler implements ilECSCommandQueueHandle
             }
         }
 
-        $this->log->debug('Handled assignmnent...');
+        $this->log->debug('Handling assignmnents...');
 
         // Assign new participants
         foreach ((array) $assigned as $person_id => $person) {
@@ -314,7 +314,7 @@ class ilECSCmsCourseMemberCommandQueueHandler implements ilECSCommandQueueHandle
                 $this->mapping->getAuthMode(),
                 (string) $person_id
             );
-            $this->log->info('Handling user ' . $person_id);
+            $this->log->info('Handling user: ' . $person_id);
             if (in_array($person_id, $usr_ids)) {
                 if ($il_usr_id = ilObjUser::_lookupId($login)) {
                     $this->log->info('User exists, Updating role assignment for existing user: ' . $person_id);
@@ -324,7 +324,7 @@ class ilECSCmsCourseMemberCommandQueueHandler implements ilECSCommandQueueHandle
                     $part->updateRoleAssignments($il_usr_id, $is_tutor ? [$ecs_role, $tutor] : [$ecs_role]);
                 } elseif ($role_info['create']) {
                     $this->createMember($person_id);
-                    $this->log->info('Creating new user for' . $person_id);
+                    $this->log->info('Creating new user for: ' . $person_id);
                     $login = ilObjUser::_checkExternalAuthAccount(
                         $this->mapping->getAuthMode(),
                         (string) $person_id
