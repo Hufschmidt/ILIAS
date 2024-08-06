@@ -547,7 +547,7 @@ class ilECSCourseCreationHandler
                     $this->setImported($course->lectureID, $course_obj, $a_content_id, $group->id);
                 }
             }
-            $this->addUrlEntry($this->getImportId((int) $course->lectureID, (string) $group->ID));
+            $this->addUrlEntry($this->getImportId((int) $course->lectureID, (string) $group->id));
         }
         return true;
     }
