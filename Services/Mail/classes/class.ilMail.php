@@ -751,6 +751,7 @@ class ilMail
                 ));
             }
 
+            /*
             $mbox = clone $this->mailbox;
             $mbox->setUsrId($user->getId());
             $recipientInboxId = $mbox->getInboxFolder();
@@ -767,6 +768,7 @@ class ilMail
                 $individualMessage,
                 $user->getId()
             );
+            */
 
             if (count($attachments) > 0) {
                 $this->mfile->assignAttachmentsToDirectory($internalMailId, $sentMailId);
