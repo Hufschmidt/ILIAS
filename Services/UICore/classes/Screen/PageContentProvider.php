@@ -196,6 +196,13 @@ class PageContentProvider extends AbstractModificationProvider
             
             $text = "ILIAS v{$ilias_version_short} ($active $active_title)";
 
+            // Contact ILIAS-Support right to Mail @ UMR
+            $support_mailto = "ilias@uni-marburg.de"; // Address to support, hardcoded :(
+            $support_http = isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off' ? 'https' : 'http'; // HTTP or HTTPS?
+            $support_url = $support_http . '://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI']; // Get current address
+            $support = 'mailto:' . $support_mailto . "?body=%0D%0A%0D%0AGemeldeter%20Link:%0D%0A" . rawurlencode($support_url);
+            $links[] = $f->link()->standard($this->dic->language()->txt("contact_sysadmin"), $support);
+
             // Imprint
             $base_class = ($this->dic->http()->wrapper()->query()->has(\ilCtrlInterface::PARAM_BASE_CLASS)) ?
                 $this->dic->http()->wrapper()->query()->retrieve(
@@ -214,13 +221,6 @@ class PageContentProvider extends AbstractModificationProvider
                 $system_support_title = \ilSystemSupportContactsGUI::getFooterText();
                 $links[] = $f->link()->standard($system_support_title, $system_support_url);
             }
-
-            // Contact ILIAS-Support right to Mail @ UMR
-            $support_mailto = "ilias@uni-marburg.de"; // Address to support, hardcoded :(
-            $support_http = isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off' ? 'https' : 'http'; // HTTP or HTTPS?
-            $support_url = $support_http . '://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI']; // Get current address
-            $support = 'mailto:' . $support_mailto . "?body=%0D%0A%0D%0AGemeldeter%20Link:%0D%0A" . rawurlencode($support_url);
-            $links[] = $f->link()->standard($this->dic->language()->txt("contact_sysadmin"), $support);
 
             // output translation link
             if (\ilObjLanguageAccess::_checkTranslate() && !\ilObjLanguageAccess::_isPageTranslation()) {
