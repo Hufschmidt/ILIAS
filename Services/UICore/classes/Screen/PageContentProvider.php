@@ -188,13 +188,13 @@ class PageContentProvider extends AbstractModificationProvider
             // ILIAS Version and Text
             $ilias_version = ILIAS_VERSION;
             $ilias_version_short = substr($ilias_version, 0, -11);
-            $text = "ILIAS v{$ilias_version_short}";
 
-            // User Counter
+            // UMR: User Counter and add to ILIAS Version and Text
             include_once "Services/Authentication/classes/class.ilSessionControl.php";
             $active = (int) \ilSessionControl::getExistingSessionCount(\ilSessionControl::$session_types_controlled);
             $active_title = $this->dic->language()->txt("users_online");
-            $links[] = $f->link()->standard($active_title.": ".$active, " ");
+            
+            $text = "ILIAS v{$ilias_version_short} ($active $active_title)";
 
             // Imprint
             $base_class = ($this->dic->http()->wrapper()->query()->has(\ilCtrlInterface::PARAM_BASE_CLASS)) ?
