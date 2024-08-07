@@ -1220,7 +1220,7 @@ class ilLMObject
         $obj_set = $ilDB->query($query);
         $obj_rec = $ilDB->fetchAssoc($obj_set);
 
-        return $obj_rec["layout"];
+        return $obj_rec["layout"] ?? ""; // Return empty string if no layout was found
     }
 
     /**
