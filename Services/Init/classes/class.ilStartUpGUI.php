@@ -1010,7 +1010,6 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
 
         $rtpl = new ilTemplate('tpl.login_registration_links.html', true, true, 'Services/Init');
 
-        /* UMR - Don't show up "Benutzerkonto registrieren" on Login-Screen
         // allow new registrations?
         include_once 'Services/Registration/classes/class.ilRegistrationSettings.php';
         if (ilRegistrationSettings::_lookupRegistrationType() != ilRegistrationSettings::IL_REG_DISABLED) {
@@ -1022,7 +1021,6 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
             );
             $rtpl->parseCurrentBlock();
         }
-        */
 
         // allow password assistance? Surpress option if Authmode is not local database
         if ($this->setting->get("password_assistance")) {
@@ -1083,7 +1081,7 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
             return $this->substituteLoginPageElements(
                 $tpl,
                 $page_editor_html,
-                $utpl->get(),
+                '', // UMR Dont show up user agreement on Login-Screen
                 '[list-user-agreement]',
                 'USER_AGREEMENT'
             );
