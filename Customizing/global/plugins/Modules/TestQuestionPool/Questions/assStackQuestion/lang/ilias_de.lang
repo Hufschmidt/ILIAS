@@ -171,6 +171,9 @@ ui_author_randomisation_no_variants_generate_new_variants_action_text#:#10 neue 
 ui_author_randomisation_add_standard_test_title#:#Automatisch-Testfall (Überprüft, ob die Musterantwort als korrekt bewertet wird)
 ui_author_randomisation_add_standard_test_description#:#Einen Automatisch-Testfall hinzufügen
 ui_author_randomisation_add_standard_test_button_text#:#Automatisch-Testfall hinzufügen
+ui_author_randomisation_delete_all_variants_action_text#:#Alle Varianten löschen
+ui_author_randomisation_all_seeds_deleted#:#Alle Seeds wurden gelöscht
+ui_author_randomisation_confirm_delete_all_seeds#:#Möchten Sie wirklich alle Seeds löschen?
 ui_author_randomisation_standard_unit_test_case_added#:#Standard-Einheitstestfall hinzugefügt
 ui_author_randomisation_active_variant_panel_title#:#Aktive Variante für Autoren bei Vorschau und Einheitstests
 ui_author_randomisation_deployed_variants_panel_title#:#Varianten der Frage für Studenten in Tests
@@ -311,6 +314,7 @@ input_type_info#:#Typ des Eingabeelements, z.B. Formularfeld, Wahr/Falsch, mehrz
 input_type_algebraic#:#Algebraische Eingabe
 input_type_boolean#:#Wahr/Falsch
 input_type_matrix#:#Matrix
+input_type_varmatrix#:#Variable Matrix
 input_type_singlechar#:#Einzelzeichen
 input_type_textarea#:#Mehrzeilig
 input_box_size#:#Eingabebreite
@@ -517,6 +521,7 @@ add_new_prt#:#Neuer Rückmeldebaum (PRT)
 add_new_node#:#Neuer Knoten
 delete_node#:#Lösche Knoten
 delete_prt#:#Lösche Rückmeldebaum
+change_prt_name#:#Ändere Rückmeldebaum-Namen
 authoring_points_info#:#Die Gesamtpunktzahl der Frage können Sie unter "Bewertung" festlegen.
 authoring_input_creation_info#:#Um ein neues Eingabefeld anzulegen, geben Sie im Fragetext die Platzhalter "[[input:Eingabename]]" und "[[validation:Eingabename]]" ein. Um es zu löschen, löschen Sie die Platzhalter im Fragentext.
 input_hint#:#Hinweis
@@ -680,3 +685,9 @@ add_node#:#Knoten hinzufügen
 add_prt#:#Rückmeldebaum hinzufügen
 page_editor_compatibility_info#:#Bitte beachten Sie, dass Änderungen, die über den ILIAS Seiten-Editor für Stack-Fragen vorgenommen werden, nicht im Moodle-XML-Format exportiert werden können. Diese Funktionalität ist speziell für den ILIAS-Kontext entwickelt worden. Bitte machen Sie sich insbesondere mit dieser Einschränkung vertraut, wenn Sie Inhalte außerhalb von ILIAS verwenden oder exportieren möchten.
 matrix_syntax_error#:#Ihre Antwort enthält Syntaxfehler.
+placeholder#:#Platzhalter
+value#:#Wert
+hint_mode#:#Hinweis-Modus
+debug_info_message#:#Debug-Informationen (wird in Tests nicht angezeigt)
+debug_info_question_variables#:#Fragevariablen
+debug_info_feedback_variables#:#Feedback-Variablen

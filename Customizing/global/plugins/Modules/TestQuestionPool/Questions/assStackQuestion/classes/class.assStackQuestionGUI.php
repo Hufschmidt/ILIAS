@@ -337,13 +337,9 @@ class assStackQuestionGUI extends assQuestionGUI
 
         $question_preview = StackRenderIlias::renderQuestion($attempt_data, $display_options);
 
-		//Returns output (with page if needed)
-		if (!$show_question_only) {
-			// get page object output
-			$question_preview = $this->getILIASPage($question_preview);
-		}
+        $question_preview .= StackRenderIlias::renderQuestionVariables(StackRandomisationIlias::getRandomisationData($this->object, $this->object->getSeed()));
 
-		return assStackQuestionUtils::_getLatex($question_preview);
+        return assStackQuestionUtils::_getLatex($question_preview);
 	}
 
     /**
@@ -643,7 +639,9 @@ class assStackQuestionGUI extends assQuestionGUI
 
             foreach ($prts_array as $name => $prt_data) {
                 $total_value += (float) $prt_data->value;
-                $all_formative = false;
+                if ((float) $prt_data->value > 0) {
+                    $all_formative = false;
+                }
             }
 
             if ($prts_array && !$all_formative && $total_value < 0.0000001) {
@@ -886,6 +884,62 @@ class assStackQuestionGUI extends assQuestionGUI
                     assStackQuestionDB::_deleteStackPrts($this->object->getId(), $prt_name);
 
                     $tpl->setOnScreenMessage('success', "prt deleted", true);
+                    return true;
+                }
+
+                if (isset($_POST['cmd']['save']['change_prt_name_' . $prt_name])) {
+                    $new_prt_name = $_POST['prt_' . $prt_name . '_name'];
+
+                    $new_prt_name = preg_replace('/[^A-Za-z0-9]/', '', $new_prt_name);
+
+                    if ($prt_name != $new_prt_name && !isset($this->object->prts[$new_prt_name])) {
+                        $new_prts = $this->object->prts;
+
+                        $prt = $new_prts[$prt_name];
+
+                        $new_prt_data = new stdClass();
+
+                        $new_prt_data->name = $new_prt_name;
+                        $new_prt_data->value = $prt->get_value();
+                        $new_prt_data->autosimplify = $prt->isSimplify();
+                        $new_prt_data->feedbackvariables = $prt->get_feedbackvariables_keyvals();
+                        $new_prt_data->firstnodename = $prt->get_first_node();
+                        $new_prt_data->nodes = $prt->get_nodes();
+
+                        $new_prts[$new_prt_name] = new stack_potentialresponse_tree_lite($new_prt_data, $prt->get_value());
+
+                        unset($new_prts[$prt_name]);
+
+                        $current_question_text = $this->object->getQuestion();
+                        $new_question_text = str_replace("[[feedback:" . $prt_name . "]]", "[[feedback:" . $new_prt_name . "]]", $current_question_text);
+                        $this->specific_post_data["question_text"] = $new_question_text;
+
+                        $current_specific_feedback = $this->object->specific_feedback;
+                        $new_specific_feedback = str_replace("[[feedback:" . $prt_name . "]]", "[[feedback:" . $new_prt_name . "]]", $current_specific_feedback);
+                        $this->specific_post_data["options_specific_feedback"] = $new_specific_feedback;
+
+                        $this->object->prts = $new_prts;
+
+                        assStackQuestionDB::_changePrtName($this->object->getId(), $prt_name, $new_prt_name);
+
+                        foreach ($this->specific_post_data as $key => $value) {
+                            if (strpos($key, 'prt_' . $prt_name) !== false) {
+                                $new_key = str_replace('prt_' . $prt_name, 'prt_' . $new_prt_name, $key);
+
+                                if (strpos($new_key, '_answernote') !== false) {
+                                    $this->specific_post_data[$new_key] = str_replace($prt_name, $new_prt_name, $value);
+                                } else {
+                                    $this->specific_post_data[$new_key] = $value;
+                                }
+
+                                unset($this->specific_post_data[$key]);
+                            }
+                        }
+
+                        $tpl->setOnScreenMessage('success', "prt name changed", true);
+                        return true;
+                    }
+
                     return true;
                 }
 
@@ -1152,6 +1206,8 @@ class assStackQuestionGUI extends assQuestionGUI
                 'runAllTestsForAllVariants',
                 'addCustomTestForm',
                 'addStandardTest',
+                'confirmDeleteAllVariants',
+                'deleteAllVariants',
                 'editTestcases',
                 'deleteUnitTest',
                 'checkPrtPlaceholders'
@@ -1240,6 +1296,8 @@ class assStackQuestionGUI extends assQuestionGUI
             'runAllTestsForAllVariants',
             'addCustomTestForm',
             'addStandardTest',
+            'confirmDeleteAllVariants',
+            'deleteAllVariants',
             'editTestcases',
             'deleteUnitTest',
             'checkPrtPlaceholders'
@@ -2013,6 +2071,45 @@ class assStackQuestionGUI extends assQuestionGUI
 
         $tpl->setOnScreenMessage('success',
             $this->object->getPlugin()->txt('ui_author_randomisation_standard_unit_test_case_added'),
+            true);
+
+        $this->randomisationAndSecurity();
+    }
+
+    /**
+     * Called to delete all seeds
+     */
+    public function confirmDeleteAllVariants(): void
+    {
+        global $DIC, $tpl;
+        $tabs = $DIC->tabs();
+
+        $tabs->activateTab('edit_properties');
+        $tabs->activateSubTab('randomisation_and_security');
+
+        $content = $DIC->ui()->renderer()->render($DIC->ui()->factory()->messageBox()->confirmation($this->object->getPlugin()->txt('ui_author_randomisation_confirm_delete_all_seeds')));
+
+        $content .= $DIC->ui()->renderer()->render($DIC->ui()->factory()->button()->standard($DIC->language()->txt("yes"), $this->ctrl->getLinkTarget($this, "deleteAllVariants")));
+        $content .= $DIC->ui()->renderer()->render($DIC->ui()->factory()->button()->standard($DIC->language()->txt("no"), $this->ctrl->getLinkTarget($this, "randomisationAndSecurity")));
+
+        $tpl->setContent($content);
+    }
+
+    /**
+     * Called to delete all seeds
+     */
+    public function deleteAllVariants(): void
+    {
+        global $DIC, $tpl;
+        $tabs = $DIC->tabs();
+
+        $tabs->activateTab('edit_properties');
+        $tabs->activateSubTab('randomisation_and_security');
+
+        assStackQuestionDB::_deleteStackSeeds($this->object->getId());
+
+        $tpl->setOnScreenMessage('success',
+            $this->object->getPlugin()->txt('ui_author_randomisation_all_seeds_deleted'),
             true);
 
         $this->randomisationAndSecurity();
