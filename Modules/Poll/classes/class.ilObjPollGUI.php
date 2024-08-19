@@ -571,10 +571,6 @@ class ilObjPollGUI extends ilObject2GUI
         $ntf->setLangModules(array("poll"));
         $ntf->setRefId($this->ref_id);
 
-        if ($this->object->getNonAnonymous()) {
-            $ntf->setChangedByUserId($this->user->getId());
-        }
-
         $ntf->setSubjectLangId('poll_vote_notification_subject');
         $ntf->setIntroductionLangId('poll_vote_notification_body');
         $ntf->setGotoLangId('poll_vote_notification_link');
@@ -613,7 +609,7 @@ class ilObjPollGUI extends ilObject2GUI
 
             // #11810
             ilUtil::redirect(ilLink::_getLink($container_id) .
-                "#poll" . ilObject::_lookupObjId($id[0]));
+                "#poll" . ilObject::_lookupObjId($ref_id));
         }
     }
 }

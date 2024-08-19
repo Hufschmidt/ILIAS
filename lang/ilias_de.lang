@@ -5570,7 +5570,7 @@ common#:#shib_email#:#Attribut für E-Mail-Adresse
 common#:#shib_federation_name#:#Name der Shibboleth-Föderation
 common#:#shib_firstname#:#Attribut für Vornamen
 common#:#shib_gender#:#Attribut für Anrede (muss 'n', 'm' oder 'f' sein)
-common#:#shib_general_login_instructions#:#Um sich über %s anzumelden, klicken Sie bitte auf den Anmelde-Button und wählen Sie auf der folgenden Seite Ihre Organisation aus.<br />Bei Fragen dazu, wenden Sie sich bitte an den %s
+common#:#shib_general_login_instructions#:#Um sich über %s anzumelden, klicken Sie bitte auf den Anmelde-Button und wählen auf der folgenden Seite Ihre Organisation aus. Bei Fragen dazu wenden Sie sich bitte an den %s
 common#:#shib_general_wayf_login_instructions#:#Falls Sie keiner der angegebenen Organisationen angehören und Zugang zu einem Kurs auf diesem Server benötigen, wenden Sie sich bitte an den %s
 common#:#shib_idp_list#:#Bitte geben Sie eine Liste von Identity-Providern an, aus denen der Benutzer auf der ILIAS-Anmeldeseite auswählen kann.<br />In jeder Zeile muss ein Komma-getrenntes Tupel sein, welches aus der<strong>providerID eines IdP</strong> (schauen Sie dazu die Shibboleth-Metadaten an) und dem <strong>Namen eines IdP</strong> besteht, so wie er in der Drop-Down Liste angezeigt werden soll.<br />Als optionaler dritter Parameter kann die <strong>Location eines Shibboleth Session Initiators</strong> angegeben werden, welcher benutzt werden kann falls Ihre ILIAS-Installation Teil von mehreren Föderationen ist.
 common#:#shib_institution#:#Attribut für Institution
@@ -6023,6 +6023,7 @@ cont#:#cont_news_timeline_info#:#Aktiviert den Reiter "Timeline" für Neuigkeite
 cont#:#cont_news_timeline_landing_page#:#Startseite
 cont#:#cont_news_timeline_landing_page_info#:#Timeline als Startseite
 cont#:#cont_news_timeline_tab#:#Timeline
+cont#:#cont_no_title#:#Leerer Titel
 cont#:#cont_page_type_cont#:#Magazinseite (Kurs, Gruppe, Kategorie, ...)
 cont#:#cont_page_type_cstr#:#Startseite lernzielorientierter Kurs
 cont#:#cont_path#:#Pfad
@@ -6813,7 +6814,7 @@ content#:#cont_pc_par#:#Text
 content#:#cont_pc_prof#:#Persönliche Daten
 content#:#cont_pc_qover#:#Fragenübersicht
 content#:#cont_pc_qst#:#Frage
-content#:#cont_pc_res#:#Ressource
+content#:#cont_pc_res#:#Materialienliste
 content#:#cont_pc_sec#:#Block
 content#:#cont_pc_skills#:#Kompetenz
 content#:#cont_pc_tab#:#Erweiterte Tabelle
@@ -8642,7 +8643,7 @@ dcl#:#dcl_row_not_found#:# - Dieses Feld wurde in der Tabelle nicht gefunden.
 dcl#:#dcl_save#:#Speichern
 dcl#:#dcl_save_confirmation#:#Speicherbestätigung
 dcl#:#dcl_save_confirmation_desc#:#Benutzer muss das Eintragen von neuen Datensätzen bestätigen
-dcl#:#dcl_save_order#:#Sortierung Speichern
+dcl#:#dcl_save_order#:#Sortierung speichern
 dcl#:#dcl_save_record#:#Eintrag speichern
 dcl#:#dcl_select#:#Auswahl der Tabelle
 dcl#:#dcl_selection_options#:#Optionen
@@ -9323,6 +9324,7 @@ exc#:#exc_rel_last_submission#:#Letzt möglicher Abgabetermin
 exc#:#exc_rel_last_submission_info#:#Wird dieses Datum gesetzt, so müssen alle Abgaben vor diesem Datum getätigt werden.
 exc#:#exc_relative_date#:#Relatives Datum
 exc#:#exc_relative_date_info#:#Das Abgabedatum ergibt sich aus dem Bearbeitungszeitraum und dem durch den Teilnehmer gewählten Startzeitpunkt.
+exc#:#exc_relative_date_period#:#Bearbeitungszeitraum
 exc#:#exc_rem_time_after_start#:#Bearbeitungszeitraum nach Start
 exc#:#exc_reminder_cron_ok#:#Erinnerungen wurden verschickt
 exc#:#exc_reminder_end#:#Letzte Erinnerung
@@ -11142,8 +11144,8 @@ mathjax#:#mathjax_limiter#:#Trennzeichen
 mathjax#:#mathjax_limiter_info#:#Wählen Sie die Trennzeichen, die ILIAS für das MathJax-Skript produzieren soll
 mathjax#:#mathjax_mathjax#:#MathJax
 mathjax#:#mathjax_polyfill_url#:#Url eines Polyfills
-mathjax#:#mathjax_polyfill_url_desc_line1#:#Für MathJax 2 nicht benötigt
-mathjax#:#mathjax_polyfill_url_desc_line2#:#Für MathJax 3 in älteren Browsern, z.B. https://polyfill.io/v3/polyfill.min.js?features=es6
+mathjax#:#mathjax_polyfill_url_desc_line1#:#Für MathJax 2 und MathJax 3 mit aktuellen Browsern nicht benötigt.
+mathjax#:#mathjax_polyfill_url_desc_line2#:#Bitte entfernen Sie die Einbindung von polyfill.io! Siehe https://sansec.io/research/polyfill-supply-chain-attack
 mathjax#:#mathjax_script_url#:#URL des MathJax-Skripts
 mathjax#:#mathjax_script_url_desc_line1#:#Für MathJax 2 z.B. %s
 mathjax#:#mathjax_script_url_desc_line2#:#Bitte verwenden Sie den Safe Mode, um XSS-Angriffe durch MathJax-Code mit Javascript zu vermeiden. Für MathJax 2 kann er an die CDN-Url als Parameter angefügt werden (s.o). Für MathJax 3 müssen Sie ein Skript einbinden, dass ihn konfiguriert, bevor MathJax geladen wird. Verwenden Sie z.B. %s
@@ -12288,7 +12290,7 @@ noti#:#noti_activate_notification#:#Benachrichtigung aktivieren
 noti#:#noti_deactivate_notification#:#Benachrichtigung deaktivieren
 noti#:#noti_notification_activated#:#Benachrichtigungen sind aktiviert
 noti#:#noti_notification_deactivated#:#Benachrichtigungen sind deaktiviert
-notifications_adm#:#enable_osd#:#Pop-up-Benachrichtigungen aktivieren
+notifications_adm#:#enable_osd#:#Pop-up Benachrichtigungen aktivieren
 notifications_adm#:#enable_osd_desc#:#Wenn aktiviert, werden Benutzer durch ein Pop-up über neue Benachrichtigungen informiert.
 notifications_adm#:#notification_settings#:#Benachrichtigungseinstellungen
 notifications_adm#:#osd_delay#:#Anzeigeverzögerung
@@ -12300,7 +12302,7 @@ notifications_adm#:#osd_interval#:#Abfrageintervall
 notifications_adm#:#osd_interval_desc#:#Abfrageintervall für Nachrichten in Millisekunden.Eine geringere Zeit ermöglicht zeitnähere Benachrichtigungen, erhöht aber die Serverlast.
 notifications_adm#:#osd_play_sound#:#Ton abspielen
 notifications_adm#:#osd_play_sound_desc#:#Ton abspielen bei Erhalt einer neuen Benachrichtigung.
-notifications_adm#:#osd_settings#:#Popup Benachrichtigungen
+notifications_adm#:#osd_settings#:#Pop-up Benachrichtigungen
 notifications_adm#:#osd_vanish#:#Anzeigedauer
 notifications_adm#:#osd_vanish_desc#:#Dauer der Anzeige von Benachrichtigungen in Millisekunden
 obj#:#cont_filter_empty#:#Bitte nutzen Sie den Filter zur Anzeige von Objekten.
@@ -14172,6 +14174,8 @@ registration#:#reg_direct#:#Direkte Anmeldung
 registration#:#reg_direct_info#:#Wenn eingeschaltet, werden alle neu angemeldeten Benutzer automatisch freigeschaltet.
 registration#:#reg_disabled#:#Keine Registrierung möglich
 registration#:#reg_domain#:#Domäne (z.B. '@your_domain.de')
+registration#:#reg_domain_already_assigned_p#:#Die Domänen '%s' wurdem bereits für die Zuweisung einer anderen Rolle gewählt.
+registration#:#reg_domain_already_assigned_s#:#Die Domäne '%s' wurde bereits für die Zuweisung einer anderen Rolle gewählt.
 registration#:#reg_email#:#Automatische Rollenzuweisung
 registration#:#reg_email_domains#:#Die folgenden E-Mail-Adressdomains sind gültig: %s
 registration#:#reg_email_domains_code#:#Bei Verwendung eines Codes sind beliebige E-Mail-Adressen möglich.
@@ -16753,6 +16757,7 @@ user#:#enable_local_user_administration#:#Lokale Konten
 user#:#enable_local_user_administration_info#:#In Kategorien und Organisationseinheiten erscheint ein Reiter „Lokale Konten”. Dort können lokale ILIAS-Konten angelegt, importiert und verwaltet werden. Damit können auch Personen ohne Zugriff auf die Administration neue ILIAS-Konten anlegen.
 user#:#feedhash#:#Newsfeed-Hash
 user#:#has_role#:#Rolle
+user#:#info_accessFree_sure#:#Sind Sie sicher, dass Sie die Befristung des Zugangs der folgenden Konten entfernen möchten?
 user#:#inform_user_mail_info#:#An die oben eingetragene E-Mail-Adresse wird eine Benachrichtigung gesendet. Deren Inhalt kann definiert werden in der Administration: „Konten und Rollen » ILIAS-Konten”, Reiter „Einstellungen : Benachrichtigung über Neuanmeldung”
 user#:#interests#:#Interessen
 user#:#interests_general#:#Allgemeine Interessen

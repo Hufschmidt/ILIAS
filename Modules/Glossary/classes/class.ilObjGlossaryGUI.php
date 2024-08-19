@@ -727,6 +727,8 @@ class ilObjGlossaryGUI extends ilObjectGUI
             );
         }
 
+        $this->tabs->activateTab("cont_terms");
+
         $tab = new ilTermListTableGUI($this, "listTerms", $this->tax_node);
         $this->tpl->setContent($tab->getHTML());
     }
@@ -902,11 +904,11 @@ class ilObjGlossaryGUI extends ilObjectGUI
     {
         $files = $this->edit_request->getFiles();
         if (count($files) == 0) {
-            $this->tpl->setOnScreenMessage('failure', $this->lng->txt("no_checkbox"));
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt("no_checkbox"), true);
             $this->ctrl->redirectByClass("ilexportgui", "");
         }
         if (count($files) > 1) {
-            $this->tpl->setOnScreenMessage('failure', $this->lng->txt("cont_select_max_one_item"));
+            $this->tpl->setOnScreenMessage('failure', $this->lng->txt("cont_select_max_one_item"), true);
             $this->ctrl->redirectByClass("ilexportgui", "");
         }
 

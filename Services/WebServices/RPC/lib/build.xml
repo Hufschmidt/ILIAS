@@ -8,7 +8,7 @@
 	<property name="build" location="bin"/>
 	<property name="lib" location="jars" />
 	<property name="excl" location="ilias/**" />
-	
+
 	<fileset id="fileset-all-libs"
 	         dir="${lib}"
 	         includes="**/*.jar"
@@ -29,7 +29,7 @@
         	target="1.8"
 			classpathref="path-compile"
 			debug="yes">
-			<exclude name="ilias/**" /> 
+			<exclude name="ilias/**" />
         </javac>
 	<copy todir="${build}">
 		<fileset dir="${src}">
@@ -39,20 +39,10 @@
 	</copy>
     </target>
 
-    <!-- - - - - - - - - - - - - - - - - - 
-          target: depends                      
+    <!-- - - - - - - - - - - - - - - - - -
+          target: depends
          - - - - - - - - - - - - - - - - - -->
     <target name="buildSource" depends="build">
-	<!--
-    	<delete file="ilServer.source.jar" />
-    	<zip destfile="ilServer.source.zip">
-    		<zipfileset dir="${lib}" prefix="lib"/>
-    		<zipfileset dir="${src}" prefix="src" />
-    		<zipfileset file="*.xml" />
-    		<zipfileset file="*.properties" />
-	    </zip>
-	<delete dir="${tmp}" />
-	-->
     </target>
     <target name="build" depends="compile">
     	<mkdir dir="${tmp}"/>
@@ -66,7 +56,7 @@
     		<manifest>
     			<attribute name="Main-Class" value="de.ilias.ilServer"/>
     			<attribute name="MODULE-VERSION" value="5.4.1" />
-    			<attribute name="Multi-Release" value="true"/>
+				  <attribute name="Multi-Release" value="true" />
 			<section name="de/ilias/config/unifont.ttf">
 				<attribute name="Content-Type" value="application/x-font" />
 			</section>

@@ -203,7 +203,7 @@ class ilDclRecordListGUI
             if ($ilSetting->get('advanced_editing_javascript_editor')) {
                 $desc = "<div class='ilDclTableDescription'>" . $desc . "</div>";
             } else {
-                $desc = "<div class='ilDclTableDescription'>" . nl2br(ilUtil::stripSlashes($desc)) . "</div>";
+                $desc = "<div class='ilDclTableDescription'>" . nl2br(htmlspecialchars($desc, ENT_QUOTES | ENT_SUBSTITUTE, 'utf-8')) . "</div>";
             }
         }
         $this->dclUi->setContent($desc . $list->getHTML());
@@ -540,7 +540,7 @@ class ilDclRecordListGUI
         $offset = $list->getOffset();
 
         $num_records = count($table_obj->getPartialRecords(
-            (string)$this->getRefId(),
+            (string) $this->getRefId(),
             $list->getOrderField(),
             $list->getOrderDirection(),
             $limit,
@@ -555,7 +555,7 @@ class ilDclRecordListGUI
         }
 
         $data = $table_obj->getPartialRecords(
-            (string)$this->getRefId(),
+            (string) $this->getRefId(),
             $list->getOrderField(),
             $list->getOrderDirection(),
             $limit,

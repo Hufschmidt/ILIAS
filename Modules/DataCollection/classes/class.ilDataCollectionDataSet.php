@@ -85,7 +85,7 @@ class ilDataCollectionDataSet extends ilDataSet
 
     public function getSupportedVersions(): array
     {
-        return ['4.5.0'];
+        return ['4.5.0', '8.13'];
     }
 
     /**
@@ -114,18 +114,13 @@ class ilDataCollectionDataSet extends ilDataSet
         string $a_schema_version
     ): void {
         foreach ($a_rec as $key => &$value) {
-            $decode = json_decode($value);
-            if (is_array($decode)) {
-                foreach ($decode as &$entry) {
-                    $entry = htmlspecialchars($entry, ENT_QUOTES | ENT_SUBSTITUTE, 'utf-8');
-                }
-                $value = json_encode($decode);
+            $array = json_decode($value, true);
+            if ($key === 'title' || $key === 'description') {
+                $value = strip_tags($value, ilObjectGUI::ALLOWED_TAGS_IN_TITLE_AND_DESCRIPTION);
+            } elseif (is_array($array)) {
+                $value = json_encode($this->escapeArray($array));
             } else {
-                if ($key === 'title' || $key === 'description') {
-                    $value = strip_tags($value, ilObjectGUI::ALLOWED_TAGS_IN_TITLE_AND_DESCRIPTION);
-                } else {
-                    $value = htmlspecialchars($value, ENT_QUOTES | ENT_SUBSTITUTE, 'utf-8');
-                }
+                $value = htmlspecialchars($value, ENT_QUOTES | ENT_SUBSTITUTE, 'utf-8');
             }
         }
         switch ($a_entity) {
@@ -444,6 +439,11 @@ class ilDataCollectionDataSet extends ilDataSet
                                     $value = null;
                                 }
                                 break;
+                            case ilDclDatatype::INPUTFORMAT_TEXT:
+                                if (version_compare($a_schema_version, "8.13") < 0) {
+                                    $a_rec['value'] = str_replace('&lt;br /&gt;', '', $a_rec['value']);
+                                }
+                                // no break
                             default:
                                 $value = $a_rec['value'];
                                 if ($a_entity == 'il_dcl_stloc3_value' && empty($value)) {
@@ -479,6 +479,26 @@ class ilDataCollectionDataSet extends ilDataSet
                 }
                 break;
         }
+    }
+
+    protected function escapeArray(array $array): array
+    {
+        $new = [];
+        foreach ($array as $key => $value) {
+            $newkey = $key;
+            if (is_string($key)) {
+                $newkey = htmlspecialchars($key, ENT_QUOTES | ENT_SUBSTITUTE, 'utf-8');
+            }
+            $newvalue = $value;
+            if (is_string($value)) {
+                $newvalue = htmlspecialchars($value, ENT_QUOTES | ENT_SUBSTITUTE, 'utf-8');
+            }
+            if (is_array($value)) {
+                $newvalue = $this->escapeArray($value);
+            }
+            $new[$newkey] = $newvalue;
+        }
+        return $new;
     }
 
     /**

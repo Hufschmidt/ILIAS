@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of ILIAS, a powerful learning management system
  * published by ILIAS open source e-Learning e.V.
@@ -225,7 +226,7 @@ class ilDclBaseRecordFieldModel
 
     public function getFormulaValue(): string
     {
-        return (string)$this->getExportValue();
+        return (string) $this->getExportValue();
     }
 
     /**
@@ -243,7 +244,7 @@ class ilDclBaseRecordFieldModel
      */
     public function getValueFromExcel(ilExcel $excel, int $row, int $col)
     {
-        $value = $excel->getCell($row, $col);
+        $value = $excel->getCell($row, $col) ?? '';
         return $value;
     }
 
@@ -295,7 +296,7 @@ class ilDclBaseRecordFieldModel
     {
         ;
         if (!is_array($this->getValue())) {
-            $confirmation->addHiddenItem('field_' . $this->field->getId(), (string)$this->getValue());
+            $confirmation->addHiddenItem('field_' . $this->field->getId(), (string) $this->getValue());
         } else {
             foreach ($this->getValue() as $key => $value) {
                 $confirmation->addHiddenItem('field_' . $this->field->getId() . "[$key]", $value);

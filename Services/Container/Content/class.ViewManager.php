@@ -25,16 +25,28 @@ namespace ILIAS\Container\Content;
  */
 class ViewManager
 {
+    private int $user_id;
     protected ViewSessionRepository $view_repo;
 
     public function __construct(
-        ViewSessionRepository $view_repo
+        ViewSessionRepository $view_repo,
+        ?int $user_id = null
     ) {
+        global $DIC;    // fixes 41305, to do: move to constructor
+        if (is_null($user_id)) {
+            $this->user_id = $DIC->user()->getId();
+        } else {
+            $this->user_id = $user_id;
+        }
+
         $this->view_repo = $view_repo;
     }
 
     public function setAdminView(): void
     {
+        if (in_array($this->user_id, [ANONYMOUS_USER_ID, 0], true)) {
+            return;
+        }
         $this->view_repo->setAdminView();
     }
 
