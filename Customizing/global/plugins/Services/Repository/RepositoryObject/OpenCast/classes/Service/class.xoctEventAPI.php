@@ -18,6 +18,9 @@ use srag\Plugins\Opencast\Model\Metadata\MetadataFactory;
 use srag\Plugins\Opencast\Model\Scheduling\Scheduling;
 use srag\Plugins\Opencast\Model\WorkflowParameter\Processing;
 use srag\Plugins\Opencast\Model\WorkflowParameter\Series\SeriesWorkflowParameterRepository;
+use srag\Plugins\Opencast\Container\Init;
+use srag\Plugins\Opencast\Model\Metadata\MetadataField;
+use srag\Plugins\Opencast\Model\Metadata\Definition\MDDataType;
 
 /**
  * Class xoctEventAPI
@@ -26,32 +29,17 @@ use srag\Plugins\Opencast\Model\WorkflowParameter\Series\SeriesWorkflowParameter
  */
 class xoctEventAPI
 {
-    /**
-     * @var self
-     */
     protected static $instance;
-    /**
-     * @var EventAPIRepository
-     */
-    private $event_repository;
-    /**
-     * @var MetadataFactory
-     */
-    private $md_factory;
-    /**
-     * @var ACLUtils
-     */
-    private $acl_utils;
-    /**
-     * @var SeriesWorkflowParameterRepository
-     */
-    private $workflow_param_repository;
+    private EventAPIRepository $event_repository;
+    private MetadataFactory $md_factory;
+    private ACLUtils $acl_utils;
+    private SeriesWorkflowParameterRepository $workflow_param_repository;
 
     public function __construct()
     {
-        global $opencastContainer;
+        $opencastContainer = Init::init();
         $this->event_repository = $opencastContainer[EventAPIRepository::class];
-        $opencastDIC = OpencastDIC::getInstance();
+        $opencastDIC = $opencastContainer->legacy();
         $this->md_factory = $opencastDIC->metadata()->metadataFactory();
         $this->acl_utils = $opencastDIC->acl_utils();
         $this->workflow_param_repository = $opencastDIC->workflow_parameter_series_repository();
@@ -85,12 +73,8 @@ class xoctEventAPI
 
         $scheduling = new Scheduling(
             $location,
-            $start instanceof DateTime ? DateTimeImmutable::createFromMutable(
-                $start->setTimezone(new DateTimeZone('GMT'))
-            ) : new DateTimeImmutable($start),
-            $end instanceof DateTime ? DateTimeImmutable::createFromMutable(
-                $end->setTimezone(new DateTimeZone('GMT'))
-            ) : new DateTimeImmutable($end),
+            $this->getImmutableDateTime($start),
+            $this->getImmutableDateTime($end),
             PluginConfig::getConfig(PluginConfig::F_SCHEDULE_CHANNEL)[0] == "" ? ['default'] : PluginConfig::getConfig(
                 PluginConfig::F_SCHEDULE_CHANNEL
             )
@@ -110,7 +94,7 @@ class xoctEventAPI
 
         $acl = $this->acl_utils->getStandardRolesACL();
 
-        $this->event_repository->schedule(
+        $identifier = $this->event_repository->schedule(
             new ScheduleEventRequest(
                 new ScheduleEventRequestPayload(
                     $metadata->withoutEmptyFields(),
@@ -120,6 +104,10 @@ class xoctEventAPI
                 )
             )
         );
+
+        $id_field = new MetadataField('identifier', new MDDataType(MDDataType::TYPE_TEXT));
+        $id_field->setValue($identifier);
+        $metadata->addField($id_field);
 
         $event = new Event();
         $event->setMetadata($metadata);
@@ -171,9 +159,9 @@ class xoctEventAPI
                 $metadataField->setValue($value);
                 $metadata->addField($metadataField);
             } elseif ($title === 'start') {
-                $scheduling->setStart(new DateTimeImmutable($data['start']));
+                $scheduling->setStart($this->getImmutableDateTime($data['start']));
             } elseif ($title === 'end') {
-                $scheduling->setEnd(new DateTimeImmutable($data['end']));
+                $scheduling->setEnd($this->getImmutableDateTime($data['end']));
             } elseif ($title === 'location') {
                 $scheduling->setAgentId($data['location']);
             }
@@ -193,6 +181,18 @@ class xoctEventAPI
         }
 
         return $event;
+    }
+
+    /**
+     * Get an immetuble DateTime if type is unknown
+     */
+    protected function getImmutableDateTime($date_time_of_unknown_format): DateTimeImmutable
+    {
+        if($date_time_of_unknown_format instanceof DateTime) {
+            return DateTimeImmutable::createFromMutable($date_time_of_unknown_format->setTimezone(new DateTimeZone('GMT')));
+        } else {
+            return new DateTimeImmutable($date_time_of_unknown_format);
+        }
     }
 
     public function delete(string $event_id): bool

@@ -75,11 +75,13 @@ class LivePlayerDataBuilder extends PlayerDataBuilder
             "metadata" => [
                 "title" => $this->event->getTitle(),
                 "preview" => ILIAS_HTTP_PATH . ltrim($this->event->publications()->getThumbnailUrl(), '.'),
+                "videoid" => $this->event->getIdentifier() ?? '',
+                "seriesid" => $this->event->getSeriesIdentifier() ?? ''
             ],
         ];
     }
 
-    private function getConsumableResolution($resolution)
+    private function getConsumableResolution($resolution): array
     {
         $video_res = [
             "w" => '1920',

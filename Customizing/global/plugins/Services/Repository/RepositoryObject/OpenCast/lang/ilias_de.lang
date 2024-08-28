@@ -252,7 +252,7 @@ event_state_not_published#:#Nicht publiziert, für Studierende noch nicht sichtb
 event_state_ready_for_cutting#:#Nicht publiziert (Schnitt erforderlich), für Studierende noch nicht sichtbar.
 event_state_running#:#Wird konvertiert, für Studierende noch nicht sichtbar.
 event_state_offline#:#Offline, für Studierende nicht sichtbar.
-event_state_scheduled#:#Aufzeichnung wird verarbeitet, für Studierende nicht sichtbar.
+event_state_scheduled#:#Geplante Aufzeichnung, für Studierende nicht sichtbar.
 event_state_scheduled_offline#:#Aufzeichnung wird verarbeitet (Offline), für Studierende nicht sichtbar.
 event_state_recording#:#Wird momentan Aufgezeichnet, für Studierende nicht sichtbar.
 event_state_live_scheduled#:#Live-Übertragung (noch nicht begonnen). Offen ab %s.
@@ -718,6 +718,7 @@ config_paella_player_live_theme_info#:#Die Themendatei, die für Livestream-Vide
 config_paella_player_preview_fallback#:#Paella Player Preview (fallback)
 config_paella_player_preview_fallback_info#:#Die (Fallback-)Player-Vorschau-Hintergrundbilddatei, die angezeigt werden soll. Das übliche Bilddateiformat wie PNG oder JPG wird empfohlen.<br> HINWEIS: Standardmäßig wird das Vorschaubild aus den Videoressourcen geladen.
 pp_image_link#:#aktuelle Bilddatei
+select#:#Auswählen
 xoct_rep_robj_xoct_perm_download#:#Videos herunterladen
 perm_download#:#Herunterladen
 xoct_rep_robj_xoct_perm_record#:#Video aufzeichen mit Opencast Studio (Muss in den Konfigurationen aktiviert werden)
