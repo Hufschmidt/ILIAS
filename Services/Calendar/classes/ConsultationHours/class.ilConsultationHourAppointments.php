@@ -152,7 +152,7 @@ class ilConsultationHourAppointments
     /**
      * UMR: Get consultation hour managers id for specific user.
      * @param	int $a_user_id
-     * @return	int | string
+     * @return	int | null
      */
     public static function getManagerID($a_user_id)
     {
@@ -163,7 +163,7 @@ class ilConsultationHourAppointments
             ' WHERE user_id = ' . $ilDB->quote($a_user_id, 'integer'));
         $row = $ilDB->fetchAssoc($set);
 
-        return (int) $row['admin_id'];
+        return is_array($row) ? (int) $row['admin_id'] : false;
     }
 
     /**
