@@ -81,8 +81,11 @@ class ilObjInteractiveVideo extends ilObjectPlugin implements ilLPStatusPluginIn
 	 * @param $src_id
 	 * @return ilInteractiveVideoSource
 	 */
-	public function getVideoSourceObject($src_id) : ilInteractiveVideoSource
+	public function getVideoSourceObject($src_id) : ?ilInteractiveVideoSource
     {
+        if($src_id === '') {
+            $this->log->error(sprintf('No source id give for InteractiveVideo object with the id %s', $this->id));
+        }
 		$factory = new ilInteractiveVideoSourceFactory();
 		if($this->video_source_object === null)
 		{
@@ -95,6 +98,10 @@ class ilObjInteractiveVideo extends ilObjectPlugin implements ilLPStatusPluginIn
 				$this->video_source_object = $factory->getVideoSourceObject($src_id);
 			}
 		}
+
+        if($this->video_source_object === null) {
+            $this->log->error(sprintf('No valid source found for InteractiveVideo object with the id %s and source_id %s', $this->id, $this->source_id));
+        }
 
 		return $this->video_source_object;
 	}
@@ -399,11 +406,13 @@ class ilObjInteractiveVideo extends ilObjectPlugin implements ilLPStatusPluginIn
 	{
         if (((!$this->referenced) || ($this->countReferences() == 1)) && $this->video_source_object !== null ) {
             $this->getVideoSourceObject($this->getSourceId());
-            $this->video_source_object->beforeDeleteVideoSource($this->getId());
-            self::deleteComments(self::getCommentIdsByObjId($this->getId(), false));
+            if($this->getId() !== null) {
+                $this->video_source_object->beforeDeleteVideoSource($this->getId());
+                self::deleteComments(self::getCommentIdsByObjId($this->getId(), false));
 
-            $this->db->manipulate('DELETE FROM ' . self::TABLE_NAME_OBJECTS . ' WHERE obj_id = ' . $this->db->quote($this->getId(), 'integer'));
-            $this->deleteMetaData();
+                $this->db->manipulate('DELETE FROM ' . self::TABLE_NAME_OBJECTS . ' WHERE obj_id = ' . $this->db->quote($this->getId(), 'integer'));
+                $this->deleteMetaData();
+            }
         }
         return true;
 	}
