@@ -459,7 +459,7 @@ class ilForumAppEventListener implements ilAppEventListener
                         $ref_ids = self::getCachedReferences($a_parameter['obj_id']);
 
                         foreach ($ref_ids as $ref_id) {
-                            ilForumNotification::checkForumsExistsInsert($ref_id, $a_parameter['usr_id']);
+                            @ilForumNotification::checkForumsExistsInsert($ref_id, $a_parameter['usr_id']);
                             break;
                         }
 
@@ -469,7 +469,7 @@ class ilForumAppEventListener implements ilAppEventListener
                         $ref_ids = self::getCachedReferences($a_parameter['obj_id']);
 
                         foreach ($ref_ids as $ref_id) {
-                            ilForumNotification::checkForumsExistsDelete($ref_id, $a_parameter['usr_id']);
+                            @ilForumNotification::checkForumsExistsDelete($ref_id, $a_parameter['usr_id']);
                             break;
                         }
                         break;
