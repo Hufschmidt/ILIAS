@@ -21,11 +21,17 @@ if (!$ilDB->tableExists('copg_pgcp_ocpc_config')) {
     $ilDB->addPrimaryKey('copg_pgcp_ocpc_config', ['name']);
     $ilDB->insert(
         'copg_pgcp_ocpc_config',
-        ['default_width' => ['text', '268']]
+        [
+                'value' => ['text', '268'],
+                'name' => ['text', 'default_width']
+        ]
     );
     $ilDB->insert(
         'copg_pgcp_ocpc_config',
-        ['default_height' => ['text', '150']]
+        [
+            'value' => ['text', '150'],
+            'name' => ['text', 'default_height']
+        ]
     );
 }
 

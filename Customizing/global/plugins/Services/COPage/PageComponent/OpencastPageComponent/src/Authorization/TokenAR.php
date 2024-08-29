@@ -138,7 +138,7 @@ class TokenAR extends ActiveRecord
      *
      * @return Token|null
      */
-    public function wakeUp($field_name, $field_value)
+    public function wakeUp($field_name, $field_value): ?Token
     {
         switch ($field_name) {
             case 'token':

@@ -30,11 +30,15 @@ class ConfigRepository
     public function store(Config $config): Config
     {
         if ($this->has($config->getName())) {
-            $this->db->update(self::TABLE_NAME, ["value" => ["text", $config->getValue()]],
-                ["name" => ["text", $config->getName()]]);
+            $this->db->update(
+                self::TABLE_NAME,
+                ["value" => ["text", $config->getValue()]],
+                ["name" => ["text", $config->getName()]]
+            );
         } else {
             $this->db->insert(
-                self::TABLE_NAME, ["name" => ["text", $config->getName()], "value" => ["text", $config->getValue()]]
+                self::TABLE_NAME,
+                ["name" => ["text", $config->getName()], "value" => ["text", $config->getValue()]]
             );
         }
         return $config;

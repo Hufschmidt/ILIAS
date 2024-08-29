@@ -4,6 +4,9 @@
 
 namespace srag\Plugins\OpencastPageComponent\Config;
 
+use ILIAS\UI\Factory;
+use ILIAS\UI\Renderer;
+use ILIAS\UI\Component\Input\Container\Form\Standard;
 use ilOpencastPageComponentPlugin;
 use Psr\Http\Message\ServerRequestInterface;
 
@@ -12,41 +15,31 @@ use Psr\Http\Message\ServerRequestInterface;
  */
 class ConfigForm
 {
-
     /**
      * @var mixed[]
      */
-    private $components = [];
+    private array $components = [];
     /**
      * @var \ilCtrlInterface
      */
     private $ctrl;
     /**
-     * @var \ILIAS\UI\Factory
+     * @var Factory
      */
     private $ui_factory;
     /**
-     * @var \ILIAS\UI\Renderer
+     * @var Renderer
      */
     private $ui_renderer;
-    /**
-     * @var \ilOpencastPageComponentPlugin
-     */
-    private $plugin;
+    private \ilOpencastPageComponentPlugin $plugin;
     /**
      * @var \ILIAS\Refinery\Factory
      */
     private $refinery;
+    private \ilOpencastPageComponentConfigGUI $calling_gui;
+    private ConfigRepository $config_repository;
     /**
-     * @var \ilOpencastPageComponentConfigGUI
-     */
-    private $calling_gui;
-    /**
-     * @var \srag\Plugins\OpencastPageComponent\Config\ConfigRepository
-     */
-    private $config_repository;
-    /**
-     * @var \ILIAS\UI\Component\Input\Container\Form\Standard
+     * @var Standard
      */
     private $form;
 
@@ -81,49 +74,43 @@ class ConfigForm
         $inputs[] = $ff
             ->numeric(
                 $this->getLocaleString(Config::KEY_DEFAULT_WIDTH)
-            // , $this->getLocaleString(Config::KEY_DEFAULT_WIDTH . '_info')
+                // , $this->getLocaleString(Config::KEY_DEFAULT_WIDTH . '_info')
             )
             ->withValue(
                 (int) $this->config_repository->get(Config::KEY_DEFAULT_WIDTH, 640)->getValue()
             )
             ->withRequired(true)
             ->withAdditionalTransformation(
-                $this->refinery->custom()->transformation(function ($value) {
-                    return $this->config_repository->store(
-                        new Config(Config::KEY_DEFAULT_WIDTH, (int) $value)
-                    );
-                })
+                $this->refinery->custom()->transformation(fn ($value): Config => $this->config_repository->store(
+                    new Config(Config::KEY_DEFAULT_WIDTH, (int) $value)
+                ))
             );
 
         $inputs[] = $ff
             ->numeric(
                 $this->getLocaleString(Config::KEY_DEFAULT_HEIGHT)
-            // , $this->getLocaleString(Config::KEY_DEFAULT_HEIGHT . '_info')
+                // , $this->getLocaleString(Config::KEY_DEFAULT_HEIGHT . '_info')
             )->withValue(
                 (int) $this->config_repository->get(Config::KEY_DEFAULT_HEIGHT, 480)->getValue()
             )
             ->withRequired(true)
             ->withAdditionalTransformation(
-                $this->refinery->custom()->transformation(function ($value) {
-                    return $this->config_repository->store(
-                        new Config(Config::KEY_DEFAULT_HEIGHT, (int) $value)
-                    );
-                })
+                $this->refinery->custom()->transformation(fn ($value): Config => $this->config_repository->store(
+                    new Config(Config::KEY_DEFAULT_HEIGHT, (int) $value)
+                ))
             );
 
         $inputs[] = $ff
             ->checkbox(
                 $this->getLocaleString(Config::KEY_DEFAULT_AS_LINK)
-            // , $this->getLocaleString(Config::KEY_DEFAULT_AS_LINK . '_info')
+                // , $this->getLocaleString(Config::KEY_DEFAULT_AS_LINK . '_info')
             )->withValue(
                 (bool) $this->config_repository->get(Config::KEY_DEFAULT_AS_LINK, false)->getValue()
             )
             ->withAdditionalTransformation(
-                $this->refinery->custom()->transformation(function ($value) {
-                    return $this->config_repository->store(
-                        new Config(Config::KEY_DEFAULT_AS_LINK, (bool) $value)
-                    );
-                })
+                $this->refinery->custom()->transformation(fn ($value): Config => $this->config_repository->store(
+                    new Config(Config::KEY_DEFAULT_AS_LINK, (bool) $value)
+                ))
             );
 
         $post_url = $this->ctrl->getFormAction($this->calling_gui, $command);

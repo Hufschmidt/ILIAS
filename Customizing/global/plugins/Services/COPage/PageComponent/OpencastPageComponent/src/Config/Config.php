@@ -9,15 +9,13 @@ namespace srag\Plugins\OpencastPageComponent\Config;
  */
 class Config
 {
-
     public const TABLE_NAME = "copg_pgcp_ocpc_config";
     public const KEY_DEFAULT_WIDTH = "default_width";
+    public const DEFAULT_WIDTH = 640;
     public const KEY_DEFAULT_HEIGHT = "default_height";
+    public const DEFAULT_HEIGHT = 480;
     public const KEY_DEFAULT_AS_LINK = "default_as_link";
-    /**
-     * @var string
-     */
-    private $name;
+    private string $name;
     /**
      * @var mixed
      */
@@ -41,7 +39,7 @@ class Config
     /**
      * @deprecated This is only for legacy reasons. Do not use this method! Use the ConfigRepository directly
      */
-    public static function setField(string $key, $value)
+    public static function setField(string $key, $value): void
     {
         $repo = new ConfigRepository();
         $config = $repo->get($key, null)->getValue();

@@ -11,7 +11,6 @@ namespace srag\Plugins\OpencastPageComponent\Authorization;
  */
 class TokenRepository
 {
-
     /**
      * validity in seconds
      */

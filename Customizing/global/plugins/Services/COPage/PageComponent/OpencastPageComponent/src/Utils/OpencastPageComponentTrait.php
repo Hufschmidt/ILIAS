@@ -16,5 +16,4 @@ namespace srag\Plugins\OpencastPageComponent\Utils;
  */
 trait OpencastPageComponentTrait
 {
-
 }

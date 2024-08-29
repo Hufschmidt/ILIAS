@@ -18,6 +18,10 @@ use srag\Plugins\Opencast\DI\OpencastDIC;
  */
 class VideoSearchTableGUI extends ilTable2GUI
 {
+    /**
+     * @var mixed[]
+     */
+    public $filter_cache;
     public const PLUGIN_CLASS_NAME = ilOpencastPageComponentPlugin::class;
     public const GET_PARAM_EVENT_ID = 'event_id';
     public const ID_PREFIX = 'oc_pc_';
@@ -31,26 +35,14 @@ class VideoSearchTableGUI extends ilTable2GUI
      * @var array
      */
     protected $filter_fields = [];
-    /**
-     * @var \ilOpencastPageComponentPlugin
-     */
-    protected $plugin;
-    /**
-     * @var Container
-     */
-    protected $dic;
-    /**
-     * @var string
-     */
-    protected $command_url;
+    protected \ilOpencastPageComponentPlugin $plugin;
+    protected Container $dic;
+    protected string $command_url;
     /**
      * @var array
      */
     protected $filter = [];
-    /**
-     * @var ilOpenCastPlugin
-     */
-    protected $opencast_plugin;
+    protected \ilOpenCastPlugin $opencast_plugin;
     /**
      * @var EventAPIRepository
      */
@@ -61,7 +53,7 @@ class VideoSearchTableGUI extends ilTable2GUI
     private $series_repository;
 
     public function __construct(
-        $parent_gui,
+        ?object $parent_gui,
         string $parent_cmd,
         Container $dic,
         string $command_url
@@ -71,19 +63,10 @@ class VideoSearchTableGUI extends ilTable2GUI
         $this->plugin = ilOpencastPageComponentPlugin::getInstance();
         $this->command_url = $command_url;
         $this->opencast_plugin = ilOpenCastPlugin::getInstance();
-        $opencast_dic = OpencastDIC::getInstance();
+        $legacy_container = $opencastContainer->legacy();
+        $this->event_repository = $opencastContainer[EventAPIRepository::class];
+        $this->series_repository = $opencastContainer[SeriesAPIRepository::class];
 
-        if (method_exists($opencast_dic, 'event_repository')) {
-            $this->event_repository = $opencast_dic->event_repository();
-        } elseif (!empty($opencastContainer)) {
-            $this->event_repository = $opencastContainer[EventAPIRepository::class];
-        }
-
-        if (method_exists($opencast_dic, 'series_repository')) {
-            $this->series_repository = $opencast_dic->series_repository();
-        } elseif (!empty($opencastContainer)) {
-            $this->series_repository = $opencastContainer->get(SeriesAPIRepository::class);
-        }
 
         parent::__construct($parent_gui, $parent_cmd);
         $this->initId();    // this is necessary so the offset and order can be determined
@@ -121,7 +104,8 @@ class VideoSearchTableGUI extends ilTable2GUI
         }
 
         $this->tpl->setVariable(
-            'CMD_URL', $this->command_url . '&' . self::GET_PARAM_EVENT_ID . '=' . $a_set['identifier']
+            'CMD_URL',
+            $this->command_url . '&' . self::GET_PARAM_EVENT_ID . '=' . $a_set['identifier']
         );
 
         $this->tpl->setCurrentBlock("column");
@@ -130,7 +114,7 @@ class VideoSearchTableGUI extends ilTable2GUI
             if ($this->isColumnSelected($column["id"])) {
                 $column = $this->getColumnValue($column["id"], $a_set);
 
-                if (!empty($column)) {
+                if ($column !== '' && $column !== '0') {
                     $this->tpl->setVariable("COLUMN", $column);
                 } else {
                     $this->tpl->setVariable("COLUMN", " ");
@@ -285,10 +269,12 @@ class VideoSearchTableGUI extends ilTable2GUI
         $start_filter_to = $this->filter[self::F_START_TO] ?? false;
         if ($start_filter_from || $start_filter_to) {
             $filter['start'] = ($start_filter_from ? $start_filter_from->get(
-                    IL_CAL_FKT_DATE, 'Y-m-d\TH:i:s'
-                ) : '1970-01-01T00:00:00')
+                IL_CAL_FKT_DATE,
+                'Y-m-d\TH:i:s'
+            ) : '1970-01-01T00:00:00')
                 . '/' . ($start_filter_to ? $start_filter_to->get(
-                    IL_CAL_FKT_DATE, 'Y-m-d\T23:59:59'
+                    IL_CAL_FKT_DATE,
+                    'Y-m-d\T23:59:59'
                 ) : '2200-01-01T00:00:00');
         }
 
@@ -336,12 +322,18 @@ class VideoSearchTableGUI extends ilTable2GUI
     protected function initFilterFields(): void
     {
         $title = $this->addFilterItemByMetaType(
-            self::F_TEXTFILTER, self::FILTER_TEXT, false, $this->plugin->txt(self::F_TEXTFILTER)
+            self::F_TEXTFILTER,
+            self::FILTER_TEXT,
+            false,
+            $this->plugin->txt(self::F_TEXTFILTER)
         );
         $this->filter[self::F_TEXTFILTER] = $title->getValue();
 
         $series = $this->addFilterItemByMetaType(
-            self::F_SERIES, self::FILTER_SELECT, false, $this->opencast_plugin->txt('event_series')
+            self::F_SERIES,
+            self::FILTER_SELECT,
+            false,
+            $this->opencast_plugin->txt('event_series')
         );
         try {
             $series->setOptions($this->getSeriesFilterOptions());
@@ -386,7 +378,7 @@ class VideoSearchTableGUI extends ilTable2GUI
         $series_options = ['' => '-'];
         $xoctUser = xoctUser::getInstance($this->dic->user());
         $this->series_repository->getOwnSeries($xoctUser);
-        if (xoctUser::getInstance($this->dic->user())->getIdentifier() == '') {
+        if (xoctUser::getInstance($this->dic->user())->getIdentifier() === '') {
             throw new xoctException(xoctException::NO_USER_MAPPING);
         }
         foreach ($this->series_repository->getAllForUser($xoctUser->getUserRoleName()) as $series) {

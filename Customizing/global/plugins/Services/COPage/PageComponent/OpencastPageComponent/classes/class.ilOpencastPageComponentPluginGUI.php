@@ -16,6 +16,8 @@ use srag\Plugins\Opencast\DI\OpencastDIC;
 use srag\Plugins\OpencastPageComponent\Authorization\TokenRepository;
 use srag\Plugins\OpencastPageComponent\Config\Config;
 use srag\Plugins\OpencastPageComponent\Utils\OpencastPageComponentTrait;
+use srag\Plugins\Opencast\Container\Init;
+use ILIAS\Data\URI;
 
 /**
  * Class ilOpencastPageComponentPluginGUI
@@ -53,66 +55,51 @@ class ilOpencastPageComponentPluginGUI extends ilPageComponentPluginGUI
     public const POSITION_CENTER = 'center';
     public const POSITION_RIGHT = 'right';
     public const PROP_RESPONSIVE = 'responsive';
-
-    /**
-     * @var \ilGlobalTemplateInterface
-     */
-    private $main_tpl;
-    public $player_url;
-
-    /**
-     * @var Container
-     */
-    protected $dic;
-    /**
-     * @var \srag\Plugins\Opencast\DI\OpencastDIC
-     */
-    protected $opencast_dic;
-    /**
-     * @var EventAPIRepository
-     */
-    protected $event_repository;
-    /**
-     * @var \ilOpenCastPlugin
-     */
-    protected $opencast_plugin;
+    private \ilGlobalTemplateInterface $main_tpl;
+    private \srag\Plugins\Opencast\Container\Container $container;
+    private string $player_url;
+    protected Container $dic;
+    protected OpencastDIC $legacy_container;
+    protected EventAPIRepository $event_repository;
+    protected \ilOpenCastPlugin $opencast_plugin;
 
     /**
      * ilOpencastPageComponentPluginGUI constructor
      */
     public function __construct()
     {
-        global $DIC, $opencastContainer;
+        global $DIC;
         $this->dic = $DIC;
         $this->main_tpl = $this->dic->ui()->mainTemplate();
-        $this->opencast_plugin = ilOpenCastPlugin::getInstance();
+        $this->container = Init::init($DIC);
+        $this->opencast_plugin = $this->container->plugin();
+
         $main_opencast_js_path = $this->opencast_plugin->getDirectory() . '/js/opencast/dist/index.js';
-        PluginConfig::setApiSettings();
         if (file_exists($main_opencast_js_path)) {
             $this->dic->ui()->mainTemplate()->addJavaScript($main_opencast_js_path);
         }
-        $this->opencast_dic = OpencastDIC::getInstance();
-        $this->opencast_dic->overwriteService(
+
+        $this->legacy_container = $this->container->legacy();
+        $this->legacy_container->overwriteService(
             'upload_handler',
             new xoctFileUploadHandlerGUI(
-                $this->opencast_dic->upload_storage_service(),
+                $this->legacy_container->upload_storage_service(),
                 $this->dic->ctrl()->getLinkTargetByClass(
-                    [ilObjPluginDispatchGUI::class, ocpcRouterGUI::class, xoctFileUploadHandlerGUI::class], 'upload'
+                    [ilObjPluginDispatchGUI::class, ocpcRouterGUI::class, xoctFileUploadHandlerGUI::class],
+                    'upload'
                 ),
                 $this->dic->ctrl()->getLinkTargetByClass(
-                    [ilObjPluginDispatchGUI::class, ocpcRouterGUI::class, xoctFileUploadHandlerGUI::class], 'info'
+                    [ilObjPluginDispatchGUI::class, ocpcRouterGUI::class, xoctFileUploadHandlerGUI::class],
+                    'info'
                 ),
                 $this->dic->ctrl()->getLinkTargetByClass(
-                    [ilObjPluginDispatchGUI::class, ocpcRouterGUI::class, xoctFileUploadHandlerGUI::class], 'remove'
+                    [ilObjPluginDispatchGUI::class, ocpcRouterGUI::class, xoctFileUploadHandlerGUI::class],
+                    'remove'
                 )
             )
         );
 
-        if (method_exists($this->opencast_dic, 'event_repository')) {
-            $this->event_repository = $this->opencast_dic->event_repository();
-        } elseif ($opencastContainer && isset($opencastContainer[EventAPIRepository::class])) {
-            $this->event_repository = $opencastContainer[EventAPIRepository::class];
-        }
+        $this->event_repository = $this->container[EventAPIRepository::class];
 
         parent::__construct();
     }
@@ -128,11 +115,10 @@ class ilOpencastPageComponentPluginGUI extends ilPageComponentPluginGUI
                 $cmd = $custom_command;
                 $this->performCommand($cmd);
                 return;
-            } else {
-                $cmd = $this->dic->ctrl()->getCmd();
-                $this->performCommand($cmd);
-                return;
             }
+            $cmd = $this->dic->ctrl()->getCmd();
+            $this->performCommand($cmd);
+            return;
         } catch (ilException $e) {
             $this->main_tpl->setOnScreenMessage('failure', $e->getMessage(), true);
             $this->dic->ctrl()->returnToParent($this);
@@ -162,7 +148,7 @@ class ilOpencastPageComponentPluginGUI extends ilPageComponentPluginGUI
     {
         $upload_button = ilLinkButton::getInstance();
         $upload_button->setPrimary(true);
-//        $this->dic->ctrl()->saveParameter($this, 'rtoken'); // TODO why???
+        //        $this->dic->ctrl()->saveParameter($this, 'rtoken'); // TODO why???
         $this->dic->ctrl()->setParameter($this, self::CUSTOM_CMD, self::CMD_SHOW_UPLOAD_FORM);
         $upload_button->setUrl($this->dic->ctrl()->getLinkTarget($this, self::CMD_INSERT));
         $upload_button->setCaption($this->plugin->txt('btn_upload'), false);
@@ -185,7 +171,9 @@ class ilOpencastPageComponentPluginGUI extends ilPageComponentPluginGUI
     {
         $return_link = $this->dic->ctrl()->getLinkTarget($this, 'insert_plug_OpencastPageComponent');
         $this->dic->ctrl()->setParameterByClass(
-            ocpcRouterGUI::class, ocpcRouterGUI::P_GET_RETURN_LINK, urlencode($return_link)
+            ocpcRouterGUI::class,
+            ocpcRouterGUI::P_GET_RETURN_LINK,
+            urlencode($return_link)
         );
 
         $with_terms_of_use = !ToUManager::hasAcceptedToU($this->dic->user()->getId());
@@ -195,7 +183,7 @@ class ilOpencastPageComponentPluginGUI extends ilPageComponentPluginGUI
             self::CMD_CREATE
         );
 
-        return $this->opencast_dic->event_form_builder()->upload(
+        return $this->legacy_container->event_form_builder()->upload(
             $form_action_by_class,
             $with_terms_of_use
         );
@@ -312,37 +300,35 @@ class ilOpencastPageComponentPluginGUI extends ilPageComponentPluginGUI
 
     public function insert(): void
     {
+        if ($this->dic->http()->request()->getQueryParams()['rtoken'] ?? null) {
+            $this->redirect(self::CMD_INSERT);
+        }
+        $current_url = new URI(ILIAS_HTTP_PATH . '/' . $this->dic->ctrl()->getLinkTarget($this, self::CMD_INSERT));
+        $target_url = new URI(ILIAS_HTTP_PATH . '/' . $this->dic->ctrl()->getLinkTarget($this, self::CMD_CREATE));
+
+        $ui = $this->container->uiIntegration($this->plugin);
+
+        $this->main_tpl->setContent(
+            $this->dic->ui()->renderer()->render(
+                $ui->mine()->asDataTableWithFilters(
+                    $current_url,
+                    $target_url,
+                    self::PROP_EVENT_ID
+                )
+            )
+        );
+        // must be after to avoid changed URLs
         $this->addToolbar();
-        $table = $this->getTable();
-        $this->main_tpl->setContent($table->getHTML());
-    }
-
-    protected function applyFilter(): void
-    {
-        $table = $this->getTable(false);
-        $table->setFilterCommand(self::CMD_INSERT);
-        $table->resetOffset();
-        $table->storeProperty('offset', 0);
-        $table->writeFilterToSession();
-        $this->redirect(self::CMD_INSERT);
-    }
-
-    public function resetFilter(): void
-    {
-        $table = $this->getTable();
-        $table->resetOffset();
-        $table->storeProperty('offset', 0);
-        $table->resetFilter();
-        $this->redirect(self::CMD_INSERT);
     }
 
     public function create(): void
     {
-        $event_id = filter_input(INPUT_GET, VideoSearchTableGUI::GET_PARAM_EVENT_ID, FILTER_SANITIZE_STRING);
+        $event_id = $this->dic->http()->request()->getQueryParams()[self::PROP_EVENT_ID] ?? null;
+
         $properties = [
             self::PROP_EVENT_ID => $event_id,
-            self::PROP_HEIGHT => Config::getField(Config::KEY_DEFAULT_HEIGHT),
-            self::PROP_WIDTH => Config::getField(Config::KEY_DEFAULT_WIDTH),
+            self::PROP_HEIGHT => max((int) Config::getField(Config::KEY_DEFAULT_HEIGHT), Config::DEFAULT_HEIGHT),
+            self::PROP_WIDTH => max((int) Config::getField(Config::KEY_DEFAULT_WIDTH), Config::DEFAULT_WIDTH),
             self::PROP_POSITION => self::POSITION_LEFT,
             self::PROP_RESPONSIVE => true,
             self::PROP_AS_LINK => (bool) Config::getField(Config::KEY_DEFAULT_AS_LINK)
@@ -409,9 +395,8 @@ class ilOpencastPageComponentPluginGUI extends ilPageComponentPluginGUI
         $as_link = (bool) $a_properties[self::PROP_AS_LINK];
         if (!$as_link && ($a_mode == self::MODE_PRESENTATION)) {
             return $this->getIframeHTML($a_properties, $event);
-        } else {
-            return $this->getStandardElementHTML($a_mode, $a_properties, $event);
         }
+        return $this->getStandardElementHTML($a_mode, $a_properties, $event);
     }
 
     public function redirect(string $cmd): void
@@ -454,7 +439,7 @@ class ilOpencastPageComponentPluginGUI extends ilPageComponentPluginGUI
         $this->dic->ui()->mainTemplate()->addCss(
             $this->getPlugin()->getDirectory() . '/templates/css/presentation.css'
         );
-        if ($mode == self::MODE_PRESENTATION || $mode == self::MODE_PREVIEW) {
+        if ($mode === self::MODE_PRESENTATION || $mode === self::MODE_PREVIEW) {
             $tpl->setVariable('TARGET', '_blank');
             $tpl->setVariable('VIDEO_LINK', $use_modal ? '#' : $this->getPlayerLink($event));
             $tpl->touchBlock('overlay');
@@ -471,8 +456,7 @@ class ilOpencastPageComponentPluginGUI extends ilPageComponentPluginGUI
 
     protected function getExceptionHTML(array $properties): string
     {
-        return '<img src="Services/WebAccessChecker/templates/images/access_denied.png" ' .
-            'height="' . $properties[self::PROP_HEIGHT] . 'px" ' .
+        return '<img src="Services/WebAccessChecker/templates/images/access_denied.png" height="' . $properties[self::PROP_HEIGHT] . 'px" ' .
             'width="' . $properties[self::PROP_WIDTH] . 'px">';
     }
 
@@ -502,13 +486,19 @@ class ilOpencastPageComponentPluginGUI extends ilPageComponentPluginGUI
             $token = (new TokenRepository())->create($this->dic->user()->getId(), $event->getIdentifier());
             $this->dic->ctrl()->clearParametersByClass(xoctPlayerGUI::class);
             $this->dic->ctrl()->setParameterByClass(
-                ocpcRouterGUI::class, ocpcRouterGUI::TOKEN, $token->getToken()->toString()
+                ocpcRouterGUI::class,
+                ocpcRouterGUI::TOKEN,
+                $token->getToken()->toString()
             );
             $this->dic->ctrl()->setParameterByClass(
-                ocpcRouterGUI::class, xoctPlayerGUI::IDENTIFIER, $event->getIdentifier()
+                ocpcRouterGUI::class,
+                xoctPlayerGUI::IDENTIFIER,
+                $event->getIdentifier()
             );
             $this->dic->ctrl()->setParameterByClass(
-                xoctPlayerGUI::class, xoctPlayerGUI::IDENTIFIER, $event->getIdentifier()
+                xoctPlayerGUI::class,
+                xoctPlayerGUI::IDENTIFIER,
+                $event->getIdentifier()
             );
             return $this->dic->ctrl()->getLinkTargetByClass(
                 [ilObjPluginDispatchGUI::class, ocpcRouterGUI::class, xoctPlayerGUI::class],
@@ -535,12 +525,10 @@ class ilOpencastPageComponentPluginGUI extends ilPageComponentPluginGUI
         $tpl->setVariable('RATIO', $ratio);
         $tpl->setVariable('MAX-WIDTH', $properties[self::PROP_WIDTH]);
         $tpl->setVariable('MAX-HEIGHT', $properties[self::PROP_HEIGHT]);
-        $responsive = isset($properties[self::PROP_RESPONSIVE]) ? $properties[self::PROP_RESPONSIVE] : false;
-        if ($responsive != false) {
+        if ($properties[self::PROP_RESPONSIVE] != false) {
             $tpl->setVariable('WIDTH', 'width:100%;');
         }
-        $position = isset($properties[self::PROP_POSITION]) ? $properties[self::PROP_POSITION] : self::POSITION_LEFT;
-        switch ($position) {
+        switch ($properties[self::PROP_POSITION]) {
             case self::POSITION_CENTER:
                 $tpl->setVariable('CONTAINER_STYLE', 'text-align:center;');
                 break;
@@ -557,9 +545,8 @@ class ilOpencastPageComponentPluginGUI extends ilPageComponentPluginGUI
     /**
      * @param $key
      */
-    public function txt($key): string
+    public function txt(string $key): string
     {
         return ilOpenCastPlugin::getInstance()->txt('event_' . $key);
     }
 }
-

@@ -1,10 +1,5 @@
 <?php
 
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see https://github.com/ILIAS-eLearning/ILIAS/tree/trunk/docs/LICENSE */
-
-require_once __DIR__ . "/../vendor/autoload.php";
-require_once __DIR__ . '/../../../../Repository/RepositoryObject/OpenCast/vendor/autoload.php';
-
 use srag\DIC\OpencastPageComponent\Util\LibraryLanguageInstaller;
 use srag\RemovePluginDataConfirm\OpencastPageComponent\PluginUninstallTrait;
 
@@ -17,6 +12,7 @@ class ilOpencastPageComponentPlugin extends ilPageComponentPlugin
     public const PLUGIN_NAME = "OpencastPageComponent";
 
     public const REMOVE_PLUGIN_DATA_CONFIRM_CLASS_NAME = OpencastPageComponentRemoveDataConfirm::class;
+    protected const MAIN_PLUGIN_VERSION_NEEDED = '8.2.0';
     /**
      * @var ilOpencastPageComponentPlugin|null
      */
@@ -43,6 +39,37 @@ class ilOpencastPageComponentPlugin extends ilPageComponentPlugin
         }
         // otherwise we are in ILIAS 7 context
         return self::$cache = new self();
+    }
+
+    protected function beforeActivation(): bool
+    {
+        global $DIC;
+        // check if main plugin available and active
+        // additional version check for compatibility
+        if (!isset($DIC['component.factory'])) {
+            return false;
+        }
+
+        /** @var ilComponentFactory $component_factory */
+        $component_factory = $DIC['component.factory'];
+        /** @var $main_plugin ilOpencastPageComponentPlugin */
+        try {
+            $main_plugin = $component_factory->getPlugin('xoct');
+        } catch (Throwable $ex) {
+            return false;
+        }
+
+        if (!$main_plugin->isActive() || !version_compare(
+            $main_plugin->getVersion(),
+            self::MAIN_PLUGIN_VERSION_NEEDED,
+            ">="
+        )) {
+            throw new ilPluginException(
+                'Please update and activate the OpenCast main plugin to version ' . self::MAIN_PLUGIN_VERSION_NEEDED . ' or higher.'
+            );
+        }
+
+        return parent::beforeActivation();
     }
 
     public function getPluginName(): string

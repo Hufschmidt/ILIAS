@@ -7,11 +7,7 @@ namespace srag\Plugins\OpencastPageComponent\Authorization;
  */
 class Token
 {
-
-    /**
-     * @var string
-     */
-    protected $token;
+    protected string $token;
 
     public function __construct(string $token = '')
     {

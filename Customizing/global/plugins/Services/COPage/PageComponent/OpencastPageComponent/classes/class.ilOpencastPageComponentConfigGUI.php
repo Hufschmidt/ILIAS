@@ -5,8 +5,6 @@
 use srag\Plugins\OpencastPageComponent\Config\ConfigForm;
 use srag\Plugins\OpencastPageComponent\Config\ConfigRepository;
 
-require_once __DIR__ . "/../vendor/autoload.php";
-
 /**
  * @ilCtrl_isCalledBy ilOpencastPageComponentConfigGUI: ilObjComponentSettingsGUI
  */
