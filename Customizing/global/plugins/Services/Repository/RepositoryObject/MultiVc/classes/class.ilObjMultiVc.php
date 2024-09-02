@@ -312,6 +312,23 @@ class ilObjMultiVc extends ilObjectPlugin
     {
         $ilDB = $this->db;
 
+        // UMR: Delete BBB-Recordings when Obj is is deleted
+        $refId = $this->getRefId();
+        $bbbRecs = $this->getBBBRecsByRefId($refId);
+        foreach ($bbbRecs as $recId => $rec) {
+            // Einstellungen holen
+            $this->settings = ilMultiVcConfig::getInstance($this->getConnId());
+            $this->bbb = new \BigBlueButton\BigBlueButton($this->settings->getSvrPrivateUrl(), $this->settings->getSvrSalt());
+            // Aufnahmen löschen
+            $delRecParam = new \BigBlueButton\Parameters\DeleteRecordingsParameters($recId);
+            $response = $this->bbb->deleteRecordings($delRecParam);
+            // Prüfen, ob die Löschung erfolgreich war
+            if ($response->getReturnCode() == 'SUCCESS') {
+                // Löscht den ILIAS-DB-Eintrag über die BBB-Aufzeichnung
+                $this->deleteBBBRecById($refId, $recId);
+            }
+        }
+
         #$ilDB->manipulate("DELETE FROM rep_robj_xmvc_session WHERE obj_id = ".$ilDB->quote($this->getId(), "integer"));
         $ilDB->manipulate("DELETE FROM rep_robj_xmvc_schedule WHERE obj_id = " . $ilDB->quote($this->getId(), "integer"));
         $ilDB->manipulate("DELETE FROM rep_robj_xmvc_data WHERE id = " . $ilDB->quote($this->getId(), "integer"));

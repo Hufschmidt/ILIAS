@@ -175,7 +175,7 @@ class Record
      */
     public function getVideoUrl()
     {
-        return $this->videoUrl;
+        return $this->videoUrl ?? '';
     }
 
     /**
