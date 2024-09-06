@@ -257,37 +257,41 @@ class ilTestOverviewTableGUI extends ilMappedTableGUI
 
             $testResult = null;
             global $ilUser;
+            // Check if the user has access or if it's their test result
             if($this->accessIndex[$obj_id] || ($this->readIndex[$obj_id] && $ilUser->getId() == $row['member_id'])) {
-                $testResult    = $test->getTestResult($activeId);
-                $max_points = $max_points + $testResult['pass']['total_max_points'];
-                $reached_points = $reached_points + $testResult['pass']['total_reached_points'];
-
-                if (strlen($testResult['pass']['percent'])) {
-                    if($this->parent_obj->getObject()->getResultPresentation() == ilObjTestOverview::PRESENTATION_PERCENTAGE) {
-                        $result		= sprintf("%.2f %%", (float) $testResult['pass']['percent'] * 100);
-                    } else {
-                        if($this->overview->getPointsColumn() && $this->overview->getHeaderPoints()) {
-                            $result	= $testResult['pass']['total_reached_points'];
-                        } else {
-                            $result = $testResult['pass']['total_reached_points'] . ' / ' . $testResult['pass']['total_max_points'];
-                        }
-                    }
-                    $results[]  = $result . '##' . $this->getCSSByTestResult($testResult, $activeId, $obj_id) . '##';
-                } else {
-                    $result = $this->lng->txt("rep_robj_xtov_overview_test_not_passed");
-                    $results[]  = 0 . "##no-result##";
-                }
-
+                // Only retrieve test results if activeId > 0
                 if ($activeId > 0) {
+                    $testResult    = $test->getTestResult($activeId);
+                    $max_points = $max_points + $testResult['pass']['total_max_points'];
+                    $reached_points = $reached_points + $testResult['pass']['total_reached_points'];
+
+                    if (strlen($testResult['pass']['percent'])) {
+                        if($this->parent_obj->getObject()->getResultPresentation() == ilObjTestOverview::PRESENTATION_PERCENTAGE) {
+                            $result		= sprintf("%.2f %%", (float) $testResult['pass']['percent'] * 100);
+                        } else {
+                            if($this->overview->getPointsColumn() && $this->overview->getHeaderPoints()) {
+                                $result	= $testResult['pass']['total_reached_points'];
+                            } else {
+                                $result = $testResult['pass']['total_reached_points'] . ' / ' . $testResult['pass']['total_max_points'];
+                            }
+                        }
+                        $results[]  = $result . '##' . $this->getCSSByTestResult($testResult, $activeId, $obj_id) . '##';
+                    } else {
+                        $result = $this->lng->txt("rep_robj_xtov_overview_test_not_passed");
+                        $results[]  = 0 . "##no-result##";
+                    }
+                     // Build the result link if activeId > 0
                     $resultLink = $this->buildMemberResultLinkTarget($this->accessIndex[$obj_id], $activeId);
                     $this->populateLinkedCell($resultLink, $result, $this->getCSSByTestResult($testResult, $activeId, $obj_id));
                 } else {
+                    // Handle case when activeId is 0 (no active test?!)
                     $this->populateNoLinkCell(
-                        $result,
+                        $this->lng->txt("rep_robj_xtov_overview_test_not_passed"),
                         $this->getCSSByTestResult(null)
                     );
                 }
             } else {
+                // Handle case when there is no permission
                 $this->populateNoLinkCell(
                     $this->lng->txt("rep_robj_xtov_overview_test_no_permission"),
                     $this->getCSSByTestResult(null)
