@@ -1216,7 +1216,7 @@ class ilInfoScreenGUI
             $ok = ilConditionHandler::_checkCondition($condition) and
             !ilMemberViewSettings::getInstance()->isActive();
 
-            if (!$ok) {
+            if (!$ok && isset($condition['id'])) {
                 $visible_conditions[] = $condition['id'];
             }
 
