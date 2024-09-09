@@ -6207,7 +6207,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
                     $entids = $md_cont->getEntityIds();
                     foreach ($entids as $entid) {
                         $md_ent = $md_cont->getEntity($entid);
-                        array_push($author, $md_ent->getEntity());
+                        array_push($author, substr($md_ent->getEntity(), 0, 50));
                     }
                 }
             }
