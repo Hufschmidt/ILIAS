@@ -331,7 +331,7 @@ abstract class ilExerciseSubmissionTableGUI extends ilTable2GUI
 
             $lcomment = new ilTextAreaInputGUI($this->lng->txt("exc_comment_for_learner"), "lcomment_" . $a_ass->getId() . "_" . $a_user_id);
             $lcomment->setInfo($this->lng->txt("exc_comment_for_learner_info"));
-            $lcomment->setValue((string) $a_row["comment"]);
+            $lcomment->setValue((string) ($a_row["comment"] ?? ''));
             $lcomment->setRows(10);
             $lcomment_form->addItem($lcomment);
 
@@ -391,7 +391,9 @@ abstract class ilExerciseSubmissionTableGUI extends ilTable2GUI
                     if (!$has_no_team_yet) {
                         $this->tpl->setVariable(
                             "VAL_" . strtoupper($col),
-                            ilLegacyFormElementsUtil::prepareFormOutput(trim($a_row[$col]))
+                            isset($a_row[$col]) 
+                                ? ilLegacyFormElementsUtil::prepareFormOutput(trim($a_row[$col]))
+                                : "&nbsp;"
                         );
                     }
                     break;
@@ -409,7 +411,7 @@ abstract class ilExerciseSubmissionTableGUI extends ilTable2GUI
                     $this->tpl->setVariable("LCOMMENT_ID", $comment_id . "_snip");
 
                     // see #22076
-                    $this->tpl->setVariable("VAL_" . strtoupper($col), (trim($a_row[$col]) !== "")
+                    $this->tpl->setVariable("VAL_" . strtoupper($col), isset($a_row[$col]) && trim($a_row[$col]) !== ""
                         ? nl2br(trim($a_row[$col]))
                         : "&nbsp;");
                     break;
@@ -418,7 +420,7 @@ abstract class ilExerciseSubmissionTableGUI extends ilTable2GUI
                 case "status_time":
                 case "sent_time":
                 case "submission":
-                    if ($col == "submission" && $a_row["submission_obj"]) {
+                    if (isset($a_row["submission_obj"])) {
                         $include_seconds = true;
                         foreach ($a_row["submission_obj"]->getFiles() as $file) {
                             if ($file["late"]) {
@@ -429,7 +431,7 @@ abstract class ilExerciseSubmissionTableGUI extends ilTable2GUI
                     }
                     $this->tpl->setVariable(
                         "VAL_" . strtoupper($col),
-                        $a_row[$col]
+                        isset($a_row[$col]) && $a_row[$col]
                             ? ilDatePresentation::formatDate(
                                 new ilDateTime($a_row[$col], IL_CAL_DATETIME),
                                 false,
