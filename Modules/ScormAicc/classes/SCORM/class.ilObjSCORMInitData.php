@@ -301,7 +301,8 @@ class ilObjSCORMInitData
             array($a_packageId)
         );
         while ($val_rec = $ilDB->fetchAssoc($val_set)) {
-            $a_out[] = array((int) $val_rec["child"],(int) $val_rec["depth"],self::encodeURIComponent($val_rec["title"]),$val_rec["c_type"]);
+            $title = $val_rec["title"] !== null ? self::encodeURIComponent($val_rec["title"]) : "";
+            $a_out[] = array((int) $val_rec["child"], (int) $val_rec["depth"], $title, $val_rec["c_type"]);
         }
         return json_encode($a_out);
     }
