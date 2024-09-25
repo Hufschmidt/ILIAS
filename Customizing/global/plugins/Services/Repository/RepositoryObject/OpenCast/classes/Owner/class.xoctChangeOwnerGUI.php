@@ -163,6 +163,14 @@ class xoctChangeOwnerGUI extends xoctGUI
                 xoctUser::getInstance($user_id)
             )
         );
+        
+        $this->event->setAcl(
+            $this->ACLUtils->ChangeUser(
+                $this->event->getAcl(),
+                xoctUser::getInstance($user_id)
+            )
+        );
+        
         $this->event_repository->updateACL(
             new UpdateEventRequest(
                 $this->event->getIdentifier(),

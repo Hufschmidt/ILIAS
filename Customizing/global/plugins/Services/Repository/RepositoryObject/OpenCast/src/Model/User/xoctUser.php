@@ -74,6 +74,11 @@ class xoctUser
     {
         return PluginConfig::getConfig(PluginConfig::F_ROLE_OWNER_PREFIX);
     }
+    
+    public static function getUserRolePrefix()
+    {
+        return PluginConfig::getConfig(PluginConfig::F_ROLE_USER_PREFIX);
+    }
 
     /**
      * @param $role

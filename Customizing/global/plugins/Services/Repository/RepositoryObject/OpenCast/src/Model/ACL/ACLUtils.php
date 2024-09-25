@@ -106,6 +106,23 @@ class ACLUtils
         }
         return new ACL($acl_entries);
     }
+    
+    public function removeUserFromACL(ACL $acl): ACL
+    {
+        $standard_roles = PluginConfig::getConfig(PluginConfig::F_STD_ROLES);
+        $acl_entries = $acl->getEntries();
+        
+        foreach ($acl_entries as $i => $acl_entry) {
+            if ((strpos(
+                    $acl_entry->getRole(),
+                    (string) str_replace('{IDENTIFIER}', '', xoctUser::getUserRolePrefix())
+                ) !== false)
+                && !in_array($acl_entry->getRole(), $standard_roles)) {
+                unset($acl_entries[$i]);
+            }
+        }
+        return new ACL($acl_entries);
+    }
 
     public function getOwnerAclOfEvent(Event $event): ACL
     {
@@ -120,6 +137,12 @@ class ACLUtils
     {
         return $this->removeOwnerFromACL($ACL)
                     ->merge($this->getOwnerRolesACL($owner));
+    }
+    
+    public function changeUser(ACL $ACL, xoctUser $user): ACL
+    {
+        return $this->removeUserFromACL($ACL)
+                    ->merge($this->getUserRolesACL($user));
     }
 
     public function isOwnerRole(ACLEntry $ACLEntry): bool
