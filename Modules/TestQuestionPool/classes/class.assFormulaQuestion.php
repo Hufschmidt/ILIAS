@@ -270,7 +270,7 @@ class assFormulaQuestion extends assQuestion implements iQuestionCondition
             return false;
         }
 
-        $text = $this->getQuestion();
+        $text = $this->getQuestionForHTMLOutput();
 
         foreach ($this->fetchAllVariables($this->getQuestion()) as $varObj) {
             if (isset($userdata[$varObj->getVariable()]) && strlen($userdata[$varObj->getVariable()])) {
@@ -282,8 +282,6 @@ class assFormulaQuestion extends assQuestion implements iQuestionCondition
 
             $text = preg_replace("/\\$" . substr($varObj->getVariable(), 1) . "(?![0-9]+)/", $val . " " . $unit . "\\1", $text);
         }
-
-        $text = $this->purifyAndPrepareTextAreaOutput($text);
 
         if (preg_match_all("/(\\\$r\\d+)/ims", $this->getQuestion(), $rmatches)) {
             foreach ($rmatches[1] as $result) {
