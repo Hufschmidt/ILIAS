@@ -1,12 +1,6 @@
 <?php
 declare(strict_types=1);
-
-use Firebase\JWT\JWT;
-use Firebase\JWT\Key;
-use ILIAS\UI\Renderer;
-use ILIAS\UI\Factory;
-
-/*
+/**
  *  This file is part of the AI Chat Repository Object plugin for ILIAS, which allows your platform's users
  *  To connect with an external LLM service
  *  This plugin is created and maintained by SURLABS.
@@ -25,377 +19,480 @@ use ILIAS\UI\Factory;
  *
  */
 
+use ILIAS\UI\Component\Input\Group;
+use ILIAS\UI\Factory;
+use ILIAS\UI\Renderer;
+use objects\AIChat;
+use objects\Chat;
+use objects\Message;
+use platform\AIChatException;
+
 /**
- * @ilCtrl_isCalledBy ilObjAIChatGUI: ilRepositoryGUI, ilAdministrationGUI, ilObjPluginDispatchGUI
- * @ilCtrl_Calls      ilObjAIChatGUI: ilPermissionGUI, ilInfoScreenGUI, ilObjectCopyGUI, ilCommonActionDispatcherGUI, ilExportGUI
+ * Class ilObjAIChatGUI
+ * @authors Jesús Copado, Daniel Cazalla, Saúl Díaz, Juan Aguilar <info@surlabs.es>
+ * @ilCtrl_isCalledBy ilObjAIChatGUI: ilRepositoryGUI, ilObjPluginDispatchGUI, ilAdministrationGUI
+ * @ilCtrl_Calls      ilObjAIChatGUI: ilObjectCopyGUI, ilPermissionGUI, ilInfoScreenGUI, ilCommonActionDispatcherGUI
  */
 class ilObjAIChatGUI extends ilObjectPluginGUI
 {
-    protected ilCtrl $ctrl;
-    protected ilTabsGUI $tabs;
-    public ilGlobalTemplateInterface $tpl;
-    protected ilAIChatConfig $config;
-    private static Factory $factory;
-    protected ilCtrlInterface $control;
-    protected Renderer $renderer;
+    private Factory $factory;
+    private Renderer $renderer;
+    protected \ILIAS\Refinery\Factory $refinery;
 
-    protected function afterConstructor() : void
+    public function __construct($a_ref_id = 0, $a_id_type = self::REPOSITORY_NODE_ID, $a_parent_node_id = 0)
     {
-        global $ilCtrl, $ilTabs, $tpl, $DIC;
-        $this->ctrl = $ilCtrl;
-        $this->tabs = $ilTabs;
-        $this->tpl = $tpl;
+        global $DIC;
+
+        $this->factory = $DIC->ui()->factory();
         $this->renderer = $DIC->ui()->renderer();
+        $this->refinery = $DIC->refinery();
+        $this->request = $DIC->http()->request();
 
+        parent::__construct($a_ref_id, $a_id_type, $a_parent_node_id);
     }
 
-    final public function getType() : string
+    public function getAfterCreationCmd(): string
     {
-        return ilAIChatPlugin::ID;
+        return 'content';
     }
 
-    public function performCommand(string $cmd) : void
+    public function getStandardCmd(): string
+    {
+        return 'content';
+    }
+
+    public function performCommand(string $cmd): void
+    {
+        $this->{$cmd}();
+    }
+
+    public function getType(): string
+    {
+        return ilAIChatPlugin::PLUGIN_ID;
+    }
+
+    /**
+     * @throws ilCtrlException
+     */
+    protected function setTabs(): void
+    {
+        $this->tabs->addTab("content", $this->plugin->txt("object_content"), $this->ctrl->getLinkTarget($this, "content"));
+
+        if ($this->checkPermissionBool("write")) {
+            $this->tabs->addTab("settings", $this->plugin->txt("object_settings"), $this->ctrl->getLinkTarget($this, "settings"));
+        }
+
+        if ($this->checkPermissionBool("edit_permission")) {
+            $this->tabs->addTab("perm_settings", $this->lng->txt("perm_settings"), $this->ctrl->getLinkTargetByClass(array(
+                get_class($this),
+                "ilPermissionGUI",
+            ), "perm"));
+        }
+    }
+
+    /**
+     * @throws ilTemplateException
+     * @throws ilCtrlException
+     */
+    private function content()
     {
         global $DIC;
-        $this->setTitleAndDescription();
+        $this->tabs->activateTab("content");
+        $tpl = $DIC['tpl'];
+        //$tpl = new ilTemplate("index.html", false, false, $this->plugin->getDirectory());
+        $tpl->addCss($this->plugin->getDirectory() . "/templates/default/index.css");
+        $tpl->addJavascript($this->plugin->getDirectory() . "/templates/default/index.js");
 
-        switch ($cmd) {
-            case "editProperties":   // list all commands that need write permission here
-            case "updateProperties":
-            case "saveProperties":
-            case "showContent":   // list all commands that need read permission here
-            case "setStatusToCompleted":
-            case "setStatusToFailed":
-            case "setStatusToInProgress":
-            case "setStatusToNotAttempted":
-            case "receiveMessages":
-            case "getChatMessages":
-            case "removeChatMessages":
-            default:
-                $this->checkPermission("read");
-                $this->$cmd();
-                break;
-        }
-    }
+        $apiUrl = $this->ctrl->getLinkTargetByClass("ilObjAIChatGUI", "apiCall");
 
-    function getAfterCreationCmd() : string
-    {
-        return "editProperties";
-    }
-
-    function getStandardCmd() : string
-    {
-        return "showContent";
+        $this->tpl->setContent("<div id='root' apiurl='$apiUrl'></div>");
     }
 
     /**
+     * @throws AIChatException
      * @throws ilCtrlException
      */
-    protected function setTabs() : void
+    private function settings()
     {
-        global $ilCtrl, $ilAccess;
+        $this->tabs->activateTab("settings");
 
-        // tab for the "show content" command
-        if ($ilAccess->checkAccess("read", "", $this->object->getRefId())) {
-            $this->tabs->addTab("content", $this->txt("content"), $ilCtrl->getLinkTarget($this, "showContent"));
-        }
-
-        // standard info screen tab
-        $this->addInfoTab();
-
-        // a "properties" tab
-        if ($ilAccess->checkAccess("write", "", $this->object->getRefId())) {
-            $this->tabs->addTab(
-                "properties",
-                $this->txt("properties"),
-                $ilCtrl->getLinkTarget($this, "editProperties")
-            );
-        }
-
-        // standard permission tab
-        $this->addPermissionTab();
-        $this->activateTab();
+        $form_action = $this->ctrl->getLinkTargetByClass("ilObjAIChatGUI", "settings");
+        $this->tpl->setContent($this->renderSettingsForm($form_action, $this->buildSettingsForm()));
     }
 
-    /**
-     * @throws ilCtrlException
-     */
-    protected function editProperties() : void
+    private function renderSettingsForm(string $form_action, array $sections): string
     {
-        $this->tabs->activateTab("properties");
-
-        $sections = $this->initPropertiesForm();
-        $form_action = $this->control->getLinkTargetByClass("ilObjAIChatGUI", "editProperties");
-        $rendered = $this->renderForm($form_action, $sections);
-
-        $this->tpl->setContent($rendered);
-    }
-
-    /**
-     * @throws ilCtrlException
-     */
-    protected function initPropertiesForm() : array
-    {
-        global $DIC;
-
-        self::$factory = $DIC->ui()->factory();
-        $this->control = $DIC->ctrl();
-
-        $sections = [];
-
-        try {
-            $this->control->setParameterByClass('ilObjAIChatGUI', 'cmd', 'editProperties');
-            $object = $this->object;
-            $titleInput = self::$factory->input()->field()->text($this->plugin->txt("title"), '')
-                ->withValue($object->getTitle())
-                ->withRequired(true)
-                ->withAdditionalTransformation($this->refinery->custom()->transformation(
-                    function ($v) use ($object) {
-                        $object->setTitle($v);
-                    }
-                ));
-
-            $descriptionInput = self::$factory->input()->field()->text($this->plugin->txt("description"), '')
-                ->withValue($object->getDescription())
-                ->withAdditionalTransformation($this->refinery->custom()->transformation(
-                    function ($v) use ($object) {
-                        $object->setDescription($v);
-                    }
-                ));
-
-            $formFields = [
-                'title' => $titleInput,
-                'description' => $descriptionInput,
-            ];
-
-            $onlineCheckbox = self::$factory->input()->field()->checkbox($this->plugin->txt("online"), '')
-                ->withValue($object->isOnline())
-                ->withAdditionalTransformation($this->refinery->custom()->transformation(
-                    function ($v) use ($object) {
-                        $object->setOnline($v);
-                    }
-                ));
-            $formFields['online'] = $onlineCheckbox;
-
-//            $disclaimerArea = self::$factory->input()->field()->textarea($this->plugin->txt("disclaimer"), '')
-//                ->withValue($object->getDisclaimer())
-//                ->withMaxLimit(5000)
-//                ->withAdditionalTransformation($this->refinery->custom()->transformation(
-//                    function ($v) use ($object) {
-//                        $object->setDisclaimer($v);
-//                    }
-//                ));
-//
-//            $formFields['disclaimer'] = $disclaimerArea;
-
-            $sectionObject = self::$factory->input()->field()->section($formFields, $this->plugin->txt("obj_xaic"), "");
-
-            $sections["object"] = $sectionObject;
-
-
-            if ($object instanceof ilObjAIChat && !$object->getUseGlobalApikey()) {
-
-                $sectionObject = self::$factory->input()->field()->section([
-                    "user_api_key" => self::$factory->input()->field()->password($this->plugin->txt("obj_apikey_input"), '')
-                        ->withValue($object->getApiKey() ? ilAIChatUtils::decode($object->getApiKey())->apikey : '')
-                        ->withAdditionalTransformation($this->refinery->custom()->transformation(
-                            function ($v) use ($object) {
-
-                                $reflectionClass = new ReflectionClass('ILIAS\Data\Password');
-                                $property = $reflectionClass->getProperty('pass');
-                                $property->setAccessible(true);
-                                $password = $property->getValue($v);
-                                $object->setApiKey(ilAIChatUtils::encode(["apikey" => $password]));
-
-                            }
-                        ))
-                ],$this->plugin->txt("api_key"), "");
-
-                $sections["api_key"] = $sectionObject;
-
-            }
-
-        } catch(Exception $e){
-            $section = self::$factory->messageBox()->failure($e->getMessage());
-            $sections["object"] = $section;
-        }
-
-        return $sections;
-    }
-
-    /**
-     * @throws ilCtrlException
-     */
-    private function renderForm(string $form_action, array $sections): string
-    {
-        GLOBAL $DIC;
-        //Create the form
-        $form = self::$factory->input()->container()->form()->standard(
+        $form = $this->factory->input()->container()->form()->standard(
             $form_action,
             $sections
         );
 
         $saving_info = "";
 
-        $request = $DIC->http()->request();
-
-        //Check if the form has been submitted
-        if ($request->getMethod() == "POST") {
-            $form = $form->withRequest($request);
+        if ($this->request->getMethod() == "POST") {
+            $form = $form->withRequest($this->request);
             $result = $form->getData();
-            if($result){
-                $saving_info = $this->saveProperties();
+            if ($result) {
+                $saving_info = $this->saveSettings();
             }
         }
 
         return $saving_info . $this->renderer->render($form);
     }
 
-    protected function saveProperties() : string
-    {
-        GLOBAL $DIC;
-        $renderer = $DIC->ui()->renderer();
-        $this->object->update();
-
-        return $renderer->render(self::$factory->messageBox()->success($this->plugin->txt('info_config_saved')));
-
-    }
-
     /**
-     * @throws ilTemplateException
+     * @throws AIChatException
      */
-    protected function showContent() : void
+    private function buildSettingsForm(): array
     {
+        /**
+         * @var $aiChat AIChat
+         */
+        $aiChat = $this->object->getAIChat();
 
-        $this->tabs->activateTab("content");
-        $this->startChat();
+        $provider = $this->factory->input()->field()->switchableGroup(
+            array(
+                "default" => $this->factory->input()->field()->group(array(), $this->plugin->txt('config_default')),
+                "openai" => $this->buildOpenAIGroup(),
+                "custom" => $this->buildCustomGroup()
+            ),
+            $this->plugin->txt('config_provider')
+        )->withValue($aiChat->getProvider(true) != "" ? $aiChat->getProvider(true) : "default")->withAdditionalTransformation($this->refinery->custom()->transformation(
+            function ($v) use ($aiChat) {
+                $aiChat->setProvider($v[0]);
+            }
+        ));
 
-    }
+        $api_section = $this->factory->input()->field()->section(
+            array(
+                $provider
+            ),
+            $this->plugin->txt('config_api_section')
+        );
 
-    private function activateTab() : void
-    {
-        $next_class = $this->ctrl->getCmdClass();
-    }
+        $prompt_selection = $this->factory->input()->field()->textarea(
+            $this->plugin->txt('config_prompt_selection'),
+            $this->plugin->txt('config_prompt_selection_info')
+        )->withValue($aiChat->getPrompt(true))->withAdditionalTransformation($this->refinery->custom()->transformation(
+            function ($v) use ($aiChat) {
+                $aiChat->setPrompt($v);
+            }
+        ))->withOnloadCode(function ($id) use ($aiChat) {
+            return "$('#$id').attr('placeholder', `{$aiChat->getPrompt()}`);";
+        });
 
-    /**
-     * Start the chat
-     * @throws ilTemplateException
-     */
-    protected function startChat() : void
-    {
+        $characters_limit = $this->factory->input()->field()->numeric(
+            $this->plugin->txt('config_characters_limit'), $this->plugin->txt('config_characters_limit_info')
+        )->withAdditionalTransformation($this->refinery->custom()->transformation(
+            function ($v) use ($aiChat) {
+                $aiChat->setCharLimit($v);
+            }
+        ))->withOnloadCode(function ($id) use ($aiChat) {
+            return "$('#$id').attr('placeholder', '{$aiChat->getCharLimit()}');";
+        });
 
-        global $DIC;
-
-
-
-        $protocolo = isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http";
-
-        $host = $_SERVER['HTTP_HOST'];
-
-        $fullURL = $protocolo . "://" . $host;
-        $cmdNode = $_GET['cmdNode'];
-
-        $DIC->globalScreen()->layout()->meta()->addJs('Customizing/global/plugins/Services/Repository/RepositoryObject/AIChat/templates/default/index.js');
-        $tpl = new ilTemplate('index.html', true, true, "Customizing/global/plugins/Services/Repository/RepositoryObject/AIChat/");
-
-        $tpl->setVariable("CLEAR_TEXT", $this->plugin->txt("clear_chat"));
-        $tpl->setVariable("ID", $this->object->getRefId());
-        $tpl->setVariable("URL", $fullURL);
-        $tpl->setVariable("DISCLAIMER", $this->object->getConfig()->getValue('disclaimer'));
-        $tpl->setVariable("CMD_NODE", $cmdNode);
-
-        $this->tpl->setContent($tpl->get());
-
-    }
-
-    /**
-     * @throws ilException
-     * @throws ilObjectNotFoundException
-     * @throws ilDatabaseException
-     */
-    protected function receiveMessages()
-    {
-        global $ilUser;
-
-        $userId = $ilUser->getId();
-        $this->initObject((int)$_POST["id"]);
-        $request= json_decode((string)$_POST["messages"]);
-
-
-
-        if(!$this->object instanceof ilObjAIChat){
-            return;
+        if ($aiChat->getCharLimit(true) > 0) {
+            $characters_limit = $characters_limit->withValue($aiChat->getCharLimit(true));
         }
 
-        ilAIChatUtils::sendToApi($request, $this->object, $userId, $this->plugin);
+        $n_memory_messages = $this->factory->input()->field()->numeric(
+            $this->plugin->txt('config_n_memory_messages'), $this->plugin->txt('config_n_memory_messages_info')
+        )->withAdditionalTransformation($this->refinery->custom()->transformation(
+            function ($v) use ($aiChat) {
+                $aiChat->setMaxMemoryMessages($v);
+            }
+        ))->withOnloadCode(function ($id) use ($aiChat) {
+            return "$('#$id').attr('placeholder', '{$aiChat->getMaxMemoryMessages()}');";
+        });
 
-    }
-
-    /**
-     * @throws ilObjectNotFoundException
-     * @throws ilException
-     * @throws ilDatabaseException
-     */
-    protected function getChatMessages()
-    {
-
-        global $ilUser;
-        $userId = $ilUser->getId();
-        $id = json_decode($_POST["id"]);
-        $this->initObject($id);
-        if(!$this->object instanceof ilObjAIChat){
-            return;
+        if ($aiChat->getMaxMemoryMessages(true) > 0) {
+            $n_memory_messages = $n_memory_messages->withValue($aiChat->getMaxMemoryMessages(true));
         }
 
-        $messages = $this->object->getMessagesJson($this->object->getId(), $userId);
-        ilAIChatUtils::sendResponseJson([
-            "messages" => $messages
-        ]);
+        $disclaimer_text = $this->factory->input()->field()->textarea(
+            $this->plugin->txt('config_disclaimer_text'),
+            $this->plugin->txt('config_disclaimer_text_info')
+        )->withValue($aiChat->getDisclaimer(true))->withAdditionalTransformation($this->refinery->custom()->transformation(
+            function ($v) use ($aiChat) {
+                $aiChat->setDisclaimer($v);
+            }
+        ))->withOnloadCode(function ($id) use ($aiChat) {
+            return "$('#$id').attr('placeholder', `{$aiChat->getDisclaimer()}`);";
+        });
 
+        $general_section = $this->factory->input()->field()->section(
+            array(
+                $prompt_selection,
+                $characters_limit,
+                $n_memory_messages,
+                $disclaimer_text,
+            ),
+            $this->plugin->txt('config_general_section')
+        );
+
+        return array(
+            $api_section,
+            $general_section
+        );
     }
 
     /**
-     * @throws ilException
+     * @throws AIChatException
      */
-    protected function removeChatMessages()
+    private function buildOpenAIGroup(): Group
     {
-        global $ilUser;
+        /**
+         * @var $aiChat AIChat
+         */
+        $aiChat = $this->object->getAIChat();
 
-        $userId = $ilUser->getId();
-        $id = json_decode((string)$_POST["id"]);
-        $this->initObject((int)$id);
-        if(!$this->object instanceof ilObjAIChat){
-            return;
-        }
-        $this->object->saveMessagesJson("", $this->object->getId(), $userId);
-        $messages = $this->object->getMessagesJson($this->object->getId(), $userId);
-        ilAIChatUtils::sendResponseJson([
-            "messages" => $messages
-        ]);
+        $models = array(
+            "gpt-4o" => "GPT-4o",
+            "gpt-4o-mini" => "GPT-4o mini",
+            "gpt-4-turbo" => "GPT-4 Turbo",
+            "gpt-4" => "GPT-4",
+            "gpt-3.5-turbo" => "GPT-3.5 Turbo"
+        );
 
-    }
+        $model = $this->factory->input()->field()->select(
+            $this->plugin->txt('config_model'),
+            $models,
+            $this->plugin->txt('config_model_info')
+        )->withAdditionalTransformation($this->refinery->custom()->transformation(
+            function ($v) use ($aiChat) {
+                $aiChat->setModel($v);
+            }
+        ))->withRequired(true);
 
-
-    /**
-     * @throws ilException
-     * @throws ilObjectNotFoundException
-     * @throws ilDatabaseException
-     */
-    protected function initObject($id) : void
-    {
-        if (!$this->object) {
-            if ($id) {
-                $object = ilObjectFactory::getInstanceByRefId($id, false);
-                if ($object instanceof ilObjAIChat) {
-                    $this->object = $object;
-                } else {
-                    throw new ilException("Failed to instantiate the object. Expected ilObjAIChat, got " . get_class($object));
-                }
-            } else {
-                throw new ilException("Reference ID is missing.");
+        if ($aiChat->getModel(true) != "") {
+            if (array_key_exists($aiChat->getModel(true), $models)) {
+                $model = $model->withValue($aiChat->getModel(true));
             }
         }
+
+        $global_api_key = $this->factory->input()->field()->text(
+            $this->plugin->txt('config_global_api_key')
+        )->withValue($aiChat->getApiKey(true))->withAdditionalTransformation($this->refinery->custom()->transformation(
+            function ($v) use ($aiChat) {
+                $aiChat->setApiKey($v);
+            }
+        ))->withRequired(true);
+
+        $streaming_enabled = $this->factory->input()->field()->checkbox(
+            $this->plugin->txt('config_streaming_enabled'),
+            $this->plugin->txt('config_streaming_enabled_info')
+        )->withValue($aiChat->isStreaming(true))->withAdditionalTransformation($this->refinery->custom()->transformation(
+            function ($v) use ($aiChat) {
+                $aiChat->setStreaming($v);
+            }
+        ));
+
+        return $this->factory->input()->field()->group(
+            array(
+                $model,
+                $global_api_key,
+                $streaming_enabled
+            ),
+            $this->plugin->txt('config_openai')
+        );
     }
 
+    /**
+     * @throws AIChatException
+     */
+    private function buildCustomGroup(): Group
+    {
+        /**
+         * @var $aiChat AIChat
+         */
+        $aiChat = $this->object->getAIChat();
 
+        $url = $this->factory->input()->field()->text(
+            $this->plugin->txt('config_url'),
+            $this->plugin->txt('config_url_info')
+        )->withValue($aiChat->getUrl(true))->withAdditionalTransformation($this->refinery->custom()->transformation(
+            function ($v) use ($aiChat) {
+                $aiChat->setUrl($v);
+            }
+        ))->withRequired(true);
+
+        $model = $this->factory->input()->field()->text(
+            $this->plugin->txt('config_model'),
+            $this->plugin->txt('config_model_info')
+        )->withValue($aiChat->getModel(true))->withAdditionalTransformation($this->refinery->custom()->transformation(
+            function ($v) use ($aiChat) {
+                $aiChat->setModel($v);
+            }
+        ))->withRequired(true);
+
+        $global_api_key = $this->factory->input()->field()->text(
+            $this->plugin->txt('config_global_api_key')
+        )->withValue($aiChat->getApiKey(true))->withAdditionalTransformation($this->refinery->custom()->transformation(
+            function ($v) use ($aiChat) {
+                $aiChat->setApiKey($v);
+            }
+        ))->withRequired(true);
+
+        return $this->factory->input()->field()->group(
+            array(
+                $url,
+                $model,
+                $global_api_key
+            ),
+            $this->plugin->txt('config_custom')
+        );
+    }
+
+    private function saveSettings(): string
+    {
+        global $DIC;
+
+        $renderer = $DIC->ui()->renderer();
+
+        $this->object->update();
+
+        return $renderer->render($DIC->ui()->factory()->messageBox()->success($this->plugin->txt('object_settings_msg_success')));
+    }
+
+    /**
+     * @throws AIChatException
+     */
+    public function apiCall()
+    {
+        if ($this->request->getMethod() == "GET") {
+            self::sendApiResponse($this->processGetApiCall($_GET));
+        } else if ($this->request->getMethod() == "POST") {
+            $postData = $this->request->getParsedBody();
+            self::sendApiResponse($this->processPostApiCall($postData));
+        } else {
+            self::sendApiResponse(array("error" => "Method not allowed"), 405);
+        }
+    }
+
+    /**
+     * @throws AIChatException
+     */
+    private function processGetApiCall($data)
+    {
+        switch ($data["action"]) {
+            case "config":
+                /**
+                 * @var $aiChat AIChat
+                 */
+                $aiChat = $this->object->getAIChat();
+
+                return array(
+                    "disclaimer" => $aiChat->getDisclaimer() ?? false,
+                    "prompt_selection" => $aiChat->getPrompt() ?? false,
+                    "characters_limit" => $aiChat->getCharLimit() ?? false,
+                    "n_memory_messages" => $aiChat->getMaxMemoryMessages() ?? false,
+                    "streaming_enabled" => $aiChat->isStreamingEnabled() ?? false,
+                    "lang" => $this->lng->getUserLanguage(),
+                    "translations" => $this->loadFrontLang()
+                );
+            case "chats":
+                global $DIC;
+
+                $user_id = $DIC->user()->getId();
+
+                return $this->object->getAIChat()->getChatsForApi($user_id);
+            case "chat":
+                if (isset($data["chat_id"])) {
+                    $chat = new Chat((int) $data["chat_id"]);
+
+                    $chat->setMaxMessages($this->object->getAIChat()->getMaxMemoryMessages());
+
+                    return $chat->toArray();
+                } else {
+                    self::sendApiResponse(array("error" => "Chat ID not provided"), 400);
+                }
+        }
+
+        return false;
+    }
+
+    /**
+     * @throws AIChatException
+     */
+    private function processPostApiCall($data)
+    {
+        switch ($data["action"]) {
+            case "new_chat":
+                global $DIC;
+
+                $chat = new Chat();
+
+                $user_id = $DIC->user()->getId();
+
+                $chat->setUserId($user_id);
+                $chat->setObjId($this->object->getId());
+                $chat->setMaxMessages($this->object->getAIChat()->getMaxMemoryMessages());
+
+                $chat->save();
+
+                return $chat->toArray();
+            case "add_message":
+                if (isset($data["chat_id"]) && isset($data["message"])) {
+                    $chat = new Chat((int) $data["chat_id"]);
+
+                    $message = new Message();
+
+                    $message->setChatId((int) $data["chat_id"]);
+                    $message->setMessage($data["message"]);
+                    $message->setRole("user");
+
+                    if (count($chat->getMessages()) == 0) {
+                        $chat->setTitleFromMessage($data["message"]);
+                    }
+
+                    $chat->addMessage($message);
+
+                    $chat->setLastUpdate($message->getDate());
+
+                    $chat->setMaxMessages($this->object->getAIChat()->getMaxMemoryMessages());
+
+                    $retval = array(
+                        "message" => $message->toArray(),
+                        "llmresponse" => $this->object->getAIChat()->getLLMResponse($chat)->toArray()
+                    );
+
+                    $message->save();
+
+                    $chat->save();
+
+                    return $retval;
+                } else {
+                    self::sendApiResponse(array("error" => "Chat ID or message not provided"), 400);
+                    break;
+                }
+            case "delete_chat":
+                if (isset($data["chat_id"])) {
+                    $chat = new Chat((int) $data["chat_id"]);
+
+                    $chat->delete();
+
+                    return true;
+                } else {
+                    self::sendApiResponse(array("error" => "Chat ID not provided"), 400);
+                }
+        }
+
+        return false;
+    }
+
+    private function loadFrontLang(): array
+    {
+        return array(
+            "front_new_chat_button" => $this->plugin->txt("front_new_chat_button"),
+            "front_input_placeholder" => $this->plugin->txt("front_input_placeholder")
+        );
+    }
+
+    public static function sendApiResponse($data, int $httpCode = 200): void
+    {
+        http_response_code($httpCode);
+        header('Content-type: application/json');
+        echo json_encode($data);
+        exit();
+    }
 }

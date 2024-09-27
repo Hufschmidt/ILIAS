@@ -19,38 +19,18 @@ declare(strict_types=1);
  *
  */
 
-use objects\AIChat;
-use platform\AIChatException;
+namespace platform;
+
+use Exception;
 
 /**
- * Class ilObjAIChatAccess
+ * Class AIChatException
  * @authors Jesús Copado, Daniel Cazalla, Saúl Díaz, Juan Aguilar <info@surlabs.es>
  */
-class ilObjAIChatAccess extends ilObjectPluginAccess
+class AIChatException extends Exception
 {
-    public static function hasWriteAccess($ref_id = null, $user_id = null): bool
+    public function __construct($message = "", $code = 0, Exception $previous = null)
     {
-        return self::hasAccess('write', $ref_id, $user_id);
-    }
-
-    protected static function hasAccess(string $permission, $ref_id = null, $user_id = null): bool
-    {
-        global $DIC;
-        $ref_id = (int)$ref_id ?: (int)$_GET['ref_id'];
-        $user_id = $user_id ?: $DIC->user()->getId();
-
-        return $DIC->access()->checkAccessOfUser($user_id, $permission, '', $ref_id);
-    }
-
-    /**
-     * Check if the object is offline
-     *
-     * @param int $a_obj_id
-     * @return bool
-     */
-    public static function _isOffline($a_obj_id): bool
-    {
-        $liveVoting = new AIChat((int) $a_obj_id);
-        return !$liveVoting->isOnline();
+        parent::__construct($message, $code, $previous);
     }
 }

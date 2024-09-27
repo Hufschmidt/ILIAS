@@ -1,11 +1,6 @@
 <?php
 declare(strict_types=1);
-
-use ILIAS\UI\Renderer;
-use ILIAS\UI\Factory;
-
-
-/*
+/**
  *  This file is part of the AI Chat Repository Object plugin for ILIAS, which allows your platform's users
  *  To connect with an external LLM service
  *  This plugin is created and maintained by SURLABS.
@@ -24,43 +19,46 @@ use ILIAS\UI\Factory;
  *
  */
 
+use ILIAS\UI\Factory;
+use ILIAS\UI\Component\Input\Field\Group;
+use ILIAS\UI\Renderer;
+use platform\AIChatConfig;
+use platform\AIChatException;
+
 /**
+ * Class ilAIChatConfigGUI
+ * @authors Jesús Copado, Daniel Cazalla, Saúl Díaz, Juan Aguilar <info@surlabs.es>
  * @ilCtrl_IsCalledBy  ilAIChatConfigGUI: ilObjComponentSettingsGUI
  */
 class ilAIChatConfigGUI extends ilPluginConfigGUI
 {
-    private ilAIChatConfig $object;
-    private static Factory $factory;
-    protected ilCtrlInterface $control;
+    protected Factory $factory;
+    protected Renderer $renderer;
+    protected \ILIAS\Refinery\Factory $refinery;
+    protected ilCtrl $control;
     protected ilGlobalTemplateInterface $tpl;
     protected $request;
-    protected Renderer $renderer;
-    protected array $models = array(
-        "gpt-4-1106-preview" => "gpt-4-1106-preview",
-        "gpt-4-vision-preview" => "gpt-4-vision-preview",
-        "gpt-4" => "gpt-4",
-        "gpt-3.5-turbo-1106" => "gpt-3.5-turbo-1106",
-        "gpt-3.5-turbo" => "gpt-3.5-turbo",
-    );
 
     /**
+     * @throws AIChatException
      * @throws ilException
      */
-    function performCommand(string $cmd): void
+    public function performCommand($cmd): void
     {
         global $DIC;
-
-        $this->object = new ilAIChatConfig();
-        $this->tpl = $DIC->ui()->mainTemplate();
-        $this->control = $DIC->ctrl();
-        $this->request = $DIC->http()->request();
+        $this->factory = $DIC->ui()->factory();
         $this->renderer = $DIC->ui()->renderer();
+        $this->refinery = $DIC->refinery();
+        $this->control = $DIC->ctrl();
+        $this->tpl = $DIC->ui()->mainTemplate();
+        $this->request = $DIC->http()->request();
 
         switch ($cmd) {
             case "configure":
-                $sections = $this->configure();
+                AIChatConfig::load();
+                $this->control->setParameterByClass('ilAIChatConfigGUI', 'cmd', 'configure');
                 $form_action = $this->control->getLinkTargetByClass("ilAIChatConfigGUI", "configure");
-                $rendered = $this->renderForm($form_action, $sections);
+                $rendered = $this->renderForm($form_action, $this->buildForm());
                 break;
             default:
                 throw new ilException("command not defined");
@@ -70,121 +68,199 @@ class ilAIChatConfigGUI extends ilPluginConfigGUI
         $this->tpl->setContent($rendered);
     }
 
-    private function configure(): array
+    /**
+     * @throws AIChatException
+     */
+    private function buildForm(): array
     {
-        global $DIC;
-
-        self::$factory = $DIC->ui()->factory();
-        $this->control = $DIC->ctrl();
-
-        try {
-
-            $this->control->setParameterByClass('ilAIChatConfigGUI', 'cmd', 'configure');
-            $form_fields = [];
-
-            $object = $this->object;
-
-            //Checkbox
-            $apikey = $object->getValue('apikey') ? ilAIChatUtils::decode($object->getValue('apikey'))->apikey : '';
-
-
-
-            $field = self::$factory->input()->field()->optionalGroup([
-                "global_api_key" => self::$factory->input()->field()->password(
-                    $this->plugin_object->txt('apikey'),
-                    $this->plugin_object->txt('info_apikey'))
-                    ->withValue($apikey)
-                    ->withRevelation(true)
-                    ->withRequired(true)
-                    ->withAdditionalTransformation($DIC->refinery()->custom()->transformation(
-                        function ($v) use ($object) {
-                            if ($v) {
-                                $reflectionClass = new ReflectionClass('ILIAS\Data\Password');
-                                $property = $reflectionClass->getProperty('pass');
-                                $property->setAccessible(true);
-                                $password = $property->getValue($v);
-                                $object->setValue('apikey', ilAIChatUtils::encode(["apikey" => $password]));
-                                $object->setValue('global_apikey', true);
-                            }
-                        }
-                    ))
-            ],
-                $this->plugin_object->txt('global_apikey'),
-                $this->plugin_object->txt('info_global_api_key')
-            )
-                ->withAdditionalTransformation($DIC->refinery()->custom()->transformation(
-                    function ($v) use ($object) {
-                        if ($v == null) {
-                            $object->setValue('apikey', "");
-                            $object->setValue('global_apikey', false);
-                        }
-
-                    }
-                ));
-
-
-            if ($object->getValue('global_apikey') != "true") {
-                $field = $field->withValue(null);
+        $provider = $this->factory->input()->field()->switchableGroup(
+            array(
+                "openai" => $this->buildOpenAIGroup(),
+                "custom" => $this->buildCustomGroup()
+            ),
+            $this->plugin_object->txt('config_provider')
+        )->withValue(AIChatConfig::get("llm_provider") != "" ? AIChatConfig::get("llm_provider") : "openai")->withAdditionalTransformation($this->refinery->custom()->transformation(
+            function ($v) {
+                AIChatConfig::set('llm_provider', $v[0]);
             }
+        ))->withRequired(true);
 
-            //Model
-            $modelInput = self::$factory->input()->field()->select(
-                $this->plugin_object->txt('model'),
-                $this->models, $this->plugin_object->txt('info_model'))
-                ->withValue($object->getValue('model'))
-                ->withRequired(true)
-                ->withAdditionalTransformation($DIC->refinery()->custom()->transformation(
-                    function ($v) use ($object) {
-                        $object->setValue('model', $v);
-                    }
-                ));
+        $api_section = $this->factory->input()->field()->section(
+            array(
+                $provider
+            ),
+            $this->plugin_object->txt('config_api_section')
+        );
 
-            $disclaimer = $object->getValue('disclaimer') ?: '';
+        $prompt_selection = $this->factory->input()->field()->textarea(
+            $this->plugin_object->txt('config_prompt_selection'),
+            $this->plugin_object->txt('config_prompt_selection_info')
+        )->withValue((string) AIChatConfig::get("prompt_selection"))->withAdditionalTransformation($this->refinery->custom()->transformation(
+            function ($v) {
+                AIChatConfig::set('prompt_selection', $v);
+            }
+        ))->withRequired(true);
 
-            $disclaimerArea = self::$factory->input()->field()->textarea($this->plugin_object->txt("disclaimer"), '')
-                ->withValue($disclaimer)
-                ->withMaxLimit(4000)
-                ->withAdditionalTransformation($DIC->refinery()->custom()->transformation(
-                    function ($v) use ($object) {
-                        $object->setValue('disclaimer', $v);
-                    }
-                ));
+        $characters_limit = $this->factory->input()->field()->numeric(
+            $this->plugin_object->txt('config_characters_limit'), $this->plugin_object->txt('config_characters_limit_info')
+        )->withValue(AIChatConfig::get("characters_limit") != "" ? (int) AIChatConfig::get("characters_limit") : 100)->withAdditionalTransformation($this->refinery->custom()->transformation(
+            function ($v) {
+                AIChatConfig::set('characters_limit', $v);
+            }
+        ))->withRequired(true);
 
+        $n_memory_messages = $this->factory->input()->field()->numeric(
+            $this->plugin_object->txt('config_n_memory_messages'), $this->plugin_object->txt('config_n_memory_messages_info')
+        )->withValue(AIChatConfig::get("config_n_memory_messages") != "" ? (int) AIChatConfig::get("config_n_memory_messages") : 100)->withAdditionalTransformation($this->refinery->custom()->transformation(
+            function ($v) {
+                AIChatConfig::set('n_memory_messages', $v);
+            }
+        ))->withRequired(true);
 
-            $form_fields["use_global_api_key"] = $field;
-            $form_fields["model"] = $modelInput;
-            $form_fields['disclaimer'] = $disclaimerArea;
+        $disclaimer_text = $this->factory->input()->field()->textarea(
+            $this->plugin_object->txt('config_disclaimer_text'),
+            $this->plugin_object->txt('config_disclaimer_text_info')
+        )->withValue((string) AIChatConfig::get("disclaimer_text"))->withAdditionalTransformation($this->refinery->custom()->transformation(
+            function ($v) {
+                AIChatConfig::set('disclaimer_text', $v);
+            }
+        ))->withRequired(true);
 
+        $general_section = $this->factory->input()->field()->section(
+            array(
+                $prompt_selection,
+                $characters_limit,
+                $n_memory_messages,
+                $disclaimer_text,
+            ),
+            $this->plugin_object->txt('config_general_section')
+        );
 
-            $section = self::$factory->input()->field()->section($form_fields, $this->plugin_object->txt("settings"), "");
-
-        } catch (Exception $e) {
-            $section = self::$factory->messageBox()->failure($e->getMessage());
-        }
-
-        return ["config" => $section];
-
+        return array(
+            $api_section,
+            $general_section
+        );
     }
 
     /**
-     * @throws ilCtrlException
+     * @throws AIChatException
+     */
+    private function buildOpenAIGroup(): Group
+    {
+        $models = array(
+            "gpt-4o" => "GPT-4o",
+            "gpt-4o-mini" => "GPT-4o mini",
+            "gpt-4-turbo" => "GPT-4 Turbo",
+            "gpt-4" => "GPT-4",
+            "gpt-3.5-turbo" => "GPT-3.5 Turbo"
+        );
+
+        $model = $this->factory->input()->field()->select(
+            $this->plugin_object->txt('config_model'),
+            $models,
+            $this->plugin_object->txt('config_model_info')
+        )->withAdditionalTransformation($this->refinery->custom()->transformation(
+            function ($v) {
+                AIChatConfig::set('llm_model', $v);
+            }
+        ))->withRequired(true);
+
+        if (AIChatConfig::get("llm_model") != "") {
+            if (array_key_exists(AIChatConfig::get("llm_model"), $models)) {
+                $model = $model->withValue(AIChatConfig::get("llm_model"));
+            }
+        }
+
+        $global_api_key = $this->factory->input()->field()->text(
+            $this->plugin_object->txt('config_global_api_key')
+        )->withValue((string) AIChatConfig::get("global_api_key"))->withAdditionalTransformation($this->refinery->custom()->transformation(
+            function ($v) {
+                AIChatConfig::set('global_api_key', $v);
+            }
+        ))->withRequired(true);
+
+        $streaming_enabled = $this->factory->input()->field()->checkbox(
+            $this->plugin_object->txt('config_streaming_enabled'),
+            $this->plugin_object->txt('config_streaming_enabled_info')
+        )->withValue((bool) AIChatConfig::get("streaming_enabled"))->withAdditionalTransformation($this->refinery->custom()->transformation(
+            function ($v) {
+                AIChatConfig::set('streaming_enabled', $v);
+            }
+        ));
+
+        return $this->factory->input()->field()->group(
+            array(
+                $model,
+                $global_api_key,
+                $streaming_enabled
+            ),
+            $this->plugin_object->txt('config_openai')
+        );
+    }
+
+    /**
+     * @throws AIChatException
+     */
+    private function buildCustomGroup(): Group
+    {
+        $url = $this->factory->input()->field()->text(
+            $this->plugin_object->txt('config_url'),
+            $this->plugin_object->txt('config_url_info')
+        )->withValue((string) AIChatConfig::get("llm_url"))->withAdditionalTransformation($this->refinery->custom()->transformation(
+            function ($v) {
+                AIChatConfig::set('llm_url', $v);
+            }
+        ))->withRequired(true);
+
+        $model = $this->factory->input()->field()->text(
+            $this->plugin_object->txt('config_model'),
+            $this->plugin_object->txt('config_model_info')
+        )->withValue((string) AIChatConfig::get("llm_model"))->withAdditionalTransformation($this->refinery->custom()->transformation(
+            function ($v) {
+                AIChatConfig::set('llm_model', $v);
+            }
+        ))->withRequired(true);
+
+        $global_api_key = $this->factory->input()->field()->text(
+            $this->plugin_object->txt('config_global_api_key')
+        )->withValue((string) AIChatConfig::get("global_api_key"))->withAdditionalTransformation($this->refinery->custom()->transformation(
+            function ($v) {
+                AIChatConfig::set('global_api_key', $v);
+            }
+        ));
+
+        return $this->factory->input()->field()->group(
+            array(
+                $url,
+                $model,
+                $global_api_key
+            ),
+            $this->plugin_object->txt('config_custom')
+        );
+    }
+
+    /**
+     * @throws AIChatException
      */
     private function renderForm(string $form_action, array $sections): string
     {
-        //Create the form
-        $form = self::$factory->input()->container()->form()->standard(
+        $form = $this->factory->input()->container()->form()->standard(
             $form_action,
             $sections
         );
 
         $saving_info = "";
 
-        //Check if the form has been submitted
         if ($this->request->getMethod() == "POST") {
             $form = $form->withRequest($this->request);
             $result = $form->getData();
             if ($result) {
                 $saving_info = $this->save();
+
+                $form = $this->factory->input()->container()->form()->standard(
+                    $form_action,
+                    $this->buildForm()
+                );
             }
         }
 
@@ -193,6 +269,7 @@ class ilAIChatConfigGUI extends ilPluginConfigGUI
 
     public function save(): string
     {
-        return $this->renderer->render(self::$factory->messageBox()->success($this->plugin_object->txt('info_config_saved')));
+        AIChatConfig::save();
+        return $this->renderer->render($this->factory->messageBox()->success($this->plugin_object->txt('config_msg_success')));
     }
 }

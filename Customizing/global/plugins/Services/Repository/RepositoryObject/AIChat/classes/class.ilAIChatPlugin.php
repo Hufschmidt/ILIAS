@@ -1,7 +1,6 @@
 <?php
 declare(strict_types=1);
-
-/*
+/**
  *  This file is part of the AI Chat Repository Object plugin for ILIAS, which allows your platform's users
  *  To connect with an external LLM service
  *  This plugin is created and maintained by SURLABS.
@@ -19,22 +18,26 @@ declare(strict_types=1);
  *  info@surlabs.es
  *
  */
+
+/**
+ * Class ilAIChatPlugin
+ * @authors Jesús Copado, Daniel Cazalla, Saúl Díaz, Juan Aguilar <info@surlabs.es>
+ */
 class ilAIChatPlugin extends ilRepositoryObjectPlugin
 {
-    public const ID = "xaic";
+    const PLUGIN_ID = 'xaic';
 
-    public function getPluginName() : string
+    const PLUGIN_NAME = 'AIChat';
+    protected function uninstallCustom(): void
     {
-        return "AIChat";
     }
 
-    protected function uninstallCustom() : void
+    public function getPluginName(): string
     {
-        // TODO: Implementar desinstalación
+        return self::PLUGIN_NAME;
     }
-
-    public function allowCopy() : bool
+    public function allowCopy(): bool
     {
-        return false;
+        return true;
     }
 }
